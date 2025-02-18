@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  testing: "testing",
+  tickets: [],
+  ticketDetails: null,
+  isLoading: null,
+  error: null,
 };
 
 const ticketSlice = createSlice({
