@@ -5,14 +5,19 @@ const initialState = {
   ticketDetails: null,
   isLoading: null,
   error: null,
+  test: false,
+  count: 0,
 };
 
+// ticket: {
+// }
+
 const ticketSlice = createSlice({
-  name: "tickets",
+  name: "ticket",
   initialState,
   reducers: {
     testRedux(state, action) {
-      state.testing = action.payload;
+      state.count += action.payload;
     },
   },
 });
@@ -20,3 +25,5 @@ const ticketSlice = createSlice({
 export const { testRedux } = ticketSlice.actions;
 
 export default ticketSlice.reducer;
+
+export const getTest = (state) => state.ticket.count;
