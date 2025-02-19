@@ -1,6 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from "./components/AppLayout";
+import Error from "./components/Error";
 
-const router = createBrowserRouter([{ path: "/", element: <div>No sir</div> }]);
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [{ path: "/", element: <div>Test</div> }],
+  },
+]);
 
 function App() {
   return <RouterProvider router={router} />;
