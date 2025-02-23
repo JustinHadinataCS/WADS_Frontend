@@ -1,7 +1,11 @@
+import Logo from "./Logo";
+import MainNav from "./MainNav";
+
 function Sidebar() {
   return (
-    <div className="font-sans bg-[#1D3B5C]  p-4">
-      <h1 className="font-poppins text-white bg-">Semesta Medika</h1>
+    <div className="font-poppins text-white h-screen bg-[#1D3B5C] py-10 px-8 flex-col flex gap-y-10">
+      <Logo />
+      <MainNav />
     </div>
   );
 }
