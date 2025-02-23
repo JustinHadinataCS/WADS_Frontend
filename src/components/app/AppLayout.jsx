@@ -1,18 +1,18 @@
 import Header from "../homepage/Header";
 import Sidebar from "./Sidebar";
-import Container from "./Container";
+import ContentContainer from "./ContentContainer";
 import Main from "./Main";
 import { Outlet } from "react-router-dom";
 
 function AppLayout() {
   return (
-    <div>
-      <Header />
+    <div className="flex">
       <Sidebar />
       <Main>
-        <Container>
+        <Header />
+        <ContentContainer>
           <Outlet />
-        </Container>
+        </ContentContainer>
       </Main>
     </div>
   );
