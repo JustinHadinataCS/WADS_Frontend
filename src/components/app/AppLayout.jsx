@@ -1,4 +1,4 @@
-import Header from "../homepage/Header";
+import Header from "./Header";
 import Sidebar from "./Sidebar";
 import ContentContainer from "./ContentContainer";
 import Main from "./Main";
@@ -6,11 +6,11 @@ import { Outlet } from "react-router-dom";
 
 function AppLayout() {
   return (
-    <div className="flex">
+    <div className="flex font-poppins">
       <Sidebar />
       <Main>
         <Header />
-        <ContentContainer>
+        <ContentContainer className="p-6 flex-1">
           <Outlet />
         </ContentContainer>
       </Main>
