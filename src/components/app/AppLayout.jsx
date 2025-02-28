@@ -10,6 +10,7 @@ function AppLayout() {
       <Sidebar />
       <Main>
         <Header />
+
         <ContentContainer className="p-6 flex-1">
           <Outlet />
         </ContentContainer>
