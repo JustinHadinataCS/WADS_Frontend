@@ -11,7 +11,7 @@ function AppLayout() {
       <Main>
         <Header />
 
-        <ContentContainer className="p-6 flex-1">
+        <ContentContainer>
           <Outlet />
         </ContentContainer>
       </Main>
