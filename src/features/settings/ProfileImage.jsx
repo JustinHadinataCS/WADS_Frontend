@@ -1,16 +1,10 @@
 const ProfileImage = () => {
   return (
-    <div style={{ position: "relative", width: "100px", height: "100px" }}>
+    <div className="relative w-24 h-24">
       <img
-        src="src/assets/GuestImg.png" 
+        src="src/assets/GuestImg.png"
         alt="Profile Picture"
-        style={{
-          width: "100px",
-          height: "100px",
-          borderRadius: "50%",
-          objectFit: "cover",
-          border: "2px solid #ddd",
-        }}
+        className="w-full h-full rounded-full object-cover border-2 border-gray-300"
       />
     </div>
   );

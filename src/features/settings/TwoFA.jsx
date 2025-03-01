@@ -1,13 +1,13 @@
 import ContentToggle from "./ContentToggle";
-import TwoFAButton from "./TwoFAButton";
+import SettingButtonWhite from "./SettingButtonWhite";
 
 const TwoFA = () => {
     return ( 
         <div className="container">
             <ContentToggle text='Two-factor authentication' desc='Add an extra layer of security' />
             <div className="flex justify-center gap-30 mt-6">
-            <TwoFAButton Text="Authenticator app" />
-            <TwoFAButton Text="SMS verification" />
+            <SettingButtonWhite Text="Authenticator app" />
+            <SettingButtonWhite Text="SMS verification" />
             </div>
 
         </div>

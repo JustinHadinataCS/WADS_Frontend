@@ -1,8 +1,8 @@
-export default function ButtonBlue({Text}){
+export default function SettingButtonWhite({ Text }) {
     return (
-        <button className="p-2 bg-[FFFFFF] h-10 rounded-md text-black hover:cursor-pointer"
-        >
-          {Text}
-        </button>
+      <button className="flex items-center gap-2 p-2 px-4 bg-[E3EFF9] rounded-md text-gray-700 shadow-sm hover:cursor-pointer">
+        {Text}
+      </button>
     );
-}
+  }
+  
