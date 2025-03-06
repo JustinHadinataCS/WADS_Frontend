@@ -1,10 +1,9 @@
 import SettingTitle from "./SettingTitle";
 import ProfileInput from "./ProfileInput";
-import SettingButtonBlue from "./SettingButtonBlue";
 import ProfilePicture from "./ProfilePicture";
 import SettingDesc from "./SettingDesc";
 import DropdownInput from "./DropdownInput";
-import SettingButtonClear from "./SettingButtonClear";
+import Button from "../../components/app/Button";
 
 const ProfileSection = () => {
   return (
@@ -60,8 +59,8 @@ const ProfileSection = () => {
       </div>
 
       <div className="flex justify-end space-x-4 w-full mt-6">
-        <SettingButtonClear Text="Cancel" />
-        <SettingButtonBlue text="Save changes" />
+        <Button type="clear">Cancel</Button>
+        <Button type="blue-s">Save changes</Button>
       </div>
     </div>
   );

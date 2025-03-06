@@ -1,7 +1,7 @@
 import SettingTitle from "./SettingTitle";
 import NotificationSubtitle from "./NotificationSubtitle";
 import ContentToggle from "./ContentToggle";
-import ButtonBlue from "../../components/app/ButtonBlue";
+import Button from "../../components/app/Button";
 
 const NotificationSection = () => {
   return (
@@ -47,7 +47,7 @@ const NotificationSection = () => {
       </div>
 
       <div className="flex justify-end">
-        <ButtonBlue Text="Save Preferences" />
+        <Button type="blue">Save Preferences</Button>
       </div>
     </div>
   );
