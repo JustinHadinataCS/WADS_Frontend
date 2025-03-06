@@ -8,7 +8,7 @@ import SettingButtonClear from "./SettingButtonClear";
 
 const ProfileSection = () => {
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+    <div className="max-w-4xl w-full mx-auto p-6 bg-white rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
         <SettingTitle title="Profile Settings" />
       </div>
@@ -36,30 +36,33 @@ const ProfileSection = () => {
       </div>
 
       <div className="mb-6">
-        <DropdownInput text="Department" defaultValue="-" 
-                options={[
-                    { value: "us", label: "1" },
-                    { value: "ca", label: "2" },
-                    { value: "uk", label: "3" }
-                ]}
-            />
+        <DropdownInput
+          text="Department"
+          defaultValue="-"
+          options={[
+            { value: "us", label: "1" },
+            { value: "ca", label: "2" },
+            { value: "uk", label: "3" },
+          ]}
+        />
       </div>
 
       <div className="mb-8">
-        <DropdownInput text="Time zone" defaultValue="-" 
-                options={[
-                    { value: "", label: "1" },
-                    { value: "", label: "2" },
-                    { value: "", label: "3" }
-                ]}
-            />
+        <DropdownInput
+          text="Time zone"
+          defaultValue="-"
+          options={[
+            { value: "", label: "1" },
+            { value: "", label: "2" },
+            { value: "", label: "3" },
+          ]}
+        />
       </div>
 
       <div className="flex justify-end space-x-4 w-full mt-6">
-      <SettingButtonClear Text="Cancel" />
-      <SettingButtonBlue text="Save changes" />
+        <SettingButtonClear Text="Cancel" />
+        <SettingButtonBlue text="Save changes" />
       </div>
-
     </div>
   );
 };
