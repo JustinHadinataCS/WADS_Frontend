@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-
-const ProfileInput = ({
+const Input = ({
   className,
   children,
   type = "",
@@ -39,4 +38,4 @@ const ProfileInput = ({
   );
 };
 
-export default ProfileInput;
+export default Input;

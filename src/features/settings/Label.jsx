@@ -1,7 +1,8 @@
-const Label = ({text}) => {
-    return ( 
-        <p className='block text-sm font-medium text-gray-700 mb-1'>{text}</p>
-     );
+/* eslint-disable react/prop-types */
+function Label({ children }) {
+  return (
+    <p className="block text-sm font-medium text-gray-700 mb-1">{children}</p>
+  );
 }
- 
-export default Label; 
+
+export default Label;

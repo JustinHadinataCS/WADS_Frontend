@@ -1,16 +1,19 @@
 import SettingDesc from "./SettingDesc";
 import ProfileImage from "./ProfileImage";
-import SettingButtonWhite from "./SettingButtonWhite";
+import Button from "../../components/app/Button";
 const ProfilePicture = () => {
-    return ( 
+  return (
     <div className="flex items-center gap-4">
-        <ProfileImage />
-        <div className="flex flex-col">
-            <SettingButtonWhite Text="Change Photo" className="mb-4" />
-            <SettingDesc desc="JPG or PNG. Max size 2MB" />
-        </div>
+      <ProfileImage />
+      <div className="flex flex-col">
+        <Button type="clear" className="mb-4">
+          Change Photo
+        </Button>
+
+        <SettingDesc desc="JPG or PNG. Max size 2MB" />
+      </div>
     </div>
-     );
-}
- 
+  );
+};
+
 export default ProfilePicture;
