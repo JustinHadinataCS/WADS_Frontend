@@ -1,20 +1,23 @@
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import ContentContainer from "./ContentContainer";
-import Main from "./Main";
 import { Outlet } from "react-router-dom";
 
 function AppLayout() {
   return (
-    <div className="flex font-poppins">
+    <div className="flex font-poppins h-screen overflow-hidden bg-[#F5F5F5]">
+      {/* Left Sidebar */}
       <Sidebar />
-      <Main>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-h-0 min-w-0">
+        {/* Header */}
         <Header />
 
-        <ContentContainer>
+        {/* Scrollable Content Area (vertical scroll only) */}
+        <div className="flex-1 overflow-y-auto p-12">
           <Outlet />
-        </ContentContainer>
-      </Main>
+        </div>
+      </div>
     </div>
   );
 }

@@ -8,7 +8,7 @@ const ProfileSection = () => {
   return (
     <div className="max-w-4xl w-full mx-auto p-6 bg-white rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-wide">
+        <h1 className="text-2xl font-bold text-gray-900 tracking-wide ">
           Profile Settings
         </h1>
       </div>

@@ -4,7 +4,7 @@ import SecuritySection from "../features/settings/SecuritySection";
 
 function Setting() {
   return (
-    <div className="h-[500px] flex flex-col gap-y-5 overflow-y-auto">
+    <div className="h-[500px] flex flex-col gap-y-5">
       <ProfileSection />
       <NotificationSection />
       <SecuritySection />
