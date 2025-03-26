@@ -5,7 +5,7 @@ function StyledLink({ location, children, icon: Icon }) {
   return (
     <NavLink
       to={location}
-      className="flex gap-x-3 justify-start items-center text-lg font-light"
+      className="flex gap-x-3 justify-start items-center text-base font-light"
     >
       <Icon />
       {children}
