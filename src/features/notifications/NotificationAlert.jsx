@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 function NotificationAlert({ type, title, time, children }) {
   const typeStyles = {
-    unread: { text: "text-blue-700", bg: "bg-gray-100" },
+    unread: { text: "text-blue-700", bg: "bg-gray-100 border-gray-300" },
     read: { text: "text-gray-800", bg: "border-gray-300" },
   };
   const { text, bg } = typeStyles[type] || typeStyles.read;

@@ -14,7 +14,7 @@ function NotificationList() {
           Calibration.
         </NotificationAlert>
         <NotificationAlert title="Ticket #12345 Updated" time="1 day ago">
-          Ticket #12345 status changed to "In Progress"
+          Ticket #12345 status changed to &quot;In Progress&quot;
         </NotificationAlert>
         <NotificationAlert title="New Ticket Created" time="2 day ago">
           Your ticket #12345 has been created successfully.
