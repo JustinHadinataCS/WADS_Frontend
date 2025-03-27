@@ -2,7 +2,7 @@ import NotificationList from "../features/notifications/NotificationList";
 
 function NotificationsPage() {
   return (
-    <div className="grid grid-cols-8 gap-5">
+    <div className="grid grid-cols-1 gap-5">
       <NotificationList />
     </div>
   );

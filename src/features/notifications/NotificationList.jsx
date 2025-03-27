@@ -2,7 +2,7 @@ import NotificationAlert from "./NotificationAlert";
 
 function NotificationList() {
   return (
-    <div className="col-span-8">
+    <div className="col-span-1">
       <h2 className="text-2xl text-gray-800 mb-5">Notifications</h2>
       <div className="bg-white rounded shadow-sm">
         <NotificationAlert
