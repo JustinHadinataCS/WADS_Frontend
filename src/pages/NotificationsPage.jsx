@@ -17,7 +17,7 @@ function NotificationsPage() {
             </p>
           </div>
           {/* Read Notifications */}
-          {/* <div className="p-5 border-b border-gray-300">
+          <div className="p-5 border-b border-gray-300">
             <div className="flex justify-between mb-2">
               <strong className="text-gray-800">Ticket Status Changed</strong>
               <span className="text-gray-600">1 day ago</span>
@@ -34,7 +34,7 @@ function NotificationsPage() {
             <p className="text-gray-600 m-0">
               Your ticket #12345 has been created successfully.
             </p>
-          </div> */}
+          </div>
         </div>
       </div>
 
