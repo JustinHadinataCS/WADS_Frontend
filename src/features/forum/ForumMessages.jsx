@@ -22,12 +22,8 @@ function ForumMessages() {
 
   return (
     <div className="flex-1 flex flex-col  ">
-      {/* Chat Header */}
       <MessageHeader />
-      {/* Messages Area */}
       <MessageArea messages={messages} />
-
-      {/* Message Input */}
       <MessageInput message={message} setMessage={setMessage} />
     </div>
   );
