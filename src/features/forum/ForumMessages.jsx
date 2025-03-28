@@ -22,7 +22,7 @@ function ForumMessages() {
 
   return (
     <div className="flex-1 flex flex-col  ">
-      <MessageHeader />
+      <MessageHeader agentName="Agent 2" />
       <MessageArea messages={messages} />
       <MessageInput message={message} setMessage={setMessage} />
     </div>
