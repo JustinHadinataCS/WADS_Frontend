@@ -89,7 +89,7 @@ const TicketPopup = () => {
               </p>
               <button
                 type="button"
-                className="bg-blue-600 text-white px-3 py-2 text-xs rounded-md hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="bg-[#1D3B5C] text-white px-3 py-2 text-xs rounded-md hover:bg-[#151b20] focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 Browse Files
               </button>
@@ -105,7 +105,7 @@ const TicketPopup = () => {
             </button>
             <button
               type="submit"
-              className="px-3 py-2 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="px-3 py-2 text-xs bg-[#1D3B5C] text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               Submit Ticket
             </button>
