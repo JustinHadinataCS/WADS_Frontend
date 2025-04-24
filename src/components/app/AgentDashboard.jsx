@@ -1,7 +1,7 @@
-import StatisticsCard from "./StatisticsCard"
-import CustomerSatisfactionCard from "./CustomerSatisfactionCard"
-import DashboardTicketCard from "./DashboardTicketCard"
-import TicketStatusCard from "./TicketStatusCard"
+import StatisticsCard from "../../features/dashboard/Agent/StatisticsCard"
+import CustomerSatisfactionCard from "../../features/dashboard/CustomerSatisfactionCard"
+import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard"
+import TicketStatusCard from "../../features/dashboard/Agent/TicketStatusCard"
 
 export default function AgentDashboard() {
     return(

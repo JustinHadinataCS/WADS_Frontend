@@ -1,5 +1,5 @@
-import DashboardTicketCard from "./DashboardTicketCard";
-import DashboardUserCard from "./DashboardUserCard";
+import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard"
+import DashboardUserCard from "../../features/dashboard/User/DashboardUserCard";
 import { CiCirclePlus } from "react-icons/ci";
 import { PiBookOpenText } from "react-icons/pi";
 import { MdOutlinePhoneEnabled } from "react-icons/md";

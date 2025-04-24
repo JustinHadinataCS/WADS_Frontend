@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import TicketPopup from "../../features/tickets/TicketPopUp";
-import ButtonBlue from "./ButtonBlue";
+import TicketPopup from "../../tickets/TicketPopUp";
+import ButtonBlue from "../../../components/app/ButtonBlue";
 
 function DashboardUserCard({
   buttontext,

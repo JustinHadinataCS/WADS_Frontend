@@ -5,7 +5,7 @@ import AdminDashboard from "../components/app/AdminDashboard";
 function Dashboard() {
     return(
         <>
-            <AgentDashboard/>
+            <UserDashboard/>
         </>
     );
   }

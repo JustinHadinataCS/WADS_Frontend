@@ -1,4 +1,4 @@
-import CardTitle from "./CardTitle"
+import CardTitle from "../CardTitle"
 import StatisticsContent from "./StatisticsContent"
 
 export default function StatisticsCard(){

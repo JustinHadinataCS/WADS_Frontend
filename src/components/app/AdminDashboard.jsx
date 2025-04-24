@@ -1,7 +1,7 @@
-import CustomerSatisfactionCard from "./CustomerSatisfactionCard"
-import UserStatisticsCard from "./UserStatisticsCard"
-import TicketOverviewCard from "./TicketOverviewCard"
-import DashboardTicketCard from "./DashboardTicketCard"
+import CustomerSatisfactionCard from "../../features/dashboard/CustomerSatisfactionCard"
+import UserStatisticsCard from "../../features/dashboard/Admin/UserStatisticsCard"
+import TicketOverviewCard from "../../features/dashboard/Admin/TicketOverviewCard"
+import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard"
 
 export default function AdminDashboard(){
     return(

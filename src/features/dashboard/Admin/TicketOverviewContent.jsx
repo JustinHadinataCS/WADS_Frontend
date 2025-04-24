@@ -1,4 +1,4 @@
-import MiniStat from "./MiniStat"
+import MiniStat from "../../../components/app/MiniStat"
 
 export default function TicketOverviewContent(){
     return(

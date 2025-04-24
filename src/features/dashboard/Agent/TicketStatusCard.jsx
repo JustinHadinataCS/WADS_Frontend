@@ -1,4 +1,4 @@
-import CardTitle from "./CardTitle"
+import CardTitle from "../CardTitle"
 import TicketStatusContent from "./TicketStatusContent"
 
 export default function TicketStatusCard(){
