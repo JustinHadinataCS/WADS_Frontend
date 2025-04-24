@@ -14,7 +14,7 @@ function UserDashboard() {
   return (
     <div className="grid grid-rows-2 gap-12">
       <div>
-        <DashboardTicketCard />
+        <DashboardTicketCard role="user"/>
       </div>
       <div className="columns-3 gap-12">
         <DashboardUserCard

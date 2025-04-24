@@ -1,14 +1,14 @@
+import { NavLink } from "react-router-dom"
 import CardTitle from "./CardTitle"
-import DashboardTicketDropdown from "./DashboardTicketDropdown"
 import DashboardTicketContent from "./DashboardTicketContent"
 
-function DashboardTicketCard(){
+function DashboardTicketCard({role}){
     return(
         <div className="bg-white w-full rounded-sm shadow-md border border-neutral-200">
-            <CardTitle title="Your Tickets">
-                <DashboardTicketDropdown/>
+            <CardTitle title="Recent Tickets">
+                <NavLink className="text-[#3278C9]" to="">View All</NavLink>
             </CardTitle>
-            <DashboardTicketContent/>
+            <DashboardTicketContent role={role}/>
         </div>
     )
 }

@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Error from "./components/app/Error";
 import AppLayout from "./components/app/AppLayout";
-import TicketDetailsPage from "./pages/TicketDetailsPage";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     errorElement: <Error />,
-    children: [{ path: "", element: <TicketDetailsPage /> }],
+    children: [{ path: "", element: <Dashboard /> }],
   },
 ]);
 
