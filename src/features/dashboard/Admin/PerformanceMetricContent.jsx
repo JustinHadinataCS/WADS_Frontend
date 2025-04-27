@@ -13,12 +13,13 @@ export default function PerformanceMetricsContent(){
         <div className="h-72 p-4">
             <div className="w-full h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={data} margin={{ right: 40 }}>
+                    <AreaChart data={data} margin={{ top: 30,right: 40 }}>
+
                     {/* Define the gradient for the shade */}
                     <defs>
                         <linearGradient id="colorResponseTime" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.9}/>
-                        <stop offset="95%" stopColor="#60A5FA" stopOpacity={0.4}/>
+                        <stop offset="95%" stopColor="#60A5FA" stopOpacity={0.5}/>
                         </linearGradient>
                     </defs>
 
@@ -27,8 +28,7 @@ export default function PerformanceMetricsContent(){
                     <XAxis dataKey="time" stroke="#bababa" tick={{ dx: 0, dy:10,textAnchor: 'start' }}/>
                     <YAxis stroke="#bababa" strokeDasharray="0 1"/>
                     <Tooltip 
-                        contentStyle={{ backgroundColor: "#1f2937", borderColor: "#374151" }}
-                        itemStyle={{ color: "#fff" }}
+                        contentStyle={{ border: "none" }}
                     />
                     
                     {/* Shaded area under the line */}
