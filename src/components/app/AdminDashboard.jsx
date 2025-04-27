@@ -4,6 +4,7 @@ import TicketOverviewCard from "../../features/dashboard/Admin/TicketOverviewCar
 import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard"
 import RecentActivityCard from "../../features/dashboard/Admin/RecentActivityCard"
 import PerformanceMetricsCard from "../../features/dashboard/Admin/PerformanceMetricsCard"
+import AgentPerformanceCard from "../../features/dashboard/Admin/AgentPerformanceCard"
 
 export default function AdminDashboard(){
     const recentActivity = [
@@ -83,7 +84,7 @@ export default function AdminDashboard(){
             </div>
 
             <div className="grid grid-cols-[1fr_2fr] gap-6">
-                <div className="bg-white rounded-xl shadow p-4 h-72">Agent Performance</div>
+                <AgentPerformanceCard/>
                 <div><PerformanceMetricsCard/></div>
             </div>
         </div>
