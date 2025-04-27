@@ -1,5 +1,5 @@
-import SatisfactionBar from "./SatisfactionBar"
-import MiniStat from "./MiniStat"
+import SatisfactionBar from "../../components/app/SatisfactionBar"
+import MiniStat from "../../components/app/MiniStat"
 
 export default function CustomerSatisfactionContent(){
     return(

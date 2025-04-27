@@ -1,4 +1,4 @@
-import CardTitle from "./CardTitle"
+import CardTitle from "../CardTitle"
 import UserStatisticsContent from "./UserStatisticsContent"
 
 export default function UserStatisticsCard(){
