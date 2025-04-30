@@ -14,7 +14,7 @@ function AppLayout() {
         <Header />
 
         {/* Scrollable Content Area (vertical scroll only) */}
-        <div className="flex-1 overflow-y-auto p-10 px-6">
+        <div className="flex-1 overflow-y-auto p-6">
           <Outlet />
         </div>
       </div>
