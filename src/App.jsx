@@ -1,13 +1,24 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Error from "./components/app/Error";
 import AppLayout from "./components/app/AppLayout";
+import Homepage from "./pages/Homepage";
 import Dashboard from "./pages/Dashboard";
+import NotificationsPage from "./pages/NotificationsPage"
+import Setting from "./pages/Setting"
 
 const router = createBrowserRouter([
   {
+    element: <Homepage/>,
+    path: "/home"
+  },
+  {
     element: <AppLayout />,
     errorElement: <Error />,
-    children: [{ path: "", element: <Dashboard /> }],
+    children: [
+      {path: "/dashboard", element: <Dashboard />},
+      {path: "/notifications", element: <NotificationsPage/>},
+      {path: "/settings", element: <Setting/>}
+    ],
   },
 ]);
 
