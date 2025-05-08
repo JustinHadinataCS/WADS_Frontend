@@ -1,5 +1,9 @@
 /* eslint-disable react/prop-types */
-function MessageInput({ message, setMessage }) {
+function MessageInput({ message, setMessage, socket }) {
+  function handleSubmit() {
+    socket.emit("forum:send-message", { message });
+    setMessage("");
+  }
   return (
     <div className="p-4 border-t flex items-center space-x-4 bg-white border border-[#D5D5D5] rounded-b-md">
       <input
@@ -9,7 +13,10 @@ function MessageInput({ message, setMessage }) {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
+      <button
+        className="bg-green-500 text-white px-4 py-2 rounded-lg"
+        onClick={handleSubmit}
+      >
         Send
       </button>
     </div>

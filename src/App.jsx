@@ -6,7 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Tickets from "./pages/Tickets";
 import NotificationsPage from "./pages/NotificationsPage";
 import Setting from "./pages/Setting";
-import ForumPage from "./testing/ForumPage";
+import ForumPage from "./pages/ForumPage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
       { path: "/tickets", element: <Tickets /> },
       { path: "/notifications", element: <NotificationsPage /> },
       { path: "/settings", element: <Setting /> },
+      { path: "/forum", element: <ForumPage /> },
       { path: "/", element: <ForumPage /> },
     ],
   },
