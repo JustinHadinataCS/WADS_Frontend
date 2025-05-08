@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useState } from "react";
+import { AlertCircle, User, Mail, Lock } from "lucide-react";
 
 const AuthFormContext = createContext();
 
@@ -150,29 +151,6 @@ function Title({ title }) {
     </h1>
   );
 }
-import {
-  AlertCircle,
-  User,
-  Mail,
-  Lock,
-  Calendar,
-  Phone,
-  MapPin,
-  Search,
-} from "lucide-react";
-
-import React, { useContext } from "react";
-import {
-  AlertCircle,
-  User,
-  Mail,
-  Lock,
-  Calendar,
-  Phone,
-  MapPin,
-  Search,
-} from "lucide-react";
-import { AuthFormContext } from "./AuthFormContext"; // Make sure to import your context
 
 function InputField({ preset }) {
   const { formData, handleChange, errors } = useContext(AuthFormContext);
