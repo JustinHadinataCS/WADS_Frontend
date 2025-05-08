@@ -8,6 +8,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import Setting from "./pages/Setting";
 import ForumPage from "./pages/ForumPage";
 import SignUpPage from "./pages/SignUpPage";
+import Chatbot from "./pages/Chatbot";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: "/settings", element: <Setting /> },
       { path: "/forum", element: <ForumPage /> },
       { path: "/signup", element: <SignUpPage /> },
+      { path: "/chatbot", element: <Chatbot /> }
     ],
   },
 ]);
