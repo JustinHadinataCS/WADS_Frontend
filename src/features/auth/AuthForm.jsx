@@ -161,7 +161,22 @@ import {
   Search,
 } from "lucide-react";
 
-function InputField({ preset, value, onChange, error }) {
+import React, { useContext } from "react";
+import {
+  AlertCircle,
+  User,
+  Mail,
+  Lock,
+  Calendar,
+  Phone,
+  MapPin,
+  Search,
+} from "lucide-react";
+import { AuthFormContext } from "./AuthFormContext"; // Make sure to import your context
+
+function InputField({ preset }) {
+  const { formData, handleChange, errors } = useContext(AuthFormContext);
+
   const presetConfigs = {
     firstName: {
       icon: <User size={16} />,
@@ -198,32 +213,6 @@ function InputField({ preset, value, onChange, error }) {
       placeholder: "Confirm Password",
       autoComplete: "new-password",
     },
-    phone: {
-      icon: <Phone size={16} />,
-      type: "tel",
-      name: "phone",
-      placeholder: "Phone Number",
-      autoComplete: "tel",
-    },
-    address: {
-      icon: <MapPin size={16} />,
-      type: "text",
-      name: "address",
-      placeholder: "Address",
-      autoComplete: "street-address",
-    },
-    search: {
-      icon: <Search size={16} />,
-      type: "search",
-      name: "search",
-      placeholder: "Search...",
-    },
-    date: {
-      icon: <Calendar size={16} />,
-      type: "date",
-      name: "date",
-      placeholder: "Select Date",
-    },
   };
 
   const config = presetConfigs[preset];
@@ -232,6 +221,9 @@ function InputField({ preset, value, onChange, error }) {
     console.error(`Preset "${preset}" not found in InputField`);
     return null;
   }
+
+  const error = errors?.[config.name];
+  const value = formData?.[config.name] || "";
 
   return (
     <div className="mb-1">
@@ -244,7 +236,7 @@ function InputField({ preset, value, onChange, error }) {
           name={config.name}
           placeholder={config.placeholder}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           autoComplete={config.autoComplete}
           className={`w-full py-1.5 pl-10 pr-3 border ${
             error ? "border-red-500" : "border-gray-300"
@@ -260,6 +252,7 @@ function InputField({ preset, value, onChange, error }) {
     </div>
   );
 }
+
 function FlexContainer({ children }) {
   return (
     <div className="grid grid-cols-1 gap-2 md:grid-cols-2">{children}</div>
@@ -272,4 +265,5 @@ AuthForm.GoogleLogin = GoogleLogin;
 AuthForm.ContinueButton = ContinueButton;
 AuthForm.InputField = InputField;
 AuthForm.FlexContainer = FlexContainer;
+
 export default AuthForm;
