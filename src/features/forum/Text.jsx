@@ -2,17 +2,17 @@
 function Text({ sender, text, time }) {
   return (
     <div className="flex flex-col">
-      <div className="text-xs text-gray-500 self-center mb-2">{time}</div>
+      <div className="text-xs text-gray-500 self-center mb-4">{time}</div>
       <div
         className={`max-w-[70%] ${
-          sender === "Agent 1" ? "self-start" : "self-end"
+          sender === "" ? "self-end" : "self-start"
         }`}
       >
         <div
           className={`p-3 rounded-lg ${
-            sender === "Agent 1"
-              ? "bg-gray-200 text-black"
-              : "bg-blue-500 text-white"
+            sender === ""
+              ? "bg-[#1D3B5C] text-white"
+              : "bg-gray-200 text-black"
           }`}
         >
           {text}

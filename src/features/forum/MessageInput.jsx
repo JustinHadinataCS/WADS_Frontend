@@ -1,3 +1,5 @@
+import { FaArrowUp } from "react-icons/fa";
+
 /* eslint-disable react/prop-types */
 function MessageInput({ message, setMessage, socket }) {
   function handleSubmit() {
@@ -6,19 +8,26 @@ function MessageInput({ message, setMessage, socket }) {
   }
   return (
     <div className="p-4 border-t flex items-center space-x-4 bg-white border border-[#D5D5D5] rounded-b-md">
-      <input
-        type="text"
-        placeholder="Type a message"
-        className="flex-1 p-2 border border-[#D5D5D5] rounded-lg"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button
-        className="bg-green-500 text-white px-4 py-2 rounded-lg"
-        onClick={handleSubmit}
-      >
-        Send
-      </button>
+      <div className="flex w-full">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type your message here..."
+            className="flex-grow rounded-l-lg text-sm border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-gray-400"
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSubmit();
+              }
+            }}
+          />
+          <button 
+            onClick={handleSubmit}
+            className="bg-[#1D3B5C] rounded-r-lg p-2 aspect-square w-10 text-white hover:cursor-pointer"
+          >
+            <FaArrowUp size={15} className="m-auto" />
+          </button>
+        </div>
     </div>
   );
 }

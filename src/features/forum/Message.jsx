@@ -9,7 +9,7 @@ function Message({ active, unreadCount, title }) {
       <div className="w-10 h-10 bg-gray-300 rounded-full mr-3"></div>
       <div className="flex-1">
         <div className="flex justify-between items-center">
-          <span className="font-medium">{title}</span>
+          <span className="font-medium text-[#424242]">{title}</span>
           {unreadCount > 0 && (
             <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
               {unreadCount}

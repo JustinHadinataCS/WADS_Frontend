@@ -8,7 +8,7 @@ function ForumList() {
   ];
 
   return (
-    <div className="w-80 bg-white border border-[#D5D5D5] h-full">
+    <div className="w-80 bg-white border border-[#D5D5D5] h-full rounded-md">
       <ChatHeader />
       <div className="divide-y">
         {chats.map((chat) => (
