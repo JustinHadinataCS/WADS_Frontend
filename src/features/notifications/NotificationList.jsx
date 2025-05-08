@@ -19,7 +19,6 @@ function NotificationList() {
         <NotificationAlert title="New Ticket Created" time="2 day ago">
           Your ticket #12345 has been created successfully.
         </NotificationAlert>
-        {/* Read Notifications */}
       </div>
     </div>
   );
