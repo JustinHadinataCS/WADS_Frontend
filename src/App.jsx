@@ -7,11 +7,16 @@ import Tickets from "./pages/Tickets";
 import NotificationsPage from "./pages/NotificationsPage";
 import Setting from "./pages/Setting";
 import ForumPage from "./pages/ForumPage";
+import SignUpPage from "./pages/SignUpPage";
 
 const router = createBrowserRouter([
   {
     element: <Homepage />,
     path: "/home",
+  },
+  {
+    element: <SignUpPage />,
+    path: "/signup",
   },
   {
     element: <AppLayout />,
@@ -22,7 +27,7 @@ const router = createBrowserRouter([
       { path: "/notifications", element: <NotificationsPage /> },
       { path: "/settings", element: <Setting /> },
       { path: "/forum", element: <ForumPage /> },
-      { path: "/", element: <ForumPage /> },
+      { path: "/signup", element: <SignUpPage /> },
     ],
   },
 ]);
