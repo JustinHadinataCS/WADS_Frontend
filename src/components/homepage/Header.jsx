@@ -1,6 +1,6 @@
 function Header() {
   return (
-    <header className="bg-blue-800 p-4 flex justify-between items-center">
+    <header className="bg-[#155095] p-4 flex justify-between items-center">
       <div className="flex items-center">
         <img src="/api/placeholder/24/24" alt="Semesta Logo" className="mr-2" />
         <span className="text-white font-semibold">Semesta Medika Support</span>
