@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FAQItem from "./FAQItem";
 
 function FAQSection() {
   const [openFAQ, setOpenFAQ] = useState(0);
