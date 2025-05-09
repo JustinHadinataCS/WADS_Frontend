@@ -3,10 +3,11 @@ import { ChevronDown } from "lucide-react";
 
 function FAQItem({ question, answer, isOpen, toggle }) {
   return (
-    <div className="border rounded-md mb-4 overflow-hidden">
+    <div className="border rounded-md overflow-hidden">
       <button
         className="w-full text-left p-4 flex justify-between items-center bg-white"
         onClick={toggle}
+        aria-expanded={isOpen}
       >
         <span className="font-medium">{question}</span>
         <ChevronDown
@@ -14,11 +15,14 @@ function FAQItem({ question, answer, isOpen, toggle }) {
           className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
-      {isOpen && (
+      <div
+        className={`overflow-hidden transition-all duration-300 ${
+          isOpen ? "max-h-32" : "max-h-0"
+        }`}
+      >
         <div className="p-4 bg-blue-50 text-sm text-gray-700">{answer}</div>
-      )}
+      </div>
     </div>
   );
 }
-
 export default FAQItem;

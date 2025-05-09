@@ -6,7 +6,7 @@ function Header() {
         <img src="/api/placeholder/24/24" alt="Semesta Logo" className="mr-2" />
         <span className="text-white font-bold">Semesta Medika Support</span>
       </div>
-      <div className="flex gap-4 items-center font-bold ">
+      <div className="flex gap-4 items-center font-semibold ">
         <div className="flex items-center gap-x-1 text-white hover:underline">
           <TbLogin2 size={20} />
           <a href="#" className="text-sm ">
