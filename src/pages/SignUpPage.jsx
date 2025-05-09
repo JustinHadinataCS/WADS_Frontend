@@ -9,9 +9,11 @@ function SignUpPage() {
     password: "",
     confirmPassword: "",
   });
-
   const [errors, setErrors] = useState({});
 
+  const handleSubmitSuccess = (data) => {
+    console.log("Form submitted with data:", data);
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -25,7 +27,7 @@ function SignUpPage() {
       }));
     } else {
       if (typeof onSubmitSuccess === "function") {
-        onSubmitSuccess(formData);
+        handleSubmitSuccess(formData);
       }
     }
   };
@@ -69,10 +71,6 @@ function SignUpPage() {
   };
   const handleGoogleLogin = () => {
     console.log("Google login clicked");
-  };
-
-  const handleSubmitSuccess = (data) => {
-    console.log("Form submitted with data:", data);
   };
 
   return (

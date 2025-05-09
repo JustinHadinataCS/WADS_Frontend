@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       { path: "/settings", element: <Setting /> },
       { path: "/forum", element: <ForumPage /> },
       { path: "/signup", element: <SignUpPage /> },
-      { path: "/chatbot", element: <Chatbot /> }
+      { path: "/chatbot", element: <Chatbot /> },
     ],
   },
 ]);
