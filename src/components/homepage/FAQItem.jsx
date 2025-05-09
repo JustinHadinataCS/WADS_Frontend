@@ -3,7 +3,11 @@ import { ChevronDown } from "lucide-react";
 
 function FAQItem({ question, answer, isOpen, toggle }) {
   return (
-    <div className="border rounded-md overflow-hidden">
+    <div
+      className={`rounded-md overflow-hidden ${
+        isOpen ? "border-2" : ""
+      }l shadow-md`}
+    >
       <button
         className="w-full text-left p-4 flex justify-between items-center bg-white"
         onClick={toggle}
