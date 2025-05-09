@@ -11,9 +11,6 @@ function SignUpPage() {
   });
   const [errors, setErrors] = useState({});
 
-  const handleSubmitSuccess = (data) => {
-    console.log("Form submitted with data:", data);
-  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -25,10 +22,6 @@ function SignUpPage() {
         ...prev,
         [name]: "",
       }));
-    } else {
-      if (typeof onSubmitSuccess === "function") {
-        handleSubmitSuccess(formData);
-      }
     }
   };
 
@@ -75,7 +68,6 @@ function SignUpPage() {
 
   return (
     <AuthForm
-      onSubmitSuccess={handleSubmitSuccess}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       validateForm={validateForm}
