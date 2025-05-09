@@ -86,6 +86,7 @@ function SignUpPage() {
       <AuthForm.SignInPrompt
         title="Already have an account? "
         subtitle="Sign in"
+        location="/login"
       />
     </AuthForm>
   );

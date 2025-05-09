@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext } from "react";
 import { AlertCircle, User, Mail, Lock } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const AuthFormContext = createContext();
 
@@ -18,14 +19,17 @@ function AuthForm({ children, handleChange, handleSubmit, validateForm }) {
   );
 }
 
-function SignInPrompt({ title, subtitle }) {
+function SignInPrompt({ title, subtitle, location }) {
   return (
-    <p className="text-center mt-4 text-sm text-gray-600">
-      {title}
-      <a href="#" className="text-blue-600 hover:underline">
-        {subtitle}
-      </a>
-    </p>
+    <NavLink to={location}>
+      {" "}
+      <p className="text-center mt-4 text-sm text-gray-600">
+        {title}
+        <a href="#" className="text-blue-600 hover:underline">
+          {subtitle}
+        </a>
+      </p>
+    </NavLink>
   );
 }
 

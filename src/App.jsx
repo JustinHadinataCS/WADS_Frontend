@@ -9,6 +9,7 @@ import Setting from "./pages/Setting";
 import ForumPage from "./pages/ForumPage";
 import SignUpPage from "./pages/SignUpPage";
 import Chatbot from "./pages/Chatbot";
+import LoginPage from "./pages/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     element: <SignUpPage />,
     path: "/signup",
+  },
+  {
+    element: <LoginPage />,
+    path: "/login",
   },
   {
     element: <AppLayout />,
