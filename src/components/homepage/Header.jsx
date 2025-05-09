@@ -2,9 +2,14 @@ import { TbLogin2 } from "react-icons/tb";
 function Header() {
   return (
     <header className="bg-[#155095] p-4 flex justify-between items-center">
-      <div className="flex items-center">
-        <img src="/api/placeholder/24/24" alt="Semesta Logo" className="mr-2" />
-        <span className="text-white font-bold">Semesta Medika Support</span>
+      <div className="mr-10">
+        <div className="flex">
+          <p className="text-[#155095]">Hello</p>
+          <p className="text-[#155095]">Hello</p>
+          <p className="text-white font-bold text-xl ">
+            Semesta Medika Support
+          </p>
+        </div>
       </div>
       <div className="flex gap-4 items-center font-semibold ">
         <div className="flex items-center gap-x-1 text-white hover:underline">

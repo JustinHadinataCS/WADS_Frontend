@@ -29,6 +29,10 @@ function ServicesSection() {
           description="Educational materials and training programs for medical equipment"
           buttonText="Explore Resources"
           buttonLink="#"
+          iconProps={{
+            size: 30,
+            style: { transform: "scaleY(1.3)" }, // This makes the icon taller
+          }}
         />
       </div>
     </section>

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import FAQItem from "./FAQItem";
+import SearchHelp from "./SearchHelp";
+import CategoryTab from "./CategoryTab";
 
 function FAQSection() {
   const [openFAQ, setOpenFAQ] = useState(0);
@@ -28,19 +30,15 @@ function FAQSection() {
     <section className="py-10 px-4 max-w-3xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
 
-      <div className="flex mb-4">
+      <div className="flex mb-4 justify-between gap-x-4">
         {faqCategories.map((category, index) => (
-          <button
+          <CategoryTab
+            onActiveCategory={setActiveCategory}
             key={index}
-            className={`px-4 py-2 ${
-              activeCategory === index
-                ? "bg-blue-100 text-blue-800"
-                : "bg-gray-100"
-            }`}
-            onClick={() => setActiveCategory(index)}
-          >
-            {category}
-          </button>
+            index={index}
+            activeCategory={activeCategory}
+            title={category}
+          />
         ))}
       </div>
 
@@ -55,22 +53,7 @@ function FAQSection() {
           />
         ))}
       </div>
-
-      <div className="mt-8">
-        <h3 className="text-lg font-medium mb-4">
-          Can&apos;t find what you&apos;re looking for?
-        </h3>
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Search FAQs..."
-            className="flex-1 border rounded-l p-2"
-          />
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-r">
-            Search
-          </button>
-        </div>
-      </div>
+      <SearchHelp />
     </section>
   );
 }

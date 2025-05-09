@@ -1,7 +1,6 @@
 import FAQSection from "../components/homepage/FAQSection";
 import Header from "../components/homepage/Header";
 import Hero from "../components/homepage/Hero";
-import SearchHelp from "../components/homepage/SearchHelp";
 import ServicesSection from "../components/homepage/ServicesSection";
 
 function Homepage() {
@@ -11,7 +10,6 @@ function Homepage() {
       <Hero />
       <ServicesSection />
       <FAQSection />
-      <SearchHelp />
     </div>
   );
 }
