@@ -1,75 +1,10 @@
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import { AlertCircle, User, Mail, Lock } from "lucide-react";
 
 const AuthFormContext = createContext();
 
-function AuthForm({ children, onSubmitSuccess }) {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    } else {
-      if (typeof onSubmitSuccess === "function") {
-        onSubmitSuccess(formData);
-      }
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.firstName.trim())
-      newErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-    }
-
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords don't match";
-    }
-
-    return newErrors;
-  };
-
-  const handleSubmit = (e) => {
-    if (e) e.preventDefault();
-    const formErrors = validateForm();
-
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-    } else {
-      console.log("Form submitted successfully", formData);
-      alert("Account created successfully!");
-    }
-  };
+function AuthForm({ children, handleChange, handleSubmit, validateForm }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-2 px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
