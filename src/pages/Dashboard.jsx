@@ -5,7 +5,6 @@ import { useAuthContext } from "../contexts/AuthContext";
 
 function Dashboard() {
 
-  const { user } = useAuthContext();
   return (
     <>
       {user.role === "admin" && <AdminDashboard />}
