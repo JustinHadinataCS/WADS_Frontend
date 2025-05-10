@@ -2,7 +2,7 @@
 import { createContext, useContext } from "react";
 import { AlertCircle, User, Mail, Lock } from "lucide-react";
 import { NavLink } from "react-router-dom";
-
+import { FaPhoneAlt } from "react-icons/fa";
 const AuthFormContext = createContext();
 
 function AuthForm({
@@ -121,6 +121,13 @@ function InputField({ preset }) {
       name: "email",
       placeholder: "Email Address",
       autoComplete: "email",
+    },
+    phoneNumber: {
+      icon: <FaPhoneAlt size={16} />,
+      type: "tel",
+      name: "phoneNumber",
+      placeholder: "Phone Number",
+      autoComplete: "phoneNumber",
     },
     password: {
       icon: <Lock size={16} />,

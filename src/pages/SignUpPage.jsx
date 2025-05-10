@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
 import getTimezone from "../utils/getTimezone";
-import useAuthContext from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const timezone = getTimezone();
 
@@ -10,6 +10,7 @@ function SignUpPage() {
     firstName: "",
     lastName: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
     timezone,
@@ -86,6 +87,7 @@ function SignUpPage() {
         <AuthForm.InputField preset="lastName" />
       </AuthForm.FlexContainer>
       <AuthForm.InputField preset="email" />
+      <AuthForm.InputField preset="phoneNumber" />
       <AuthForm.InputField preset="password" />
       <AuthForm.InputField preset="confirmPassword" />
       <AuthForm.ContinueButton />
