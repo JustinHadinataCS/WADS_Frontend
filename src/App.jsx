@@ -14,15 +14,29 @@ import ProtectedRoute from "./features/auth/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
-    element: <Homepage />,
+    element: (
+      <ProtectedRoute>
+        <Homepage />
+      </ProtectedRoute>
+    ),
+
     path: "/home",
   },
   {
-    element: <SignUpPage />,
+    element: (
+      <ProtectedRoute>
+        <SignUpPage />
+      </ProtectedRoute>
+    ),
+
     path: "/signup",
   },
   {
-    element: <LoginPage />,
+    element: (
+      <ProtectedRoute>
+        <LoginPage />
+      </ProtectedRoute>
+    ),
     path: "/login",
   },
   {
