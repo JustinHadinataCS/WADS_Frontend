@@ -16,7 +16,7 @@ function SignUpPage() {
     timezone,
   });
   const [errors, setErrors] = useState({});
-  const { login } = useAuthContext();
+  const { register } = useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +65,7 @@ function SignUpPage() {
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      login(formData);
+      register(formData);
     }
   };
   const handleGoogleLogin = () => {
@@ -90,7 +90,7 @@ function SignUpPage() {
       <AuthForm.InputField preset="phoneNumber" />
       <AuthForm.InputField preset="password" />
       <AuthForm.InputField preset="confirmPassword" />
-      <AuthForm.ContinueButton />
+      <AuthForm.ContinueButton textContent="Create Account" />
       <AuthForm.SignInPrompt
         title="Already have an account? "
         subtitle="Sign in"

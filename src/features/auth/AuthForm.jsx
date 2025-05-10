@@ -78,14 +78,14 @@ function GoogleLogin({ onClick }) {
     </div>
   );
 }
-function ContinueButton() {
+function ContinueButton({ textContent }) {
   const { handleSubmit } = useContext(AuthFormContext);
   return (
     <button
-      onClick={handleSubmit}
+      onClick={ handleSubmit }
       className="w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 mt-4"
     >
-      Create Account
+      {textContent}
     </button>
   );
 }
@@ -156,7 +156,7 @@ function InputField({ preset }) {
   const value = formData?.[config.name] || "";
 
   return (
-    <div className="mb-1">
+    <div className="mb-4">
       <div className="relative">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
           {config.icon}
@@ -185,7 +185,7 @@ function InputField({ preset }) {
 
 function FlexContainer({ children }) {
   return (
-    <div className="grid grid-cols-1 gap-2 md:grid-cols-2">{children}</div>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{children}</div>
   );
 }
 

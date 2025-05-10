@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
+import { useAuthContext } from "../contexts/AuthContext";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ function LoginPage() {
   });
 
   const [errors, setErrors] = useState({});
+  const { login } = useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,14 +44,14 @@ function LoginPage() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
       console.log("Form submitted successfully", formData);
-      // Here you would typically send the data to your backend
+      login(formData)
       alert("Login successful!");
     }
   };
@@ -62,13 +64,14 @@ function LoginPage() {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       validateForm={validateForm}
+      formData={formData}
     >
       <AuthForm.Title title="Sign In" />
       <AuthForm.GoogleLogin onClick={handleGoogleLogin} />
       <AuthForm.OrSection />
       <AuthForm.InputField preset="email" />
       <AuthForm.InputField preset="password" />
-      <AuthForm.ContinueButton />
+      <AuthForm.ContinueButton textContent="Sign In" />
       <AuthForm.SignInPrompt
         title="Don't have an account ? "
         subtitle="Create Account"
