@@ -18,7 +18,6 @@ function LoginPage() {
       [name]: value,
     }));
 
-    // Clear error when user types
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -51,7 +50,7 @@ function LoginPage() {
       setErrors(formErrors);
     } else {
       console.log("Form submitted successfully", formData);
-      login(formData)
+      login(formData);
       alert("Login successful!");
     }
   };
