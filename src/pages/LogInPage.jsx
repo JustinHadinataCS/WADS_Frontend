@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
 import { useAuthContext } from "../contexts/AuthContext";
+import { useMutation } from "@tanstack/react-query";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function LoginPage() {
 
   const [errors, setErrors] = useState({});
   const { login } = useAuthContext();
+  const mutation = useMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

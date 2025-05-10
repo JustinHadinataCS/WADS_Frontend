@@ -2,6 +2,7 @@ import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
 import getTimezone from "../utils/getTimezone";
 import { useAuthContext } from "../contexts/AuthContext";
+import NavigateOnSuccess from "../features/auth/NavigateOnSuccess";
 
 const timezone = getTimezone();
 
@@ -16,7 +17,8 @@ function SignUpPage() {
     timezone,
   });
   const [errors, setErrors] = useState({});
-  const { register } = useAuthContext();
+  const { register, registerMutation, registerLoading, registerError } =
+    useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,31 +76,34 @@ function SignUpPage() {
   };
 
   return (
-    <AuthForm
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      validateForm={validateForm}
-      formData={formData}
-      errors={errors}
-    >
-      <AuthForm.Title title="Sign Up" />
-      <AuthForm.GoogleLogin onClick={handleGoogleLogin} />
-      <AuthForm.OrSection />
-      <AuthForm.FlexContainer>
-        <AuthForm.InputField preset="firstName" />
-        <AuthForm.InputField preset="lastName" />
-      </AuthForm.FlexContainer>
-      <AuthForm.InputField preset="email" />
-      <AuthForm.InputField preset="phoneNumber" />
-      <AuthForm.InputField preset="password" />
-      <AuthForm.InputField preset="confirmPassword" />
-      <AuthForm.ContinueButton textContent="Create Account" />
-      <AuthForm.SignInPrompt
-        title="Already have an account? "
-        subtitle="Sign in"
-        location="/login"
-      />
-    </AuthForm>
+    <>
+      <AuthForm
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        validateForm={validateForm}
+        formData={formData}
+        errors={errors}
+      >
+        <AuthForm.Title title="Sign Up" />
+        <AuthForm.GoogleLogin onClick={handleGoogleLogin} />
+        <AuthForm.OrSection />
+        <AuthForm.FlexContainer>
+          <AuthForm.InputField preset="firstName" />
+          <AuthForm.InputField preset="lastName" />
+        </AuthForm.FlexContainer>
+        <AuthForm.InputField preset="email" />
+        <AuthForm.InputField preset="phoneNumber" />
+        <AuthForm.InputField preset="password" />
+        <AuthForm.InputField preset="confirmPassword" />
+        <AuthForm.ContinueButton textContent="Create Account" />
+        <AuthForm.SignInPrompt
+          title="Already have an account? "
+          subtitle="Sign in"
+          location="/login"
+        />
+      </AuthForm>
+      <NavigateOnSuccess mutation={registerMutation} />
+    </>
   );
 }
 
