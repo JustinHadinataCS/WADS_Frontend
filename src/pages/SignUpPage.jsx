@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
+import { useQuery } from "@tanstack/react-query";
 
 function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -50,6 +51,7 @@ function SignUpPage() {
 
     return newErrors;
   };
+  const query = useQuery({ queryFn: ()=> });
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
