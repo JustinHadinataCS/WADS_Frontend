@@ -1,6 +1,7 @@
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 function AppLayout() {
   return (

@@ -1,27 +1,27 @@
 import { TbLogin2 } from "react-icons/tb";
+import { NavLink } from "react-router-dom";
+
 function Header() {
   return (
-    <header className="bg-[#155095] p-4 flex justify-between items-center">
-      <div className="mr-10">
+    <header className="bg-[#155095] p-4">
+      <div className="flex justify-between items-center w-11/12 h-full mx-auto">
         <div className="flex">
-          <p className="text-[#155095]">Hello</p>
-          <p className="text-[#155095]">Hello</p>
           <p className="text-white font-bold text-xl ">
             Semesta Medika Support
           </p>
         </div>
-      </div>
-      <div className="flex gap-4 items-center font-semibold ">
-        <div className="flex items-center gap-x-1 text-white hover:underline">
-          <TbLogin2 size={20} />
-          <a href="#" className="text-sm ">
-            Login
-          </a>
-        </div>
+        <div className="flex gap-8 items-center font-semibold ">
+          <NavLink to="/login" className="flex items-center gap-x-1 text-white">
+            <TbLogin2 size={20} />
+            <span className="text-sm ">
+              Login
+            </span>
+          </NavLink>
 
-        <button className="bg-white text-[#0A3E7A] px-4 py-2 rounded-full text-sm  ">
-          Sign Up
-        </button>
+          <NavLink to="/signup" className="bg-white text-[#0A3E7A] px-4 py-2 rounded-full text-sm  ">
+            Sign Up
+          </NavLink>
+        </div>
       </div>
     </header>
   );

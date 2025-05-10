@@ -92,7 +92,7 @@ function SignUpPage() {
       <AuthForm.InputField preset="phoneNumber" />
       <AuthForm.InputField preset="password" />
       <AuthForm.InputField preset="confirmPassword" />
-      <AuthForm.ContinueButton />
+      <AuthForm.ContinueButton textContent="Create Account" />
       <AuthForm.SignInPrompt
         title="Already have an account? "
         subtitle="Sign in"
