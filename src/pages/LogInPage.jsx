@@ -2,6 +2,7 @@ import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useMutation } from "@tanstack/react-query";
+import NavigateOnSuccess from "../features/auth/NavigateOnSuccess";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,8 @@ function LoginPage() {
 
   const [errors, setErrors] = useState({});
   const { login } = useAuthContext();
-  const mutation = useMutation();
+  const { register, registerMutation, registerLoading, registerError } =
+    useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,24 +63,27 @@ function LoginPage() {
   };
 
   return (
-    <AuthForm
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      validateForm={validateForm}
-      formData={formData}
-    >
-      <AuthForm.Title title="Sign In" />
-      <AuthForm.GoogleLogin onClick={handleGoogleLogin} />
-      <AuthForm.OrSection />
-      <AuthForm.InputField preset="email" />
-      <AuthForm.InputField preset="password" />
-      <AuthForm.ContinueButton textContent="Sign In" />
-      <AuthForm.SignInPrompt
-        title="Don't have an account ? "
-        subtitle="Create Account"
-        location="/signup"
-      />
-    </AuthForm>
+    <>
+      <AuthForm
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        validateForm={validateForm}
+        formData={formData}
+      >
+        <AuthForm.Title title="Sign In" />
+        <AuthForm.GoogleLogin onClick={handleGoogleLogin} />
+        <AuthForm.OrSection />
+        <AuthForm.InputField preset="email" />
+        <AuthForm.InputField preset="password" />
+        <AuthForm.ContinueButton textContent="Sign In" />
+        <AuthForm.SignInPrompt
+          title="Don't have an account ? "
+          subtitle="Create Account"
+          location="/signup"
+        />
+      </AuthForm>
+      <NavigateOnSuccess mutation={registerMutation} />
+    </>
   );
 }
 export default LoginPage;
