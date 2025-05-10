@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from "@tanstack/react-query";
 import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login, register } from "../api/auth";
 
 const AuthContext = createContext();
