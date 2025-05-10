@@ -11,12 +11,13 @@ function AuthForm({
   handleSubmit,
   validateForm,
   formData,
+  errors,
 }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-2 px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
         <AuthFormContext.Provider
-          value={{ handleSubmit, handleChange, validateForm, formData }}
+          value={{ handleSubmit, handleChange, validateForm, formData, errors }}
         >
           {children}
         </AuthFormContext.Provider>
@@ -28,12 +29,11 @@ function AuthForm({
 function SignInPrompt({ title, subtitle, location }) {
   return (
     <NavLink to={location}>
-      {" "}
       <p className="text-center mt-4 text-sm text-gray-600">
         {title}
-        <a href="#" className="text-blue-600 hover:underline">
+        <span href="#" className="text-blue-600 hover:underline">
           {subtitle}
-        </a>
+        </span>
       </p>
     </NavLink>
   );

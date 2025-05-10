@@ -16,10 +16,11 @@ function SignUpPage() {
     timezone,
   });
   const [errors, setErrors] = useState({});
-  const { login } = useAuthContext();
+  const { register } = useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(formData);
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -65,7 +66,7 @@ function SignUpPage() {
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      login(formData);
+      register(formData);
     }
   };
   const handleGoogleLogin = () => {
@@ -78,6 +79,7 @@ function SignUpPage() {
       handleSubmit={handleSubmit}
       validateForm={validateForm}
       formData={formData}
+      errors={errors}
     >
       <AuthForm.Title title="Sign Up" />
       <AuthForm.GoogleLogin onClick={handleGoogleLogin} />
