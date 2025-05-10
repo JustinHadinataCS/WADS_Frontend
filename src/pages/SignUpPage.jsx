@@ -1,5 +1,9 @@
 import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
+import getTimezone from "../utils/getTimezone";
+import useAuthContext from "../contexts/AuthContext";
+
+const timezone = getTimezone();
 
 function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -8,8 +12,10 @@ function SignUpPage() {
     email: "",
     password: "",
     confirmPassword: "",
+    timezone,
   });
   const [errors, setErrors] = useState({});
+  const { login } = useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,8 +64,7 @@ function SignUpPage() {
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      console.log("Form submitted successfully", formData);
-      alert("Account created successfully!");
+      login(formData);
     }
   };
   const handleGoogleLogin = () => {
