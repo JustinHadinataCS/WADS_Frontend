@@ -10,6 +10,7 @@ import ForumPage from "./pages/ForumPage";
 import SignUpPage from "./pages/SignUpPage";
 import Chatbot from "./pages/Chatbot";
 import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./features/auth/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
     path: "/login",
   },
   {
-    element: <AppLayout />,
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <Error />,
     children: [
       { path: "/dashboard", element: <Dashboard /> },
