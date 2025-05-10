@@ -5,12 +5,18 @@ import { NavLink } from "react-router-dom";
 
 const AuthFormContext = createContext();
 
-function AuthForm({ children, handleChange, handleSubmit, validateForm }) {
+function AuthForm({
+  children,
+  handleChange,
+  handleSubmit,
+  validateForm,
+  formData,
+}) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-2 px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
         <AuthFormContext.Provider
-          value={{ handleSubmit, handleChange, validateForm }}
+          value={{ handleSubmit, handleChange, validateForm, formData }}
         >
           {children}
         </AuthFormContext.Provider>
