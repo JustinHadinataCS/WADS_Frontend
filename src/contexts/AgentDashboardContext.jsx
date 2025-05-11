@@ -1,15 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
-import { getAgentStats, getAgentTicketStatus } from "../api/dashboard";
+import { getAgentStats, getAgentTicketStatus, getAgentRecentTickets } from "../api/dashboard";
 import { useAuthContext } from "./AuthContext";
 
-const DashboardContext = createContext();
+const AgentDashboardContext = createContext();
 
-function DashboardProvider({ children }) {
+function AgentDashboardProvider({ children }) {
   const { user } = useAuthContext();
 
-  // USER
-  // AGENT
   const agentStatsQuery = useQuery({
     queryKey: ["agentStats"],
     queryFn: () => getAgentStats(user.token),
@@ -22,10 +20,14 @@ function DashboardProvider({ children }) {
     enabled: !!user.token,
   });
 
-  // ADMIN
+  const agentRecentTicketsQuery = useQuery({
+    queryKey: ["agentRecentTickets"],
+    queryFn: () => getAgentRecentTickets(user.token),
+    enabled: !!user.token,
+  });
 
   return (
-    <DashboardContext.Provider
+    <AgentDashboardContext.Provider
     value={{
         agentStats: agentStatsQuery.data,
         agentStatsLoading: agentStatsQuery.isLoading,
@@ -36,17 +38,22 @@ function DashboardProvider({ children }) {
         agentTicketStatusLoading: agentTicketStatusQuery.isLoading,
         agentTicketStatusError: agentTicketStatusQuery.error,
         refetchAgentTicketStatus: agentTicketStatusQuery.refetch,
+
+        agentRecentTickets: agentRecentTicketsQuery.data,
+        agentRecentTicketsLoading: agentRecentTicketsQuery.isLoading,
+        agentRecentTicketsError: agentRecentTicketsQuery.error,
+        refetchAgentRecentTickets: agentRecentTicketsQuery.refetch,
     }}
     >
     {children}
-    </DashboardContext.Provider>
+    </AgentDashboardContext.Provider>
   );
 }
 
-function useDashboardContext() {
-  const context = useContext(DashboardContext);
-  if (!context) throw new Error("DashboardContext is used outside of provider");
+function useAgentDashboardContext() {
+  const context = useContext(AgentDashboardContext);
+  if (!context) throw new Error("AgentDashboardContext is used outside of provider");
   return context;
 }
 
-export { useDashboardContext, DashboardProvider };
+export { useAgentDashboardContext, AgentDashboardProvider };

@@ -1,0 +1,115 @@
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useContext } from "react";
+import { getTicketOverview, getUserStats, getCustomerSatisfaction, getRecentActivity, 
+    getRecentTicketsGlobal, getAgentPerformance, getResponseTime, getServerUptime } from "../api/dashboard";
+import { useAuthContext } from "./AuthContext";
+
+const AdminDashboardContext = createContext();
+
+function AdminDashboardProvider({ children }) {
+  const { user } = useAuthContext();
+
+    const ticketOverviewQuery = useQuery({
+        queryKey: ["ticketOverview"],
+        queryFn: () => getTicketOverview(user.token),
+        enabled: !!user.token,
+    });     
+
+    const userStatsQuery = useQuery({
+        queryKey: ["userStats"],
+        queryFn: () => getUserStats(user.token),
+        enabled: !!user.token,
+    }); 
+
+    const customerSatisfactionQuery = useQuery({
+        queryKey: ["customerSatisfaction"],
+        queryFn: () => getCustomerSatisfaction(user.token),
+        enabled: !!user.token,
+    });
+
+    const recentActivityQuery = useQuery({
+        queryKey: ["recentActivity"],
+        queryFn: () => getRecentActivity(user.token),
+        enabled: !!user.token,
+    });
+
+    const recentTicketsGlobalQuery = useQuery({
+        queryKey: ["recentTicketsGlobal"],
+        queryFn: () => getRecentTicketsGlobal(user.token),
+        enabled: !!user.token,
+    });
+    
+    const agentPerformanceQuery = useQuery({
+        queryKey: ["agentPerformance"],
+        queryFn: () => getAgentPerformance(user.token),
+        enabled: !!user.token,
+    });
+    
+    const responseTimeQuery = useQuery({
+        queryKey: ["responseTime"],
+        queryFn: () => getResponseTime(user.token),
+        enabled: !!user.token,
+    });
+    
+    const serverUptimeQuery = useQuery({
+        queryKey: ["serverUptime"],
+        queryFn: () => getServerUptime(user.token),
+        enabled: !!user.token,
+    });
+    
+  return (
+    <AdminDashboardContext.Provider
+    value={{
+        ticketOverview: ticketOverviewQuery.data,
+        ticketOverviewLoading: ticketOverviewQuery.isLoading,
+        ticketOverviewError: ticketOverviewQuery.error,
+        refetchTicketOverview: ticketOverviewQuery.refetch,
+
+        userStats: userStatsQuery.data,
+        userStatsLoading: userStatsQuery.isLoading,
+        userStatsError: userStatsQuery.error,
+        refetchUserStats: userStatsQuery.refetch,
+
+        customerSatisfaction: customerSatisfactionQuery.data,
+        customerSatisfactionLoading: customerSatisfactionQuery.isLoading,
+        customerSatisfactionError: customerSatisfactionQuery.error, 
+        refetchCustomerSatisfaction: customerSatisfactionQuery.refetch,
+
+        recentActivity: recentActivityQuery.data,
+        recentActivityLoading: recentActivityQuery.isLoading,
+        recentActivityError: recentActivityQuery.error,
+        refetchRecentActivity: recentActivityQuery.refetch,
+
+        recentTicketsGlobal: recentTicketsGlobalQuery.data,
+        recentTicketsGlobalLoading: recentTicketsGlobalQuery.isLoading,
+        recentTicketsGlobalError: recentTicketsGlobalQuery.error,
+        refetchRecentTicketsGlobal: recentTicketsGlobalQuery.refetch,
+
+        agentPerformance: agentPerformanceQuery.data,
+        agentPerformanceLoading: agentPerformanceQuery.isLoading,
+        agentPerformanceError: agentPerformanceQuery.error,
+        refetchAgentPerformance: agentPerformanceQuery.refetch,
+
+        responseTime: responseTimeQuery.data,
+        responseTimeLoading: responseTimeQuery.isLoading,
+        responseTimeError: responseTimeQuery.error,
+        refetchResponseTime: responseTimeQuery.refetch,
+
+        serverUptime: serverUptimeQuery.data,
+        serverUptimeLoading: serverUptimeQuery.isLoading,
+        serverUptimeError: serverUptimeQuery.error,
+        refetchServerUptime: serverUptimeQuery.refetch,
+    }}
+    >
+    {children}
+    </AdminDashboardContext.Provider>
+  );
+}
+
+function useAdminDashboardContext() {
+  const context = useContext(AdminDashboardContext);
+  if (!context) throw new Error("AdminDashboardContext is used outside of provider");
+  return context;
+}
+
+export { useAdminDashboardContext, AdminDashboardProvider };

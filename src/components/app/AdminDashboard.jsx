@@ -5,6 +5,7 @@ import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard"
 import RecentActivityCard from "../../features/dashboard/Admin/RecentActivityCard"
 import PerformanceMetricsCard from "../../features/dashboard/Admin/PerformanceMetricsCard"
 import AgentPerformanceCard from "../../features/dashboard/Admin/AgentPerformanceCard"
+import { AdminDashboardProvider } from "../../contexts/AdminDashboardContext"
 
 export default function AdminDashboard(){
     const recentActivity = [
@@ -71,22 +72,24 @@ export default function AdminDashboard(){
       ];
       
     return(
-        <div className="grid grid-rows-3 gap-6">
-            <div className="grid grid-cols-3 gap-6">
-                <div><TicketOverviewCard/></div>
-                <div><UserStatisticsCard/></div>
-                {/* <div><CustomerSatisfactionCard/></div> */}
-            </div>
+        <AdminDashboardProvider>
+          <div className="grid grid-rows-3 gap-6">
+              <div className="grid grid-cols-3 gap-6">
+                  <div><TicketOverviewCard/></div>
+                  <div><UserStatisticsCard/></div>
+                  {/* <div><CustomerSatisfactionCard/></div> */}
+              </div>
 
-            <div className="grid grid-cols-[2fr_1fr] gap-6">
-                <div><DashboardTicketCard role="admin"/></div>
-                <div><RecentActivityCard data={recentActivity}/></div>
-            </div>
+              <div className="grid grid-cols-[2fr_1fr] gap-6">
+                  <div><DashboardTicketCard role="admin"/></div>
+                  <div><RecentActivityCard data={recentActivity}/></div>
+              </div>
 
-            <div className="grid grid-cols-[1fr_2fr] gap-6">
-                <AgentPerformanceCard/>
-                <div><PerformanceMetricsCard/></div>
-            </div>
-        </div>
+              <div className="grid grid-cols-[1fr_2fr] gap-6">
+                  <AgentPerformanceCard/>
+                  <div><PerformanceMetricsCard/></div>
+              </div>
+          </div>
+        </AdminDashboardProvider>
     )
 }
