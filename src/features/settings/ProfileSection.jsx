@@ -3,70 +3,210 @@ import ProfilePicture from "./ProfilePicture";
 import SettingDesc from "./SettingDesc";
 import Button from "../../components/app/Button";
 import Input from "./Input";
+import { useState, useEffect } from "react";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const ProfileSection = () => {
+  const { user } = useAuthContext();
+
+  const [serverData, setServerData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    department: "-",
+    timeZone: "-",
+  });
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    department: "-",
+    timeZone: "-",
+  });
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  const handleChange = (field) => (value) => {
+    setFormData((prev) => {
+      const newData = {
+        ...prev,
+        [field]: value,
+      };
+      setHasChanges(JSON.stringify(newData) !== JSON.stringify(serverData));
+      return newData;
+    });
+  };
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/users/profile", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to load profile");
+
+        const normalizedData = {
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          email: data.email || "",
+          phoneNumber: data.phoneNumber || "",
+          department: data.department || "-",
+          timeZone: data.timeZone || data.timezone || "-",
+        };
+
+        setServerData(normalizedData);
+        setFormData(normalizedData);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    if (user?.token) {
+      fetchProfile();
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const res = await fetch("http://localhost:5000/api/users/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Update failed");
+
+      setServerData({ ...formData });
+      setHasChanges(false);
+      alert("Profile updated successfully!");
+    } catch (err) {
+      alert(`Failed to update profile: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setFormData({ ...serverData });
+    setHasChanges(false);
+  };
+
+  if (loading) return <div className="p-6 text-gray-600">Loading profile...</div>;
+  if (error) return <div className="p-6 text-red-600">Error loading profile: {error}</div>;
+
   return (
     <div className="max-w-4xl w-full mx-auto p-6 bg-white rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-wide ">
+        <h1 className="text-2xl font-bold text-gray-900 tracking-wide">
           Profile Settings
         </h1>
+        {hasChanges && (
+          <span className="text-sm text-amber-600">You have unsaved changes</span>
+        )}
       </div>
 
       <div className="mb-8">
         <ProfilePicture />
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
-          <Input>First name</Input>
+          <Input value={formData.firstName} onChange={handleChange("firstName")}>
+            First name
+          </Input>
         </div>
         <div>
-          <Input>Last name</Input>
+          <Input value={formData.lastName} onChange={handleChange("lastName")}>
+            Last name
+          </Input>
         </div>
       </div>
+
       <div className="mb-6">
-        <Input>Email</Input>
-        <div>
-          <p className="text-sm text-gray-500 mt-1">
-            This email will be used for notifications
-          </p>
-        </div>
-      </div>
+  <Input value={formData.email} readOnly disabled>
+    Email
+  </Input>
+  <p className="text-sm text-gray-500 mt-1">
+    This email will be used for notifications
+  </p>
+</div>
+
+
       <div className="mb-6">
-        <Input>Phone Number</Input>
+        <Input value={formData.phoneNumber} onChange={handleChange("phoneNumber")}>
+          Phone Number
+        </Input>
       </div>
 
       <div className="mb-6">
         <Input
           type="dropdown"
-          defaultValue="-"
+          value={formData.department}
           options={[
-            { value: "us", label: "1" },
-            { value: "ca", label: "2" },
-            { value: "uk", label: "3" },
+            { value: "-", label: "Select Department" },
+            { value: "us", label: "US" },
+            { value: "ca", label: "Canada" },
+            { value: "uk", label: "UK" },
           ]}
+          onChange={handleChange("department")}
         >
           Department
         </Input>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-6">
         <Input
           type="dropdown"
-          defaultValue="-"
+          value={formData.timeZone}
           options={[
-            { value: "", label: "1" },
-            { value: "", label: "2" },
-            { value: "", label: "3" },
+            { value: "-", label: "Select Time Zone" },
+            { value: "1", label: "UTC-8 (Pacific)" },
+            { value: "2", label: "UTC-5 (Eastern)" },
+            { value: "3", label: "UTC+0 (London)" },
           ]}
+          onChange={handleChange("timeZone")}
         >
           Time zone
         </Input>
       </div>
 
       <div className="flex justify-end space-x-4 w-full mt-6">
-        <Button type="clear">Cancel</Button>
-        <Button type="blue-s">Save changes</Button>
+        <div
+          onClick={!saving && hasChanges ? handleCancel : undefined}
+          className={`${
+            !hasChanges || saving ? "pointer-events-none opacity-50" : ""
+          }`}
+        >
+          <Button type="clear">Cancel</Button>
+        </div>
+        <div
+          onClick={!saving && hasChanges ? handleSave : undefined}
+          className={`${
+            !hasChanges || saving ? "pointer-events-none opacity-50" : ""
+          }`}
+        >
+          <Button type="blue-s">{saving ? "Saving..." : "Save changes"}</Button>
+        </div>
       </div>
     </div>
   );
