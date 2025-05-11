@@ -1,5 +1,5 @@
-function UserName() {
-  return <h1 className="self-center">Justin</h1>;
+function UserName({ user }) {
+  return <h1 className="self-center">{user.firstName} {user.lastName[0]}.</h1>;
 }
 
 export default UserName;
