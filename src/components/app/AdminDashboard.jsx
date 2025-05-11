@@ -75,7 +75,7 @@ export default function AdminDashboard(){
             <div className="grid grid-cols-3 gap-6">
                 <div><TicketOverviewCard/></div>
                 <div><UserStatisticsCard/></div>
-                <div><CustomerSatisfactionCard/></div>
+                {/* <div><CustomerSatisfactionCard/></div> */}
             </div>
 
             <div className="grid grid-cols-[2fr_1fr] gap-6">

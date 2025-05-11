@@ -1,7 +1,7 @@
+import { useAuthContext } from "../../contexts/AuthContext";
+
 export default function DashboardTicketContent({ role }) {
-    const isAgent = role === "agent";
-    const isUser = role === "user";
-    const isAdmin = role === "admin";
+    const { user } = useAuthContext();
 
     // TEMPORARY PLACEHOLDER DATA
     const placeholderData = [
@@ -155,9 +155,9 @@ export default function DashboardTicketContent({ role }) {
         <thead>
           <tr className="text-left">
             <th>Ticket ID</th>
-            {isAgent && <th>Submitted By</th>}
-            {isUser && <th>Assigned To</th>}
-            {isAdmin && (
+            {user.role === "agent" && <th>Submitted By</th>}
+            {user.role === "user" && <th>Assigned To</th>}
+            {user.role === "admin" && (
               <>
                 <th>Submitted By</th>
                 <th>Assigned To</th>
@@ -173,9 +173,9 @@ export default function DashboardTicketContent({ role }) {
           {sorted.map((item) => (
             <tr key={item.ID} className="border-b border-neutral-200">
               <td className="py-4">{item.ID}</td>
-              {isAgent && <td>{item.submittedBy}</td>}
-              {isUser && <td>{item.assignedTo}</td>}
-              {isAdmin && (
+              {user.role === "agent" && <td>{item.submittedBy}</td>}
+              {user.role === "user" && <td>{item.assignedTo}</td>}
+              {user.role === "admin" && (
                 <>
                   <td>{item.submittedBy}</td>
                   <td>{item.assignedTo}</td>
