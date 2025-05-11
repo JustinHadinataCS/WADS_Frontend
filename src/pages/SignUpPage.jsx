@@ -67,6 +67,7 @@ function SignUpPage() {
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
+      alert("Registration failed");
     } else {
       register(formData);
     }

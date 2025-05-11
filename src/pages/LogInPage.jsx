@@ -49,10 +49,10 @@ function LoginPage() {
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
+      alert("Login failed");
     } else {
       console.log("Form submitted successfully", formData);
       login(formData);
-      alert("Login successful!");
     }
   };
   const handleGoogleLogin = () => {
