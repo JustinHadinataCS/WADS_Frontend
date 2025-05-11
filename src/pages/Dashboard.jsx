@@ -4,6 +4,7 @@ import AdminDashboard from "../components/app/AdminDashboard";
 import { useAuthContext } from "../contexts/AuthContext";
 
 function Dashboard() {
+  const { user } = useAuthContext();
 
   return (
     <>

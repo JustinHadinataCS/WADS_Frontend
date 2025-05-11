@@ -12,7 +12,9 @@ function AuthProvider({ children }) {
     mutationFn: login,
     onSuccess: (data) => {
       setUser(data);
+      console.log(`The data -> ${data}`);
       console.log(data);
+      console.log(user);
     },
     onError: (error) => console.error(`Error: ${error.message}`),
   });
@@ -28,8 +30,6 @@ function AuthProvider({ children }) {
 
   const logout = () => {
     setUser("");
-    // for later once we store tokens in local storage
-    //localStorage.removeItem("token");
   };
 
   return (
