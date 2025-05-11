@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import Error from "./components/app/Error";
 import AppLayout from "./components/app/AppLayout";
 import Homepage from "./pages/Homepage";
@@ -13,9 +17,10 @@ import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 
 const router = createBrowserRouter([
+  { path: "/", element: <Navigate to="/home" /> },
   {
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute reverse={true}>
         <Homepage />
       </ProtectedRoute>
     ),
@@ -24,7 +29,7 @@ const router = createBrowserRouter([
   },
   {
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute reverse={true}>
         <SignUpPage />
       </ProtectedRoute>
     ),
@@ -33,7 +38,7 @@ const router = createBrowserRouter([
   },
   {
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute reverse={true}>
         <LoginPage />
       </ProtectedRoute>
     ),
