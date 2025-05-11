@@ -1,39 +1,35 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from "@tanstack/react-query";
 import { createContext, useContext, useState } from "react";
-import { useAuthContext } from "./AuthContext";
+import { getNotifications } from "../api/notification";
 
 const NotificationContext = createContext();
 
 function NotificationProvider({ children }) {
   const [Notification, setNotification] = useState("");
 
-  //   const getNotificationsMutation = useMutation({
-  //     mutationFn: getNotifications,
-  //     onSuccess: (data) => {
-  //       setUser(data);
-  //       console.log(`The data -> ${data}`);
-  //       console.log(data);
-  //       console.log(user);
-  //     },
-  //     onError: (error) => console.error(`Error: ${error.message}`),
-  //   });
-
-  //   const registerMutation = useMutation({
-  //     mutationFn: register,
-  //     onSuccess: (data) => {
-  //       setUser(data);
-  //       console.log(data);
-  //     },
-  //     onError: (error) => console.error(`Error: ${error.message}`),
-  //   });
-
-  //   const logout = () => {
-  //     setUser("");
-  //   };
+  const getNotificationsMutation = useMutation({
+    mutationFn: getNotifications,
+    onSuccess: (data) => {
+      setNotification(data);
+      console.log(`The data -> ${data}`);
+      console.log(data);
+      console.log(Notification);
+    },
+    onError: (error) => console.error(`Error: ${error.message}`),
+  });
 
   return (
-    <NotificationContext.Provider>{children}</NotificationContext.Provider>
+    <NotificationContext.Provider
+      value={{
+        Notification,
+        getNotifications: getNotificationsMutation.mutate,
+        getNotificationsError: getNotificationsMutation.error,
+        getNotificationsLoading: getNotificationsMutation.isLoading,
+      }}
+    >
+      {children}
+    </NotificationContext.Provider>
   );
 }
 
