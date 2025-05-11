@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
-import { getAgentStats } from "../api/dashboard";
+import { getAgentStats, getAgentTicketStatus } from "../api/dashboard";
 import { useAuthContext } from "./AuthContext";
 
 const DashboardContext = createContext();
@@ -9,22 +8,37 @@ const DashboardContext = createContext();
 function DashboardProvider({ children }) {
   const { user } = useAuthContext();
 
+  // USER
+  // AGENT
   const agentStatsQuery = useQuery({
     queryKey: ["agentStats"],
     queryFn: () => getAgentStats(user.token),
     enabled: !!user.token,
   });
 
+  const agentTicketStatusQuery = useQuery({
+    queryKey: ["agentTicketStatus"],
+    queryFn: () => getAgentTicketStatus(user.token),
+    enabled: !!user.token,
+  });
+
+  // ADMIN
+
   return (
     <DashboardContext.Provider
-      value={{
+    value={{
         agentStats: agentStatsQuery.data,
-        isLoading: agentStatsQuery.isLoading,
-        error: agentStatsQuery.error,
-        refetch: agentStatsQuery.refetch,
-      }}
+        agentStatsLoading: agentStatsQuery.isLoading,
+        agentStatsError: agentStatsQuery.error,
+        refetchAgentStats: agentStatsQuery.refetch,
+
+        agentTicketStatus: agentTicketStatusQuery.data,
+        agentTicketStatusLoading: agentTicketStatusQuery.isLoading,
+        agentTicketStatusError: agentTicketStatusQuery.error,
+        refetchAgentTicketStatus: agentTicketStatusQuery.refetch,
+    }}
     >
-      {children}
+    {children}
     </DashboardContext.Provider>
   );
 }

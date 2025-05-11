@@ -6,7 +6,7 @@ import { useDashboardContext } from "../../contexts/DashboardContext"
 
 export default function AgentDashboard() {
 
-    const { agentStats } = useDashboardContext();
+    const { agentStats, agentTicketStatus } = useDashboardContext();
     const tempStats = {
         totalAssigned: "...",
         resolvedThisWeek: "...",
@@ -16,6 +16,11 @@ export default function AgentDashboard() {
             "negative": 0,
             "totalCount": "..."
           }
+    }
+    const tempTicketStatus = {
+        "pending": 0,
+        "in_progress": 0,
+        "resolved": 0
     }
 
     return(
@@ -27,7 +32,7 @@ export default function AgentDashboard() {
 
             <div className="grid grid-cols-[3fr_1fr] gap-12">
                 <div><DashboardTicketCard role="agent"/></div>
-                <div><TicketStatusCard/></div>
+                <div><TicketStatusCard status={agentTicketStatus || tempTicketStatus}/></div>
             </div>
         </div>
     )
