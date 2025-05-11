@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from "@tanstack/react-query";
 import { createContext, useContext, useState } from "react";
-import { login, register } from "../api/auth";
+import { useAuthContext } from "./AuthContext";
 
 const NotificationContext = createContext();
 
 function NotificationProvider({ children }) {
-  const [user, setUser] = useState("");
+  const [Notification, setNotification] = useState("");
 
   //   const getNotificationsMutation = useMutation({
   //     mutationFn: getNotifications,
