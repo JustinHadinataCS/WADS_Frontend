@@ -11,7 +11,7 @@ function AuthProvider({ children }) {
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      setUser(data.user);
+      setUser(data);
       console.log(data);
     },
     onError: (error) => console.error(`Error: ${error.message}`),
@@ -20,11 +20,17 @@ function AuthProvider({ children }) {
   const registerMutation = useMutation({
     mutationFn: register,
     onSuccess: (data) => {
-      setUser(data.user);
+      setUser(data);
       console.log(data);
     },
     onError: (error) => console.error(`Error: ${error.message}`),
   });
+
+  const logout = () => {
+    setUser("");
+    // for later once we store tokens in local storage
+    //localStorage.removeItem("token");
+  };
 
   return (
     <AuthContext.Provider
@@ -33,11 +39,14 @@ function AuthProvider({ children }) {
         login: loginMutation.mutate,
         loginLoading: loginMutation.isLoading,
         loginError: loginMutation.error,
+        loginMutation,
 
         register: registerMutation.mutate,
         registerLoading: registerMutation.isLoading,
         registerError: registerMutation.error,
         registerMutation,
+
+        logout,
       }}
     >
       {children}

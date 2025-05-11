@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AuthForm from "../features/auth/AuthForm";
 import { useAuthContext } from "../contexts/AuthContext";
-import { useMutation } from "@tanstack/react-query";
 import NavigateOnSuccess from "../features/auth/NavigateOnSuccess";
 
 function LoginPage() {
@@ -11,9 +10,7 @@ function LoginPage() {
   });
 
   const [errors, setErrors] = useState({});
-  const { login } = useAuthContext();
-  const { register, registerMutation, registerLoading, registerError } =
-    useAuthContext();
+  const { login, loginMutation, loginLoading, loginError } = useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,7 +79,7 @@ function LoginPage() {
           location="/signup"
         />
       </AuthForm>
-      <NavigateOnSuccess mutation={registerMutation} />
+      <NavigateOnSuccess mutation={loginMutation} />
     </>
   );
 }
