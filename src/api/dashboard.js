@@ -99,12 +99,12 @@ export const getAgentRecentTickets = async (token) => {
 // ADMIN DASHBOARD
 
 /**
- * Fetch ticket overview
+ * Fetch overall statistics
  * @param {string} token - The authentication token
- * @returns {Promise<Object>} The response JSON containing ticket overview data
+ * @returns {Promise<Object>} The response JSON containing global tatistics
  */
-export const getTicketOverview = async (token) => {
-  const res = await fetch(`${API_BASE_URL}/overview`, {
+export const getGlobalStats = async (token) => {
+  const res = await fetch(`${API_BASE_URL}/global-stats`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -115,53 +115,7 @@ export const getTicketOverview = async (token) => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Failed to fetch ticket overview");
-  }
-
-  return data;
-};
-
-/**
- * Fetch overall user statistics
- * @param {string} token - The authentication token
- * @returns {Promise<Object>} The response JSON containing overall user statistics
- */
-export const getUserStats = async (token) => {
-  const res = await fetch(`${API_BASE_URL}/user-stats`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to fetch user statistics");
-  }
-
-  return data;
-};
-
-/**
- * Fetch overall customer satisfaction statistics
- * @param {string} token - The authentication token
- * @returns {Promise<Object>} The response JSON containing customer satisfaction statistics
- */
-export const getCustomerSatisfaction = async (token) => {
-  const res = await fetch(`${API_BASE_URL}/customer-satisfaction`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to fetch agent statistics");
+    throw new Error(data.message || "Failed to fetch global statistics");
   }
 
   return data;

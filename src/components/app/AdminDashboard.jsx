@@ -5,91 +5,53 @@ import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard"
 import RecentActivityCard from "../../features/dashboard/Admin/RecentActivityCard"
 import PerformanceMetricsCard from "../../features/dashboard/Admin/PerformanceMetricsCard"
 import AgentPerformanceCard from "../../features/dashboard/Admin/AgentPerformanceCard"
-import { AdminDashboardProvider } from "../../contexts/AdminDashboardContext"
+import { useAdminDashboardContext } from "../../contexts/AdminDashboardContext"
 
 export default function AdminDashboard(){
-    const recentActivity = [
-        {
-          agent: "Agent 1",
-          action: "resolved",
-          ticketId: 2000,
-          message: "Agent 1 resolved ticket ID 2000"
-        },
-        {
-          agent: "Agent 1",
-          action: "resolved",
-          ticketId: 2000,
-          message: "Agent 1 resolved ticket ID 2000"
-        },
-        {
-          agent: "Agent 1",
-          action: "resolved",
-          ticketId: 2000,
-          message: "Agent 1 resolved ticket ID 2000"
-        },
-        {
-            agent: "Agent 1",
-            action: "resolved",
-            ticketId: 2000,
-            message: "Agent 1 resolved ticket ID 2000"
-          },
-          {
-            agent: "Agent 1",
-            action: "resolved",
-            ticketId: 2000,
-            message: "Agent 1 resolved ticket ID 2000"
-          },
-          {
-            agent: "Agent 1",
-            action: "resolved",
-            ticketId: 2000,
-            message: "Agent 1 resolved ticket ID 2000"
-          },
-          {
-            agent: "Agent 1",
-            action: "resolved",
-            ticketId: 2000,
-            message: "Agent 1 resolved ticket ID 2000"
-          },
-          {
-            agent: "Agent 1",
-            action: "resolved",
-            ticketId: 2000,
-            message: "Agent 1 resolved ticket ID 2000"
-          },
-          {
-            agent: "Agent 1",
-            action: "resolved",
-            ticketId: 2000,
-            message: "Agent 1 resolved ticket ID 2000"
-          },
-        {
-          agent: "Agent 1",
-          action: "resolved",
-          ticketId: 2000,
-          message: "Agent 1 resolved ticket ID 2000"
-        }
-      ];
+    const { globalStats, recentActivity, recentTicketsGlobal, agentPerformance, responseTime, serverUptime } = useAdminDashboardContext();
+
+    const tempStats = {
+      ticketStats: {
+        "total": "...",
+        "pending": "...",
+        "inProgress": "...",
+        "resolved": "..."
+      },
+      userStats: {
+        "totalUsers": "...",
+        "activeToday": "...",
+        "newUsers": "...",
+        "totalAgents": "..."
+      },
+      feedbackStats: {
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "totalCount": "..."
+      }
+    }
+
+    const tempRecentActivity = [
+        "..."
+    ]
       
     return(
-        <AdminDashboardProvider>
-          <div className="grid grid-rows-3 gap-6">
-              <div className="grid grid-cols-3 gap-6">
-                  <div><TicketOverviewCard/></div>
-                  <div><UserStatisticsCard/></div>
-                  {/* <div><CustomerSatisfactionCard/></div> */}
-              </div>
+        <div className="grid grid-rows-3 gap-6">
+            <div className="grid grid-cols-3 gap-6">
+                <div><TicketOverviewCard stats={globalStats || tempStats}/></div>
+                <div><UserStatisticsCard stats={globalStats || tempStats}/></div>
+                <div><CustomerSatisfactionCard stats={globalStats || tempStats}/></div>
+            </div>
 
-              <div className="grid grid-cols-[2fr_1fr] gap-6">
-                  <div><DashboardTicketCard role="admin"/></div>
-                  <div><RecentActivityCard data={recentActivity}/></div>
-              </div>
+            <div className="grid grid-cols-[2fr_1fr] gap-6">
+                <div><DashboardTicketCard role="admin"/></div>
+                <div><RecentActivityCard data={recentActivity || tempRecentActivity}/></div>
+            </div>
 
-              <div className="grid grid-cols-[1fr_2fr] gap-6">
-                  <AgentPerformanceCard/>
-                  <div><PerformanceMetricsCard/></div>
-              </div>
-          </div>
-        </AdminDashboardProvider>
+            <div className="grid grid-cols-[1fr_2fr] gap-6">
+                <div><AgentPerformanceCard/></div>
+                <div><PerformanceMetricsCard/></div>
+            </div>
+        </div>
     )
 }

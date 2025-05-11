@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
-import { getTicketOverview, getUserStats, getCustomerSatisfaction, getRecentActivity, 
-    getRecentTicketsGlobal, getAgentPerformance, getResponseTime, getServerUptime } from "../api/dashboard";
+import { getGlobalStats, getRecentActivity, getRecentTicketsGlobal, 
+    getAgentPerformance, getResponseTime, getServerUptime } from "../api/dashboard";
 import { useAuthContext } from "./AuthContext";
 
 const AdminDashboardContext = createContext();
@@ -9,21 +9,9 @@ const AdminDashboardContext = createContext();
 function AdminDashboardProvider({ children }) {
   const { user } = useAuthContext();
 
-    const ticketOverviewQuery = useQuery({
-        queryKey: ["ticketOverview"],
-        queryFn: () => getTicketOverview(user.token),
-        enabled: !!user.token,
-    });     
-
-    const userStatsQuery = useQuery({
-        queryKey: ["userStats"],
-        queryFn: () => getUserStats(user.token),
-        enabled: !!user.token,
-    }); 
-
-    const customerSatisfactionQuery = useQuery({
-        queryKey: ["customerSatisfaction"],
-        queryFn: () => getCustomerSatisfaction(user.token),
+    const globalStatsQuery = useQuery({
+        queryKey: ["globalStats"],
+        queryFn: () => getGlobalStats(user.token),
         enabled: !!user.token,
     });
 
@@ -60,20 +48,10 @@ function AdminDashboardProvider({ children }) {
   return (
     <AdminDashboardContext.Provider
     value={{
-        ticketOverview: ticketOverviewQuery.data,
-        ticketOverviewLoading: ticketOverviewQuery.isLoading,
-        ticketOverviewError: ticketOverviewQuery.error,
-        refetchTicketOverview: ticketOverviewQuery.refetch,
-
-        userStats: userStatsQuery.data,
-        userStatsLoading: userStatsQuery.isLoading,
-        userStatsError: userStatsQuery.error,
-        refetchUserStats: userStatsQuery.refetch,
-
-        customerSatisfaction: customerSatisfactionQuery.data,
-        customerSatisfactionLoading: customerSatisfactionQuery.isLoading,
-        customerSatisfactionError: customerSatisfactionQuery.error, 
-        refetchCustomerSatisfaction: customerSatisfactionQuery.refetch,
+        globalStats: globalStatsQuery.data,
+        globalStatsLoading: globalStatsQuery.isLoading,
+        globalStatsError: globalStatsQuery.error,
+        refetchGlobalStats: globalStatsQuery.refetch,
 
         recentActivity: recentActivityQuery.data,
         recentActivityLoading: recentActivityQuery.isLoading,
