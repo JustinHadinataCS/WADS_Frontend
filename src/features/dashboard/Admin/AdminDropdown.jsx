@@ -1,6 +1,9 @@
-export default function AdminDropdown({ options }){
+export default function AdminDropdown({ options, onChange }){
     return(
-        <select className="border-1 border-neutral-300 text-neutral-500 rounded-md px-2 outline-neutral-400">
+        <select 
+            className="h-10 border-1 border-neutral-300 text-neutral-500 rounded-md px-2 outline-neutral-400"
+            onChange={(e) => onChange(e.target.value)}
+        >
             {
                 options
                 ? options.map((option, index) => {

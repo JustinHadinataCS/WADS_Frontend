@@ -196,6 +196,7 @@ export const getAgentPerformance = async (token) => {
  * @returns {Promise<Object>} The response JSON containing system response times
  */
 export const getResponseTime = async (token) => {
+
   const res = await fetch(`${API_BASE_URL}/response-time`, {
     method: "GET",
     headers: {

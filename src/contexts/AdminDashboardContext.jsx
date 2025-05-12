@@ -34,7 +34,7 @@ function AdminDashboardProvider({ children }) {
     });
     
     const responseTimeQuery = useQuery({
-        queryKey: ["responseTime"],
+        queryKey: ["responseTime", "default"],
         queryFn: () => getResponseTime(user.token),
         enabled: !!user.token,
     });

@@ -7,10 +7,7 @@ export default function AgentPerformanceCard(){
     const placeholderTime = ["Last 7 Days", "Today", "insert data", "idk what here"]
     return(
         <div className="bg-white rounded-sm shadow-md border border-neutral-200">
-            <CardTitle title="Agent Performance">
-                <AdminDropdown options={placeholderTime}/>
-                <ButtonBlue Text="Apply Filter"/>
-            </CardTitle>
+            <CardTitle title="Agent Performance" />
             <AgentPerformanceContent/>
         </div>
     )
