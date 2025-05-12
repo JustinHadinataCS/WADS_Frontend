@@ -1,17 +1,108 @@
+import { useState, useEffect } from "react";
 import SettingTitle from "./SettingTitle";
 import PasswordStrength from "./PasswordStrength";
 import TwoFA from "./TwoFA";
+import Button from "../../components/app/Button";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { getUserProfile, updateUserProfile } from "../../api/setting";
 
 const SecuritySection = () => {
+  const { user } = useAuthContext();
+
+  const [securitySettings, setSecuritySettings] = useState({
+    twoFactorAuthEnabled: false,
+    loginAlerts: true,
+    deviceTracking: true,
+  });
+
+  const [serverSettings, setServerSettings] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  useEffect(() => {
+    const fetchSecurity = async () => {
+      try {
+        const data = await getUserProfile(user?.token);
+        const serverData = {
+          twoFactorAuthEnabled: Boolean(data.securitySettings?.twoFactorAuthEnabled),
+          loginAlerts: Boolean(data.securitySettings?.loginAlerts),
+          deviceTracking: Boolean(data.securitySettings?.deviceTracking),
+        };
+
+        setSecuritySettings(serverData);
+        setServerSettings(JSON.parse(JSON.stringify(serverData)));
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    if (user?.token) fetchSecurity();
+    else setLoading(false);
+  }, [user]);
+
+  const handleToggle = (key) => {
+    setSecuritySettings((prev) => {
+      const updated = { ...prev, [key]: !prev[key] };
+      setHasChanges(JSON.stringify(updated) !== JSON.stringify(serverSettings));
+      return updated;
+    });
+  };
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const data = await updateUserProfile(user?.token, {
+        securitySettings,
+      });
+      setServerSettings(JSON.parse(JSON.stringify(securitySettings)));
+      setHasChanges(false);
+      alert("Security settings updated successfully!");
+    } catch (err) {
+      alert(`Failed to save security settings: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setSecuritySettings(JSON.parse(JSON.stringify(serverSettings)));
+    setHasChanges(false);
+  };
+
+  if (loading) return <div className="p-6 text-gray-600">Loading security settings...</div>;
+  if (error) return <div className="p-6 text-red-600">Error: {error}</div>;
+
   return (
     <div className="max-w-4xl w-full mx-auto p-6 bg-white rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
         <SettingTitle title="Security Settings" />
+        {hasChanges && <span className="text-sm text-amber-600">You have unsaved changes</span>}
       </div>
 
       <div className="space-y-6">
         <PasswordStrength />
-        <TwoFA />
+        <TwoFA
+          enabled={securitySettings.twoFactorAuthEnabled}
+          onToggle={() => handleToggle("twoFactorAuthEnabled")}
+        />
+      </div>
+      <div className="flex justify-end space-x-4 mt-6">
+        <div
+          onClick={!saving && hasChanges ? handleCancel : undefined}
+          className={`${!hasChanges || saving ? "pointer-events-none opacity-50" : ""}`}
+        >
+          <Button type="clear">Cancel</Button>
+        </div>
+        <div
+          onClick={!saving && hasChanges ? handleSave : undefined}
+          className={`${!hasChanges || saving ? "pointer-events-none opacity-50" : ""}`}
+        >
+          <Button type="blue">{saving ? "Saving..." : "Save Preferences"}</Button>
+        </div>
       </div>
     </div>
   );
