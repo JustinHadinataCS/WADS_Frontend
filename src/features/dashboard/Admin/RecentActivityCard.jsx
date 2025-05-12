@@ -2,7 +2,8 @@ import CardTitle from "../CardTitle"
 
 export default function RecentActivityCard({data}){
 
-    const activities = data.activities
+    const auditData = data.data
+    const activities = Array.isArray(auditData) ? auditData.map(entry => entry.description) : []
     return(
         <div className="bg-white rounded-sm shadow-md border border-neutral-200">
             <CardTitle title="Recent Activity"/>
