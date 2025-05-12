@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import SettingTitle from "./SettingTitle";
 import PasswordStrength from "./PasswordStrength";
-import TwoFA from "./TwoFA";
+import TwoFA from "./TwoFA"; // Central logic here
 import Button from "../../components/app/Button";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { getUserProfile, updateUserProfile } from "../../api/setting";
+import ContentToggle from "./ContentToggle";
 
 const SecuritySection = () => {
   const { user } = useAuthContext();
 
   const [securitySettings, setSecuritySettings] = useState({
-    twoFactorAuthEnabled: false,
     loginAlerts: true,
     deviceTracking: true,
   });
@@ -25,8 +25,8 @@ const SecuritySection = () => {
     const fetchSecurity = async () => {
       try {
         const data = await getUserProfile(user?.token);
+
         const serverData = {
-          twoFactorAuthEnabled: Boolean(data.securitySettings?.twoFactorAuthEnabled),
           loginAlerts: Boolean(data.securitySettings?.loginAlerts),
           deviceTracking: Boolean(data.securitySettings?.deviceTracking),
         };
@@ -35,6 +35,7 @@ const SecuritySection = () => {
         setServerSettings(JSON.parse(JSON.stringify(serverData)));
         setLoading(false);
       } catch (err) {
+        console.error("Error fetching settings:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -47,7 +48,8 @@ const SecuritySection = () => {
   const handleToggle = (key) => {
     setSecuritySettings((prev) => {
       const updated = { ...prev, [key]: !prev[key] };
-      setHasChanges(JSON.stringify(updated) !== JSON.stringify(serverSettings));
+      const newHasChanges = JSON.stringify(updated) !== JSON.stringify(serverSettings);
+      setHasChanges(newHasChanges);
       return updated;
     });
   };
@@ -55,14 +57,15 @@ const SecuritySection = () => {
   const handleSave = async () => {
     try {
       setSaving(true);
-      const data = await updateUserProfile(user?.token, {
+      await updateUserProfile(user?.token, {
         securitySettings,
       });
       setServerSettings(JSON.parse(JSON.stringify(securitySettings)));
       setHasChanges(false);
       alert("Security settings updated successfully!");
     } catch (err) {
-      alert(`Failed to save security settings: ${err.message}`);
+      console.error("Error saving:", err);
+      alert(`Failed to save: ${err.message}`);
     } finally {
       setSaving(false);
     }
@@ -85,23 +88,10 @@ const SecuritySection = () => {
 
       <div className="space-y-6">
         <PasswordStrength />
-        <TwoFA
-          enabled={securitySettings.twoFactorAuthEnabled}
-          onToggle={() => handleToggle("twoFactorAuthEnabled")}
-        />
-      </div>
-      <div className="flex justify-end space-x-4 mt-6">
-        <div
-          onClick={!saving && hasChanges ? handleCancel : undefined}
-          className={`${!hasChanges || saving ? "pointer-events-none opacity-50" : ""}`}
-        >
-          <Button type="clear">Cancel</Button>
-        </div>
-        <div
-          onClick={!saving && hasChanges ? handleSave : undefined}
-          className={`${!hasChanges || saving ? "pointer-events-none opacity-50" : ""}`}
-        >
-          <Button type="blue">{saving ? "Saving..." : "Save Preferences"}</Button>
+
+        {/* TwoFA now manages its own state */}
+        <div className="py-4 border-b border-gray-200">
+          <TwoFA />
         </div>
       </div>
     </div>
