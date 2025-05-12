@@ -4,7 +4,7 @@ export default function SystemUptimeContent({ data }) {
     const isOperational = data.currentStatus === "Operational";
 
     return (
-        <div className="w-full h-69 p-6 bg-white rounded-2xl shadow-md flex flex-col">
+        <div className="w-full h-72 p-6 bg-white rounded-2xl shadow-md flex flex-col">
             <div className="text-xl font-medium text-gray-700 mb-4">
                 System Status:&nbsp;
                 <span className={isOperational ? "text-green-500" : "text-red-500"}>

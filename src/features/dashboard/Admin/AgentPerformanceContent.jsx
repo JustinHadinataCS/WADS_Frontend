@@ -1,6 +1,6 @@
 import DonutChart from "../DonutChart"
 
-export default function AgentPerformanceContent(){
+export default function AgentPerformanceContent({ data }){
     return(
         <div className="h-72 p-4">
             <DonutChart 
