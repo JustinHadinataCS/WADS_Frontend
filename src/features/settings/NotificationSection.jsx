@@ -4,6 +4,7 @@ import NotificationSubtitle from "./NotificationSubtitle";
 import ContentToggle from "./ContentToggle";
 import Button from "../../components/app/Button";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { getUserProfile, updateUserProfile } from "../../api/setting";
 
 const NotificationSection = () => {
   const { user } = useAuthContext();
@@ -32,53 +33,42 @@ const NotificationSection = () => {
 
   useEffect(() => {
     const fetchPreferences = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/users/profile", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        });
+  try {
+    const data = await getUserProfile(user?.token);
+    console.log("Raw server response:", data);
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Failed to load preferences");
-        
-        console.log("Raw server response:", data);
-        
-        // CRITICAL FIX: Directly use the notificationSettings from the response
-        // This preserves the true/false values exactly as they are in the database
-        if (data.notificationSettings) {
-          const normalizedData = {
-            notificationSettings: {
-              email: {
-                ticketStatusUpdates: Boolean(data.notificationSettings.email?.ticketStatusUpdates),
-                newAgentResponses: Boolean(data.notificationSettings.email?.newAgentResponses),
-                ticketResolution: Boolean(data.notificationSettings.email?.ticketResolution),
-                marketingUpdates: Boolean(data.notificationSettings.email?.marketingUpdates)
-              },
-              inApp: {
-                desktopNotifications: Boolean(data.notificationSettings.inApp?.desktopNotifications),
-                soundNotifications: Boolean(data.notificationSettings.inApp?.soundNotifications)
-              }
-            }
-          };
-          
-          console.log("Normalized data with original values:", normalizedData);
-          
-          // Set both preferences and serverPreferences to the normalized data
-          setPreferences(normalizedData);
-          setServerPreferences(JSON.parse(JSON.stringify(normalizedData)));
-        } else {
-          console.warn("Server response did not contain notificationSettings!");
+    if (data.notificationSettings) {
+      const normalizedData = {
+        notificationSettings: {
+          email: {
+            ticketStatusUpdates: Boolean(data.notificationSettings.email?.ticketStatusUpdates),
+            newAgentResponses: Boolean(data.notificationSettings.email?.newAgentResponses),
+            ticketResolution: Boolean(data.notificationSettings.email?.ticketResolution),
+            marketingUpdates: Boolean(data.notificationSettings.email?.marketingUpdates)
+          },
+          inApp: {
+            desktopNotifications: Boolean(data.notificationSettings.inApp?.desktopNotifications),
+            soundNotifications: Boolean(data.notificationSettings.inApp?.soundNotifications)
+          }
         }
-        
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching preferences:", err);
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+      };
+
+      console.log("Normalized data with original values:", normalizedData);
+
+      setPreferences(normalizedData);
+      setServerPreferences(JSON.parse(JSON.stringify(normalizedData)));
+    } else {
+      console.warn("Server response did not contain notificationSettings!");
+    }
+
+    setLoading(false);
+  } catch (err) {
+    console.error("Error fetching preferences:", err);
+    setError(err.message);
+    setLoading(false);
+  }
+};
+
 
     if (user?.token) {
       fetchPreferences();
@@ -116,35 +106,24 @@ const NotificationSection = () => {
   };
 
   const handleSave = async () => {
-    try {
-      setSaving(true);
-      console.log("Sending preferences to server:", preferences);
-      
-      const res = await fetch("http://localhost:5000/api/users/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-        body: JSON.stringify(preferences),
-      });
+  try {
+    setSaving(true);
+    console.log("Sending preferences to server:", preferences);
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to update preferences");
+    const data = await updateUserProfile(user?.token, preferences);
+    console.log("Save successful, server response:", data);
 
-      console.log("Save successful, server response:", data);
-      
-      // Update serverPreferences to match current preferences
-      setServerPreferences(JSON.parse(JSON.stringify(preferences)));
-      setHasChanges(false);
-      alert("Notification preferences saved successfully!");
-    } catch (err) {
-      console.error("Save error:", err);
-      alert(`Failed to save preferences: ${err.message}`);
-    } finally {
-      setSaving(false);
-    }
-  };
+    setServerPreferences(JSON.parse(JSON.stringify(preferences)));
+    setHasChanges(false);
+    alert("Notification preferences saved successfully!");
+  } catch (err) {
+    console.error("Save error:", err);
+    alert(`Failed to save preferences: ${err.message}`);
+  } finally {
+    setSaving(false);
+  }
+};
+
 
   const handleCancel = () => {
     console.log("Cancelling changes, reverting to server preferences");

@@ -5,6 +5,7 @@ import Button from "../../components/app/Button";
 import Input from "./Input";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { getUserProfile, updateUserProfile } from "../../api/setting";
 
 const ProfileSection = () => {
   const { user } = useAuthContext();
@@ -45,34 +46,25 @@ const ProfileSection = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/users/profile", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Failed to load profile");
-
-        const normalizedData = {
-          firstName: data.firstName || "",
-          lastName: data.lastName || "",
-          email: data.email || "",
-          phoneNumber: data.phoneNumber || "",
-          department: data.department || "-",
-          timeZone: data.timeZone || data.timezone || "-",
-        };
-
-        setServerData(normalizedData);
-        setFormData(normalizedData);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
+  try {
+    const data = await getUserProfile(user?.token);
+    const normalizedData = {
+      firstName: data.firstName || "",
+      lastName: data.lastName || "",
+      email: data.email || "",
+      phoneNumber: data.phoneNumber || "",
+      department: data.department || "-",
+      timeZone: data.timeZone || data.timezone || "-",
     };
+    setServerData(normalizedData);
+    setFormData(normalizedData);
+    setLoading(false);
+  } catch (err) {
+    setError(err.message);
+    setLoading(false);
+  }
+};
+
 
     if (user?.token) {
       fetchProfile();
@@ -82,29 +74,19 @@ const ProfileSection = () => {
   }, [user]);
 
   const handleSave = async () => {
-    try {
-      setSaving(true);
-      const res = await fetch("http://localhost:5000/api/users/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+  try {
+    setSaving(true);
+    await updateUserProfile(user?.token, formData);
+    setServerData({ ...formData });
+    setHasChanges(false);
+    alert("Profile updated successfully!");
+  } catch (err) {
+    alert(`Failed to update profile: ${err.message}`);
+  } finally {
+    setSaving(false);
+  }
+};
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Update failed");
-
-      setServerData({ ...formData });
-      setHasChanges(false);
-      alert("Profile updated successfully!");
-    } catch (err) {
-      alert(`Failed to update profile: ${err.message}`);
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleCancel = () => {
     setFormData({ ...serverData });
