@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MessageInput from "../features/chatbot/MessageInput";
 import ChatMessages from "../features/chatbot/ChatMessages";
+import { ChatbotProvider } from "../contexts/ChatbotContext";
 
 export default function Chatbot() {
   const [message, setMessage] = useState("");
@@ -11,15 +12,17 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex flex-col flex-grow h-full">
-        <ChatMessages />
-        <MessageInput
-          message={message}
-          setMessage={setMessage}
-          handleSubmit={handleSubmit}
-        />
+    <ChatbotProvider>
+      <div className="flex flex-col h-full">
+        <div className="flex flex-col flex-grow h-full">
+          <ChatMessages />
+          <MessageInput
+            message={message}
+            setMessage={setMessage}
+            handleSubmit={handleSubmit}
+          />
+        </div>
       </div>
-    </div>
+    </ChatbotProvider>
   );
 }
