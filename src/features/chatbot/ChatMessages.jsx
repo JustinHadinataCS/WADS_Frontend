@@ -3,13 +3,21 @@ import BotMessage from "./BotMessage";
 import UserMessage from "./UserMessage";
 import BotButtonGroup from "./BotButtonGroup";
 import { useChatbotContext } from "../../contexts/ChatbotContext";
+import { useEffect, useRef } from "react";
 
 export default function ChatMessages() {
   const {
     botMessageHistory,
     botMessageHistoryLoading,
     botMessageHistoryError,
+    newBotMessageLoading
   } = useChatbotContext();
+
+  // Smooth scrolling to the latest chat msg
+  const bottomRef = useRef(null);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [botMessageHistory]);
 
   return (
     <div className="flex-grow overflow-y-auto p-4">
@@ -39,6 +47,9 @@ export default function ChatMessages() {
               {data.response && <BotMessage content={data.response} />}
             </React.Fragment>
           ))}
+        {newBotMessageLoading && <BotMessage content="..."/>}
+        {newBotMessageLoading && <BotMessage content="Server is busy, please try again."/>}
+        <div ref={bottomRef} />
     </div>
   );
 }

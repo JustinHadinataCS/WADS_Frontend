@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 import { newMessage, getMessageHistory } from "../api/chatbot";
 import { useAuthContext } from "./AuthContext";
@@ -7,6 +7,7 @@ const ChatbotContext = createContext();
 
 function ChatbotProvider({ children }){
     const { user } = useAuthContext();
+    const queryClient = useQueryClient();
 
     const botMessageHistoryQuery = useQuery({
         queryKey: ["botMessageHistory"],
@@ -17,7 +18,8 @@ function ChatbotProvider({ children }){
     const newBotMessageMutation = useMutation({
         mutationFn: (messageData) => newMessage(user.token, messageData),
         onSuccess: (data) =>{
-            console.log(data)
+            console.log("data", data)
+            queryClient.invalidateQueries(['botMessageHistory'])
         },
         onError: (error) => console.error(`Error: ${error.message}`),
     })
