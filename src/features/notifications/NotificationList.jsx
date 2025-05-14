@@ -16,14 +16,17 @@ function NotificationList() {
       <h2 className="text-2xl text-gray-800 mb-5">Notifications</h2>
       <div className="bg-white rounded shadow-sm">
         {notifications.map((item, index) => (
-          <NotificationAlert
-            key={index}
-            title={item.title}
-            isRead={item.isRead}
-            timestamp={item.timestamp}
-          >
-            {item.content}
-          </NotificationAlert>
+          <>
+            {" "}
+            <NotificationAlert
+              key={index}
+              title={item.title}
+              isRead={item.isRead}
+              timestamp={item.timestamp}
+            >
+              {item.content}
+            </NotificationAlert>
+          </>
         ))}
       </div>
     </div>

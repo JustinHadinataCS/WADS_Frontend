@@ -3,8 +3,8 @@ import { formatDistanceToNow } from "date-fns";
 
 function NotificationAlert({ isRead, title, timestamp, children }) {
   const typeStyles = {
-    unread: { text: "text-blue-700", bg: "bg-gray-100 border-gray-300" },
-    read: { text: "text-gray-800", bg: "border-gray-300" },
+    read: { text: "text-blue-700", bg: "bg-gray-100 border-gray-300" },
+    unread: { text: "text-gray-800", bg: "border-gray-300" },
   };
 
   const { text, bg } = isRead ? typeStyles.read : typeStyles.unread;
