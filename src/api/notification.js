@@ -6,20 +6,20 @@ const API_BASE_URL = "http://localhost:5000/api/notifications";
  * @returns {Promise<Object>} The response JSON containing all the notifications
  */
 
-export const getNotifications = async (user) => {
-  const res = await fetch(`${API_BASE_URL}/users/${user.id}`, {
+export const getNotifications = async (token) => {
+  const res = await fetch(`${API_BASE_URL}/users/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${user.token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Registration failed");
+    throw new Error(data.message || "Failed getting notifications");
   }
-
+  console.log(data);
   return data;
 };

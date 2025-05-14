@@ -1,7 +1,14 @@
+/* eslint-disable react/prop-types */
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
-import { getGlobalStats, getRecentActivity, getRecentTicketsGlobal, 
-    getAgentPerformance, getResponseTime, getServerUptime } from "../api/dashboard";
+import {
+  getGlobalStats,
+  getRecentActivity,
+  getRecentTicketsGlobal,
+  getAgentPerformance,
+  getResponseTime,
+  getServerUptime,
+} from "../api/dashboard";
 import { useAuthContext } from "./AuthContext";
 
 const AdminDashboardContext = createContext();
@@ -9,45 +16,45 @@ const AdminDashboardContext = createContext();
 function AdminDashboardProvider({ children }) {
   const { user } = useAuthContext();
 
-    const globalStatsQuery = useQuery({
-        queryKey: ["globalStats"],
-        queryFn: () => getGlobalStats(user.token),
-        enabled: !!user.token,
-    });
+  const globalStatsQuery = useQuery({
+    queryKey: ["globalStats"],
+    queryFn: () => getGlobalStats(user.token),
+    enabled: !!user.token,
+  });
 
-    const recentActivityQuery = useQuery({
-        queryKey: ["recentActivity"],
-        queryFn: () => getRecentActivity(user.token),
-        enabled: !!user.token,
-    });
+  const recentActivityQuery = useQuery({
+    queryKey: ["recentActivity"],
+    queryFn: () => getRecentActivity(user.token),
+    enabled: !!user.token,
+  });
 
-    const recentTicketsGlobalQuery = useQuery({
-        queryKey: ["recentTicketsGlobal"],
-        queryFn: () => getRecentTicketsGlobal(user.token),
-        enabled: !!user.token,
-    });
-    
-    const agentPerformanceQuery = useQuery({
-        queryKey: ["agentPerformance"],
-        queryFn: () => getAgentPerformance(user.token),
-        enabled: !!user.token,
-    });
-    
-    const responseTimeQuery = useQuery({
-        queryKey: ["responseTime", "default"],
-        queryFn: () => getResponseTime(user.token),
-        enabled: !!user.token,
-    });
-    
-    const serverUptimeQuery = useQuery({
-        queryKey: ["serverUptime"],
-        queryFn: () => getServerUptime(user.token),
-        enabled: !!user.token,
-    });
-    
+  const recentTicketsGlobalQuery = useQuery({
+    queryKey: ["recentTicketsGlobal"],
+    queryFn: () => getRecentTicketsGlobal(user.token),
+    enabled: !!user.token,
+  });
+
+  const agentPerformanceQuery = useQuery({
+    queryKey: ["agentPerformance"],
+    queryFn: () => getAgentPerformance(user.token),
+    enabled: !!user.token,
+  });
+
+  const responseTimeQuery = useQuery({
+    queryKey: ["responseTime", "default"],
+    queryFn: () => getResponseTime(user.token),
+    enabled: !!user.token,
+  });
+
+  const serverUptimeQuery = useQuery({
+    queryKey: ["serverUptime"],
+    queryFn: () => getServerUptime(user.token),
+    enabled: !!user.token,
+  });
+
   return (
     <AdminDashboardContext.Provider
-    value={{
+      value={{
         globalStats: globalStatsQuery.data,
         globalStatsLoading: globalStatsQuery.isLoading,
         globalStatsError: globalStatsQuery.error,
@@ -77,16 +84,17 @@ function AdminDashboardProvider({ children }) {
         serverUptimeLoading: serverUptimeQuery.isLoading,
         serverUptimeError: serverUptimeQuery.error,
         refetchServerUptime: serverUptimeQuery.refetch,
-    }}
+      }}
     >
-    {children}
+      {children}
     </AdminDashboardContext.Provider>
   );
 }
 
 function useAdminDashboardContext() {
   const context = useContext(AdminDashboardContext);
-  if (!context) throw new Error("AdminDashboardContext is used outside of provider");
+  if (!context)
+    throw new Error("AdminDashboardContext is used outside of provider");
   return context;
 }
 

@@ -10,8 +10,6 @@ function DashboardUserCard({
   handleClick,
   showPopup = false,
 }) {
-  console.log("Below Is show");
-  console.log(showPopup);
   return (
     <div className="w-full max-w-xl h-72 py-6 px-12 bg-white shadow-md rounded-sm flex flex-wrap flex-col items-center justify-between">
       {showPopup && <TicketPopup />}
