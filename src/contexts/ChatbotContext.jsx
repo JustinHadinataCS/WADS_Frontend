@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
-import { getMessageHistory } from "../api/chatbot";
+import { newMessage, getMessageHistory } from "../api/chatbot";
 import { useAuthContext } from "./AuthContext";
 
 const ChatbotContext = createContext();
@@ -10,8 +10,16 @@ function ChatbotProvider({ children }){
 
     const botMessageHistoryQuery = useQuery({
         queryKey: ["botMessageHistory"],
-            queryFn: () => getMessageHistory(user.token),
-            enabled: !!user.token,
+        queryFn: () => getMessageHistory(user.token),
+        enabled: !!user.token,
+    })
+
+    const newBotMessageMutation = useMutation({
+        mutationFn: (messageData) => newMessage(user.token, messageData),
+        onSuccess: (data) =>{
+            console.log(data)
+        },
+        onError: (error) => console.error(`Error: ${error.message}`),
     })
 
     return(
@@ -20,7 +28,12 @@ function ChatbotProvider({ children }){
                 botMessageHistory: botMessageHistoryQuery.data,
                 botMessageHistoryLoading: botMessageHistoryQuery.isLoading,
                 botMessageHistoryError: botMessageHistoryQuery.error,
-                refetchbotMessageHistory: botMessageHistoryQuery.refetch
+                refetchbotMessageHistory: botMessageHistoryQuery.refetch,
+
+                newBotMessage: newBotMessageMutation.mutate,
+                newBotMessageLoading: newBotMessageMutation.isLoading,
+                newBotMessageError: newBotMessageMutation.error,
+                newBotMessageMutation
             }}
         >
             {children}

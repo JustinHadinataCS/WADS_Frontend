@@ -1,6 +1,18 @@
 import { FaArrowUp } from "react-icons/fa";
+import { useState } from "react";
+import { useChatbotContext } from "../../contexts/ChatbotContext";
 
-export default function MessageInput({ message, setMessage, handleSubmit }) {
+export default function MessageInput() {
+    const [message, setMessage] = useState("");
+    const { newBotMessage } = useChatbotContext();
+
+    const handleSubmit = (e) => {
+      if (e) e.preventDefault();
+
+      if(message !== "") newBotMessage({message: message})
+
+      setMessage("");
+    };
     return (
       <div className="bg-white border border-neutral-100 shadow-sm p-6 rounded-md">
         <div className="flex">

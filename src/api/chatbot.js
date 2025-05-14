@@ -6,10 +6,13 @@ const API_BASE_URL = "http://localhost:5000/api/chat";
  * @returns {Promise<Object>} The 
  */
 
-export const newMessage = async (messageData) => {
+export const newMessage = async (token, messageData) => {
   const res = await fetch(`${API_BASE_URL}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(messageData),
   });
 
