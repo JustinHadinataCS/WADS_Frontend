@@ -5,10 +5,10 @@ import TwoFA from "./TwoFA"; // Central logic here
 import Button from "../../components/app/Button";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { getUserProfile, updateUserProfile } from "../../api/setting";
-import ContentToggle from "./ContentToggle";
 
 const SecuritySection = () => {
   const { user } = useAuthContext();
+  const [passwordLastChanged, setPasswordLastChanged] = useState(null);
 
   const [securitySettings, setSecuritySettings] = useState({
     loginAlerts: true,
@@ -25,11 +25,14 @@ const SecuritySection = () => {
     const fetchSecurity = async () => {
       try {
         const data = await getUserProfile(user?.token);
+        setPasswordLastChanged(data.securitySettings?.lastPasswordChange);
 
         const serverData = {
-          loginAlerts: Boolean(data.securitySettings?.loginAlerts),
-          deviceTracking: Boolean(data.securitySettings?.deviceTracking),
-        };
+  loginAlerts: Boolean(data.securitySettings?.loginAlerts),
+  deviceTracking: Boolean(data.securitySettings?.deviceTracking),
+  lastPasswordChange: data.securitySettings?.lastPasswordChange,
+};
+
 
         setSecuritySettings(serverData);
         setServerSettings(JSON.parse(JSON.stringify(serverData)));
@@ -54,28 +57,6 @@ const SecuritySection = () => {
     });
   };
 
-  const handleSave = async () => {
-    try {
-      setSaving(true);
-      await updateUserProfile(user?.token, {
-        securitySettings,
-      });
-      setServerSettings(JSON.parse(JSON.stringify(securitySettings)));
-      setHasChanges(false);
-      alert("Security settings updated successfully!");
-    } catch (err) {
-      console.error("Error saving:", err);
-      alert(`Failed to save: ${err.message}`);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setSecuritySettings(JSON.parse(JSON.stringify(serverSettings)));
-    setHasChanges(false);
-  };
-
   if (loading) return <div className="p-6 text-gray-600">Loading security settings...</div>;
   if (error) return <div className="p-6 text-red-600">Error: {error}</div>;
 
@@ -87,7 +68,7 @@ const SecuritySection = () => {
       </div>
 
       <div className="space-y-6">
-        <PasswordStrength />
+        <PasswordStrength lastChanged={passwordLastChanged} />
 
         {/* TwoFA now manages its own state */}
         <div className="py-4 border-b border-gray-200">
