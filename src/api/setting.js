@@ -40,3 +40,24 @@ export const updateUserProfile = async (token, profileData) => {
 
   return data;
 };
+
+export const uploadPfp = async (token, pfpFile) => {
+  const formData = new FormData();
+  formData.append("pfp", pfpFile);
+
+  const res = await fetch(`${API_BASE_URL}/upload-pfp`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Failed to upload profile picture");
+  }
+
+  const data = await res.json();  // Properly await the response
+  return data;  // Return the data containing the profilePicture URL
+};

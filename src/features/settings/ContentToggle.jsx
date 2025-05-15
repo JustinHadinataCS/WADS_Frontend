@@ -7,7 +7,7 @@ const ContentToggle = ({ text, desc, checked, onChange }) => {
   return (
     <div className="flex justify-between items-center py-2">
       <div className="flex-1 mr-4">
-        <Label text={text} />
+        <Label children={text} />
         <SettingDesc desc={desc} />
       </div>
       <div className="flex-shrink-0">

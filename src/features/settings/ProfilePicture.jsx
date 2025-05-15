@@ -1,16 +1,53 @@
-import SettingDesc from "./SettingDesc";
+import { useState } from "react";
+import { usePfpContext } from "../../contexts/PfpContext";
+import { uploadPfp } from "../../api/setting";
 import ProfileImage from "./ProfileImage";
-import Button from "../../components/app/Button";
-const ProfilePicture = () => {
+import FileUploadButton from "./FileUploadButton";
+
+const ProfilePicture = ({ user }) => {
+  const [uploading, setUploading] = useState(false);
+  const { profilePicture, updatePfp } = usePfpContext();
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+      if (file) {
+    // ✅ Limit file size to 3MB
+    const maxSizeInMB = 3;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    if (file.size > maxSizeInBytes) {
+      alert(`File size exceeds ${maxSizeInMB} MB. Please select a smaller file.`);
+      return;
+    }}
+
+    try {
+      setUploading(true);
+      const response = await uploadPfp(user.token, file);
+      updatePfp(response.profilePicture);  // ✅ Update PfpContext with new URL
+      alert("Profile picture updated!");
+    } catch (err) {
+      alert(`Failed to upload: ${err.message}`);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div className="flex items-center gap-4">
-      <ProfileImage />
+      <ProfileImage src={profilePicture || user?.profilePicture} />
       <div className="flex flex-col">
-        <Button type="clear" className="mb-4">
-          Change Photo
-        </Button>
-
-        <SettingDesc desc="JPG or PNG. Max size 2MB" />
+        <div className="mb-4">
+          <FileUploadButton
+            type="clear"
+            accept="image/png, image/jpeg"
+            onChange={handleFileChange}
+            maxSize="3MB"
+            disabled={uploading}
+          >
+            {uploading ? "Uploading..." : "Change Photo"}
+          </FileUploadButton>
+        </div>
       </div>
     </div>
   );
