@@ -1,14 +1,17 @@
+import { useState, useEffect } from "react";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { getUserProfile, updateUserProfile } from "../../api/setting";
+
 import SettingTitle from "./SettingTitle";
 import ProfilePicture from "./ProfilePicture";
 import SettingDesc from "./SettingDesc";
 import Button from "../../components/app/Button";
 import Input from "./Input";
-import { useState, useEffect } from "react";
-import { useAuthContext } from "../../contexts/AuthContext";
-import { getUserProfile, updateUserProfile } from "../../api/setting";
 
-const ProfileSection = () => {
-  const { user } = useAuthContext();
+import { PfpProvider, usePfpContext } from "../../contexts/PfpContext";
+
+const ProfileSectionContent = ({ user }) => {
+  const { updatePfp } = usePfpContext();
 
   const [serverData, setServerData] = useState({
     firstName: "",
@@ -17,17 +20,10 @@ const ProfileSection = () => {
     phoneNumber: "",
     department: "-",
     timeZone: "-",
+    profilePicture: "",
   });
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    department: "-",
-    timeZone: "-",
-  });
-
+  const [formData, setFormData] = useState({ ...serverData });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -35,10 +31,7 @@ const ProfileSection = () => {
 
   const handleChange = (field) => (value) => {
     setFormData((prev) => {
-      const newData = {
-        ...prev,
-        [field]: value,
-      };
+      const newData = { ...prev, [field]: value };
       setHasChanges(JSON.stringify(newData) !== JSON.stringify(serverData));
       return newData;
     });
@@ -46,47 +39,47 @@ const ProfileSection = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-  try {
-    const data = await getUserProfile(user?.token);
-    const normalizedData = {
-      firstName: data.firstName || "",
-      lastName: data.lastName || "",
-      email: data.email || "",
-      phoneNumber: data.phoneNumber || "",
-      department: data.department || "-",
-      timeZone: data.timeZone || data.timezone || "-",
+      try {
+        const data = await getUserProfile(user?.token);
+        const normalizedData = {
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          email: data.email || "",
+          phoneNumber: data.phoneNumber || "",
+          department: data.department || "-",
+          timeZone: data.timeZone || data.timezone || "-",
+          profilePicture: data.profilePicture || "",
+        };
+        setServerData(normalizedData);
+        setFormData(normalizedData);
+        updatePfp(normalizedData.profilePicture); // ✅ Sync pfp context
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
     };
-    setServerData(normalizedData);
-    setFormData(normalizedData);
-    setLoading(false);
-  } catch (err) {
-    setError(err.message);
-    setLoading(false);
-  }
-};
-
 
     if (user?.token) {
       fetchProfile();
     } else {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, updatePfp]);
 
   const handleSave = async () => {
-  try {
-    setSaving(true);
-    await updateUserProfile(user?.token, formData);
-    setServerData({ ...formData });
-    setHasChanges(false);
-    alert("Profile updated successfully!");
-  } catch (err) {
-    alert(`Failed to update profile: ${err.message}`);
-  } finally {
-    setSaving(false);
-  }
-};
-
+    try {
+      setSaving(true);
+      await updateUserProfile(user?.token, formData);
+      setServerData({ ...formData });
+      setHasChanges(false);
+      alert("Profile updated successfully!");
+    } catch (err) {
+      alert(`Failed to update profile: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleCancel = () => {
     setFormData({ ...serverData });
@@ -108,31 +101,26 @@ const ProfileSection = () => {
       </div>
 
       <div className="mb-8">
-        <ProfilePicture />
+        <ProfilePicture user={user} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <Input value={formData.firstName} onChange={handleChange("firstName")}>
-            First name
-          </Input>
-        </div>
-        <div>
-          <Input value={formData.lastName} onChange={handleChange("lastName")}>
-            Last name
-          </Input>
-        </div>
+        <Input value={formData.firstName} onChange={handleChange("firstName")}>
+          First name
+        </Input>
+        <Input value={formData.lastName} onChange={handleChange("lastName")}>
+          Last name
+        </Input>
       </div>
 
       <div className="mb-6">
-  <Input value={formData.email} readOnly disabled>
-    Email
-  </Input>
-  <p className="text-sm text-gray-500 mt-1">
-    This email will be used for notifications
-  </p>
-</div>
-
+        <Input value={formData.email} readOnly disabled>
+          Email
+        </Input>
+        <p className="text-sm text-gray-500 mt-1">
+          This email will be used for notifications
+        </p>
+      </div>
 
       <div className="mb-6">
         <Input value={formData.phoneNumber} onChange={handleChange("phoneNumber")}>
@@ -175,22 +163,28 @@ const ProfileSection = () => {
       <div className="flex justify-end space-x-4 w-full mt-6">
         <div
           onClick={!saving && hasChanges ? handleCancel : undefined}
-          className={`${
-            !hasChanges || saving ? "pointer-events-none opacity-50" : ""
-          }`}
+          className={`${!hasChanges || saving ? "pointer-events-none opacity-50" : ""}`}
         >
           <Button type="clear">Cancel</Button>
         </div>
         <div
           onClick={!saving && hasChanges ? handleSave : undefined}
-          className={`${
-            !hasChanges || saving ? "pointer-events-none opacity-50" : ""
-          }`}
+          className={`${!hasChanges || saving ? "pointer-events-none opacity-50" : ""}`}
         >
           <Button type="blue-s">{saving ? "Saving..." : "Save changes"}</Button>
         </div>
       </div>
     </div>
+  );
+};
+
+const ProfileSection = () => {
+  const { user } = useAuthContext();
+
+  return (
+    <PfpProvider>
+      <ProfileSectionContent user={user} />
+    </PfpProvider>
   );
 };
 
