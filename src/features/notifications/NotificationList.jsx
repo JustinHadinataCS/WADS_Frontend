@@ -17,7 +17,6 @@ function NotificationList() {
       <div className="bg-white rounded shadow-sm">
         {notifications.map((item, index) => (
           <>
-            {" "}
             <NotificationAlert
               key={index}
               title={item.title}
