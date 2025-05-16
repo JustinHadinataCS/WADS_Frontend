@@ -10,7 +10,7 @@ export default function ChatMessages() {
     botMessageHistory,
     botMessageHistoryLoading,
     botMessageHistoryError,
-    newBotMessageLoading
+    newBotMessagePending
   } = useChatbotContext();
 
   // Smooth scrolling to the latest chat msg
@@ -47,8 +47,19 @@ export default function ChatMessages() {
               {data.response && <BotMessage content={data.response} />}
             </React.Fragment>
           ))}
-        {newBotMessageLoading && <BotMessage content="..."/>}
-        {newBotMessageLoading && <BotMessage content="Server is busy, please try again."/>}
+
+          
+          {newBotMessagePending &&
+          <BotMessage>
+            <div className="w-full flex gap-2">
+              <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce"></div>
+            </div> 
+          </BotMessage>
+          }
+          
+
         <div ref={bottomRef} />
     </div>
   );
