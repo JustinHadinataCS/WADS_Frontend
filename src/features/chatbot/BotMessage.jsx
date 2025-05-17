@@ -1,4 +1,4 @@
-export default function BotMessage({ content, buttons }) {
+export default function BotMessage({ content, buttons, children }) {
     return (
       <div className="flex mb-8">
         <div className="w-8 h-8 rounded-full bg-[#1D3B5C] flex items-center justify-center text-white mr-2">
@@ -9,6 +9,7 @@ export default function BotMessage({ content, buttons }) {
             <p className="text-gray-800">
               {content}
               {buttons}
+              {children}
             </p>
           </div>
         </div>
