@@ -20,6 +20,5 @@ export const getNotifications = async (token) => {
   if (!res.ok) {
     throw new Error(data.message || "Failed getting notifications");
   }
-  console.log(data);
   return data;
 };

@@ -1,134 +1,139 @@
+import { useQuery } from "@tanstack/react-query";
+import { useAuthContext } from "../../contexts/AuthContext";
 import TableLabel from "./TableLabel";
+import getTicketsQueryOptions from "../../queryoptions/getTicketsQuery";
 
 export default function TicketsTable() {
-  const tickets = [
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-    {
-      id: "#12345",
-      category: "MRI Machine Calibration",
-      status: "Pending",
-      dateCreated: "2024-02-09",
-      lastUpdated: "2 days ago",
-    },
-  ];
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //     {
+  //       id: "#12345",
+  //       category: "MRI Machine Calibration",
+  //       status: "Pending",
+  //       dateCreated: "2024-02-09",
+  //       lastUpdated: "2 days ago",
+  //     },
+  //   ];
+  const { user } = useAuthContext();
+  const { data, isLoading } = useQuery(getTicketsQueryOptions(user.token, 1));
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className="w-full max-h-3/4 rounded-md shadow-sm overflow-auto border border-gray-300">
@@ -144,10 +149,10 @@ export default function TicketsTable() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {tickets.map((ticket, index) => (
+          {data.data.map((ticket, index) => (
             <tr key={index}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {ticket.id}
+                {ticket._id}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {ticket.category}
