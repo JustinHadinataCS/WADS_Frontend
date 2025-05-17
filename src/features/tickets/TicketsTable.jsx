@@ -134,6 +134,9 @@ export default function TicketsTable() {
   const { user } = useAuthContext();
   const { data, isLoading } = useQuery(getTicketsQueryOptions(user.token, 1));
   if (isLoading) return <p>Loading...</p>;
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   return (
     <div className="w-full max-h-3/4 rounded-md shadow-sm overflow-auto border border-gray-300">
@@ -159,7 +162,7 @@ export default function TicketsTable() {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-600">
-                  {ticket.status}
+                  {capitalizeFirstLetter(ticket.status)}
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
