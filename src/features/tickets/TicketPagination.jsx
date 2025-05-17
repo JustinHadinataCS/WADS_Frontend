@@ -7,7 +7,11 @@ export default function TicketPagination({ currentPage, setCurrentPage }) {
     <div className="flex rounded-md shadow-sm items-center justify-between p-6 bg-white border border-gray-300">
       <div className="text-sm text-gray-700">Showing 1-3 of 24 tickets</div>
       <div className="flex gap-3">
-        <ArrowButton type="left" setCurrentPage={setCurrentPage} />
+        <ArrowButton
+          type="left"
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
         <PaginationButton
           value={1}
           currentPage={currentPage}
@@ -23,7 +27,10 @@ export default function TicketPagination({ currentPage, setCurrentPage }) {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-        <ArrowButton setCurrentPage={setCurrentPage} />
+        <ArrowButton
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     </div>
   );

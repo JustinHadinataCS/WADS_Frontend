@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
-function ArrowButton({ type = "right", setCurrentPage }) {
+function ArrowButton({ type = "right", setCurrentPage, currentPage }) {
   function handleClick() {
-    if (type === "right") {
+    if (type === "right" && currentPage < 3) {
       setCurrentPage((currentPage) => currentPage + 1);
     }
-    if (type === "left") {
+    if (type === "left" && currentPage > 1) {
       setCurrentPage((currentPage) => currentPage - 1);
     }
   }
