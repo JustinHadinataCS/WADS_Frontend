@@ -1,9 +1,20 @@
 /* eslint-disable react/prop-types */
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
-function ArrowButton({ type = "right" }) {
+function ArrowButton({ type = "right", setCurrentPage }) {
+  function handleClick() {
+    if (type === "right") {
+      setCurrentPage((currentPage) => currentPage + 1);
+    }
+    if (type === "left") {
+      setCurrentPage((currentPage) => currentPage - 1);
+    }
+  }
   return (
-    <button className="px-3 py-1 border border-gray-300 bg-white hover:bg-neutral-200 hover:cursor-pointer text-sm font-medium rounded-md text-gray-700">
+    <button
+      className="px-3 py-1 border border-gray-300 bg-white hover:bg-neutral-200 hover:cursor-pointer text-sm font-medium rounded-md text-gray-700"
+      onClick={handleClick}
+    >
       {type === "left" ? (
         <MdNavigateBefore size={25} />
       ) : (
