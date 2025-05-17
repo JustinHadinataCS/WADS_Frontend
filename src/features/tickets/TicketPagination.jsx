@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 import PaginationButton from "./PaginationButton";
 import ArrowButton from "./ArrowButton";
+import Summary from "./Summary";
 
-export default function TicketPagination({ currentPage, setCurrentPage }) {
+export default function TicketPagination({
+  currentPage,
+  setCurrentPage,
+  data,
+}) {
   return (
     <div className="flex rounded-md shadow-sm items-center justify-between p-6 bg-white border border-gray-300">
-      <div className="text-sm text-gray-700">Showing 1-3 of 24 tickets</div>
+      <Summary data={data} />
       <div className="flex gap-3">
         <ArrowButton
           type="left"

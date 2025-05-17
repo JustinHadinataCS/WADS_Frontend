@@ -17,6 +17,7 @@ export default function Tickets() {
       <TicketFilters />
       <TicketsTable data={data} isLoading={isLoading} />
       <TicketPagination
+        data={data}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
