@@ -167,10 +167,10 @@ export default function TicketsTable() {
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {formatDistanceToNow(ticket.createdAt)}
+                {capitalizeFirstLetter(formatDistanceToNow(ticket.createdAt))}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {formatDistanceToNow(ticket.updatedAt)}
+                {capitalizeFirstLetter(formatDistanceToNow(ticket.updatedAt))}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm">
                 <button className="bg-[#4A81C0] hover:cursor-pointer text-white px-3 py-1 rounded-md font-medium text-xs">
