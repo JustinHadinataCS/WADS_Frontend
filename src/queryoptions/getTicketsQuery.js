@@ -3,7 +3,7 @@ import { getTickets } from "../api/ticket";
 
 function getTicketsQueryOptions(token, currentPage) {
   return queryOptions({
-    queryKey: ["tickets"],
+    queryKey: ["tickets", currentPage],
     queryFn: () => getTickets(token, currentPage),
   });
 }
