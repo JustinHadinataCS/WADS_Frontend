@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../../contexts/AuthContext";
 import TableLabel from "./TableLabel";
 import getTicketsQueryOptions from "../../queryoptions/getTicketsQuery";
+import { formatDistanceToNow } from "date-fns";
 
 export default function TicketsTable() {
   //     {
@@ -166,10 +167,10 @@ export default function TicketsTable() {
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {ticket.dateCreated}
+                {formatDistanceToNow(ticket.createdAt)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {ticket.lastUpdated}
+                {formatDistanceToNow(ticket.updatedAt)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm">
                 <button className="bg-[#4A81C0] hover:cursor-pointer text-white px-3 py-1 rounded-md font-medium text-xs">
