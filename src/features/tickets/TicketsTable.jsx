@@ -3,135 +3,9 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import TableLabel from "./TableLabel";
 import getTicketsQueryOptions from "../../queryoptions/getTicketsQuery";
 import { formatDistanceToNow } from "date-fns";
+import { parseISO, format } from "date-fns";
 
 export default function TicketsTable() {
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //     {
-  //       id: "#12345",
-  //       category: "MRI Machine Calibration",
-  //       status: "Pending",
-  //       dateCreated: "2024-02-09",
-  //       lastUpdated: "2 days ago",
-  //     },
-  //   ];
   const { user } = useAuthContext();
   const { data, isLoading } = useQuery(getTicketsQueryOptions(user.token, 1));
   if (isLoading) return <p>Loading...</p>;
@@ -144,7 +18,6 @@ export default function TicketsTable() {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-white border-b border-gray-300">
           <tr>
-            <TableLabel text="Ticket ID" />
             <TableLabel text="Category" />
             <TableLabel text="Status" />
             <TableLabel text="Date Created" />
@@ -164,7 +37,7 @@ export default function TicketsTable() {
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {capitalizeFirstLetter(formatDistanceToNow(ticket.createdAt))}
+                {format(parseISO(ticket.createdAt), "yyyy-MM-dd")}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {capitalizeFirstLetter(formatDistanceToNow(ticket.updatedAt))}
