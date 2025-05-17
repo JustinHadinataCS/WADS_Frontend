@@ -1,13 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { useAuthContext } from "../../contexts/AuthContext";
+/* eslint-disable react/prop-types */
 import TableLabel from "./TableLabel";
-import getTicketsQueryOptions from "../../queryoptions/getTicketsQuery";
 import { formatDistanceToNow } from "date-fns";
 import { parseISO, format } from "date-fns";
 
-export default function TicketsTable() {
-  const { user } = useAuthContext();
-  const { data, isLoading } = useQuery(getTicketsQueryOptions(user.token, 1));
+export default function TicketsTable({ isLoading, data }) {
   if (isLoading) return <p>Loading...</p>;
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
