@@ -156,9 +156,6 @@ export default function TicketsTable() {
           {data.data.map((ticket, index) => (
             <tr key={index}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {ticket._id}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {ticket.category}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
