@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 function ReplyBox({ reply, setReply }) {
   return (
     <div className="border-t pt-4 border-[#DDDDDD]">
