@@ -13,7 +13,7 @@ import ForumPage from "./pages/ForumPage";
 import SignUpPage from "./pages/SignUpPage";
 import Chatbot from "./pages/Chatbot";
 import LoginPage from "./pages/LoginPage";
-import TicketDetailsPage from "./pages/TicketDetailsPage";
+import Tickets from "./pages/Tickets";
 
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { path: "/dashboard", element: <Dashboard /> },
-      { path: "/tickets", element: <TicketDetailsPage /> },
+      { path: "/tickets", element: <Tickets /> },
       { path: "/notifications", element: <NotificationsPage /> },
       { path: "/settings", element: <Setting /> },
       { path: "/forum", element: <ForumPage /> },
