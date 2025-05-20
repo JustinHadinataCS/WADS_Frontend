@@ -3,10 +3,15 @@ import TableLabel from "./TableLabel";
 import { formatDistanceToNow } from "date-fns";
 import { parseISO, format } from "date-fns";
 
-export default function TicketsTable({ isLoading, data }) {
-  if (isLoading) return <p>Loading...</p>;
+export default function TicketsTable({ data }) {
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const statusColors = {
+    'pending':'bg-yellow-100 text-yellow-600',
+    'resolved':'bg-green-100 text-green-600',
+    'in_progress':'bg-blue-100 text-blue-600'
   }
 
   return (
@@ -28,7 +33,9 @@ export default function TicketsTable({ isLoading, data }) {
                 {ticket.category}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-600">
+                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                  statusColors[ticket.status]
+                }`}>
                   {capitalizeFirstLetter(ticket.status)}
                 </span>
               </td>

@@ -8,6 +8,9 @@ export default function TicketPagination({
   setCurrentPage,
   data,
 }) {
+
+  const pageNumbers = [...Array(data.totalPages).keys()].map(i => i + 1)
+
   return (
     <div className="flex rounded-md shadow-sm items-center justify-between p-6 bg-white border border-gray-300">
       <Summary data={data} />
@@ -17,21 +20,13 @@ export default function TicketPagination({
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-        <PaginationButton
-          value={1}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        <PaginationButton
-          value={2}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        <PaginationButton
-          value={3}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        {pageNumbers.map((page) => 
+          <PaginationButton
+            value={page}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
         <ArrowButton
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

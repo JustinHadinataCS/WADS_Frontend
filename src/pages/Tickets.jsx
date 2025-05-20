@@ -12,10 +12,13 @@ export default function Tickets() {
   const { data, isLoading } = useQuery(
     getTicketsQueryOptions(user.token, currentPage)
   );
+
+  if (isLoading) return <p>Loading...</p>
+  
   return (
     <div className="flex flex-col gap-6 w-full h-full">
       <TicketFilters />
-      <TicketsTable data={data} isLoading={isLoading} />
+      <TicketsTable data={data}/>
       <TicketPagination
         data={data}
         currentPage={currentPage}
