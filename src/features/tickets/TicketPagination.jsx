@@ -19,6 +19,7 @@ export default function TicketPagination({
           type="left"
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          data={data}
         />
         {pageNumbers.map((page) => 
           <PaginationButton
@@ -30,6 +31,7 @@ export default function TicketPagination({
         <ArrowButton
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          data={data}
         />
       </div>
     </div>
