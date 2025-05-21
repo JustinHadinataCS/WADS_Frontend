@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import TableLabel from "./TableLabel";
 import { NavLink } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns";
-import { parseISO, format } from "date-fns";
+import { parseISO, format, formatDistanceToNow } from "date-fns";
 
 export default function TicketsTable({ data }) {
   function capitalizeFirstLetter(string) {

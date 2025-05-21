@@ -7,7 +7,7 @@ const API_BASE_URL = "http://localhost:5000/api/dashboard";
  * @returns {Promise<Object>} The response JSON containing recent user tickets
  */
 export const getUserRecentTickets = async (token) => {
-  const res = await fetch(`${API_BASE_URL}/recent-user-tickets`, {
+  const res = await fetch(`${API_BASE_URL}/recent-user-ticket`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

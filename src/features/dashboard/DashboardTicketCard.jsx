@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import CardTitle from "./CardTitle";
 import DashboardTicketContent from "./DashboardTicketContent";
 
-function DashboardTicketCard({ role }) {
+function DashboardTicketCard({ data }) {
   return (
     <div className="bg-white w-full rounded-sm shadow-md border border-neutral-200">
       <CardTitle title="Recent Tickets">
@@ -11,7 +11,7 @@ function DashboardTicketCard({ role }) {
           View All
         </NavLink>
       </CardTitle>
-      <DashboardTicketContent role={role} />
+      <DashboardTicketContent data={data} />
     </div>
   );
 }

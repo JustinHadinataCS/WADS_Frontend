@@ -1,20 +1,34 @@
 import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard"
 import DashboardUserCard from "../../features/dashboard/User/DashboardUserCard";
+import getUserRecentOptions from "../../queryoptions/getUserRecentTicketQuery"
+import { useAuthContext } from "../../contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 import { CiCirclePlus } from "react-icons/ci";
 import { PiBookOpenText } from "react-icons/pi";
 import { MdOutlinePhoneEnabled } from "react-icons/md";
 import { useState } from "react";
 
 function UserDashboard() {
+
+  // Ticket Popup
   const [showPopup, setShowPopup] = useState(false);
   function handlePopup() {
     setShowPopup((showPopup) => !showPopup);
   }
 
+  // Recent ticket data
+  const { user } = useAuthContext();
+  const { data, isLoading } = useQuery(
+    getUserRecentOptions(user.token)
+  )
+
+  // Wait for data to finish loading
+  if (isLoading) return <p>Loading...</p>
+
   return (
     <div className="grid grid-rows-2 gap-12">
       <div>
-        <DashboardTicketCard role="user"/>
+        <DashboardTicketCard data={data}/>
       </div>
       <div className="columns-3 gap-12">
         <DashboardUserCard
