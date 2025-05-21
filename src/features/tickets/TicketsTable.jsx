@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import TableLabel from "./TableLabel";
+import { NavLink } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { parseISO, format } from "date-fns";
 
@@ -44,12 +45,12 @@ export default function TicketsTable({ data }) {
                 {format(parseISO(ticket.createdAt), "yyyy-MM-dd")}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {capitalizeFirstLetter(formatDistanceToNow(ticket.updatedAt))}
+                {capitalizeFirstLetter(formatDistanceToNow(ticket.updatedAt))} ago
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm">
-                <button className="bg-[#4A81C0] hover:cursor-pointer text-white px-3 py-1 rounded-md font-medium text-xs">
+                <NavLink to={`/tickets/${ticket._id}`} className="bg-[#4A81C0] hover:cursor-pointer text-white px-3 py-1 rounded-md font-medium text-xs">
                   View
-                </button>
+                </NavLink>
               </td>
             </tr>
           )):

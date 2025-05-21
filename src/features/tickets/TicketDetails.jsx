@@ -1,4 +1,4 @@
-function TicketDetails() {
+function TicketDetails({data, capitalize}) {
   return (
     <div className="col-span-2 space-y-5">
       <div className="bg-white p-5 rounded-md shadow-md">
@@ -7,16 +7,16 @@ function TicketDetails() {
         </h3>
         <div className="space-y-1 text-sm">
           <p>
-            <strong className="text-base">Category:</strong> Equipment Issue
+            <strong className="text-base">Category:</strong> {data.category}
           </p>
           <p>
-            <strong className="text-base">Department:</strong> Radiology
+            <strong className="text-base">Department:</strong> {data.department}
           </p>
           <p>
-            <strong className="text-base">Equipment:</strong> MRI Scanner
+            <strong className="text-base">Equipment:</strong> {data.equipment.name}
           </p>
           <p className="text-red-600">
-            <strong className="text-base text-black">Priority:</strong> High
+            <strong className="text-base text-black">Priority:</strong> {capitalize(data.priority)}
           </p>
         </div>
       </div>

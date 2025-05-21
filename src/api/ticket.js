@@ -14,7 +14,24 @@ export const getTickets = async (token, currentPage) => {
   if (!res.ok) {
     throw new Error(data.message || "Failed getting tickets");
   }
-  console.log("Tickets");
-  console.log(data);
+  return data;
+};
+
+export const getTicketsByID = async (token, ID) => {
+  const res = await fetch(`${API_BASE_URL}/${ID}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed getting individual ticket");
+  }
+
+  console.log("data", data)
   return data;
 };
