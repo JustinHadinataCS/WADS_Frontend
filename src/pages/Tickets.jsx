@@ -7,18 +7,56 @@ import getTicketsQueryOptions from "../queryoptions/getTicketsQuery";
 import { useState } from "react";
 
 export default function Tickets() {
+
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
+
+  // User and ticket data
   const { user } = useAuthContext();
   const { data, isLoading } = useQuery(
     getTicketsQueryOptions(user.token, currentPage)
   );
 
+  // Search Querying and Filtering
+  const [filter, setFilter] = useState("all")
+  const [keyword, setKeyword] = useState("")
+  const [filteredTickets, setFilteredTickets] = useState(null)
+
+  function handleApplyFilter(){
+    const filtered = data.data.filter((ticket) => {
+      if(filter === "all") return true
+      else return ticket.status === filter
+    })
+
+    if (keyword){
+      const filteredWithKeyword = filtered.filter((ticket) => {
+        return (
+          ticket.title.toLowerCase().includes(keyword.toLowerCase()) ||
+          ticket.description.toLowerCase().includes(keyword.toLowerCase()) ||
+          ticket.category.toLowerCase().includes(keyword.toLowerCase()) ||
+          ticket.department.toLowerCase().includes(keyword.toLowerCase())
+        )
+      }) 
+      setFilteredTickets(filteredWithKeyword)
+    } 
+
+    else {
+      setFilteredTickets(filtered)
+    }
+  }
+
+  // Wait for data to finish loading
   if (isLoading) return <p>Loading...</p>
   
   return (
     <div className="flex flex-col gap-6 w-full h-full">
-      <TicketFilters />
-      <TicketsTable data={data}/>
+      <TicketFilters 
+        setFilter={setFilter}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        applyFilter={handleApplyFilter}
+      />
+      <TicketsTable data={filteredTickets ? filteredTickets : data.data}/>
       <TicketPagination
         data={data}
         currentPage={currentPage}

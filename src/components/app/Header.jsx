@@ -18,7 +18,6 @@ function Header() {
     <div className="flex justify-between bg-white text-[#424242]  p-6  border-b-[1.5px] border-[#E5E5E5]">
       <PageTitle title={pageName} />
       <div className="flex justify-center items-center gap-x-4 select-none">
-        <NotificationButton />
         <UserName user={user} />
         <ProfileButton user={user} />
       </div>

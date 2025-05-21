@@ -15,7 +15,7 @@ export default function TicketsTable({ data }) {
   }
 
   return (
-    <div className="w-full max-h-3/4 rounded-md shadow-sm overflow-auto border border-gray-300">
+    <div className="w-full flex-grow rounded-md shadow-sm overflow-auto bg-white border border-gray-300">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-white border-b border-gray-300">
           <tr>
@@ -27,7 +27,8 @@ export default function TicketsTable({ data }) {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data.data.map((ticket, index) => (
+          {data.length !== 0? 
+           data.map((ticket, index) => (
             <tr key={index}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {ticket.category}
@@ -51,7 +52,11 @@ export default function TicketsTable({ data }) {
                 </button>
               </td>
             </tr>
-          ))}
+          )):
+            <tr> 
+              <td colspan="5" className="w-full h-24 text-lg text-center text-neutral-400">No results</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
