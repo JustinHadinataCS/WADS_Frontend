@@ -38,11 +38,11 @@ export default function DashboardTicketContent({ data }) {
             {data.recentTickets.map((item) => (
               <tr key={item.ID}>
                 {user.role === "agent" && <td>{item.submittedBy}</td>}
-                {user.role === "user" && <td>{item.assignedTo}</td>}
+                {user.role === "user" && <td>{item.assignedTo.firstName} {item.assignedTo.lastName[0]}.</td>}
                 {user.role === "admin" && (
                   <>
                     <td>{item.submittedBy}</td>
-                    <td>{item.assignedTo}</td>
+                    <td>{item.assignedTo.firstName} {item.assignedTo.lastName[0]}.</td>
                   </>
                 )}
                 <td>{item.category}</td>

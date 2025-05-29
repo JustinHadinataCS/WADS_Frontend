@@ -26,7 +26,7 @@ function UserDashboard() {
     <div className="grid grid-rows-2 gap-12">
       <div>
         <DashboardTicketCard data={data} />
-      </div>
+      </div> 
       <div className="columns-3 gap-12">
         <DashboardUserCard
           buttontext="Create Ticket"
