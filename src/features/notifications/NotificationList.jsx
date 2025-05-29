@@ -6,7 +6,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 function NotificationList() {
   const { user } = useAuthContext();
   const { data: notifications, isLoading } = useQuery(
-    getNotificationsQueryOptions(user.token)
+    getNotificationsQueryOptions(user.accessToken)
   );
 
   if (isLoading) return <div>Loading</div>;
