@@ -37,7 +37,7 @@ export default function DashboardTicketContent({ data }) {
           <tbody className="bg-white">
             {data.recentTickets.map((item) => (
               <tr key={item.ID}>
-                {user.role === "agent" && <td>{item.submittedBy}</td>}
+                {user.role === "agent" && <td>{item.submittedBy.firstName} {item.submittedBy.lastName[0]}.</td>}
                 {user.role === "user" && <td>{item.assignedTo.firstName} {item.assignedTo.lastName[0]}.</td>}
                 {user.role === "admin" && (
                   <>
