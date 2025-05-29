@@ -55,23 +55,23 @@ export const getAgentStats = async (token) => {
  * @returns {Promise<Object>} The response JSON containing ticket status for the logged in agent
  */
 export const getAgentTicketStatus = async (token) => {
-    const res = await fetch(`${API_BASE_URL}/agent/ticket-status`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  
-    const data = await res.json();
-  
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch agent ticket status");
-    }
-  
-    return data;
-  };
-  
+  const res = await fetch(`${API_BASE_URL}/agent/ticket-status`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to fetch agent ticket status");
+  }
+
+  return data;
+};
+
 /**
  * Fetch recent tickets for an agent
  * @param {string} token - The authentication token
@@ -94,7 +94,6 @@ export const getAgentRecentTickets = async (token) => {
 
   return data;
 };
-
 
 // ADMIN DASHBOARD
 
@@ -161,7 +160,9 @@ export const getRecentTicketsGlobal = async (token) => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Failed to fetch global recent ticket information");
+    throw new Error(
+      data.message || "Failed to fetch global recent ticket information"
+    );
   }
 
   return data;
@@ -170,7 +171,7 @@ export const getRecentTicketsGlobal = async (token) => {
 /**
  * Fetch overall agent performance
  * @param {string} token - The authentication token
- * @returns {Promise<Object>} The response JSON containing overall agent performance 
+ * @returns {Promise<Object>} The response JSON containing overall agent performance
  */
 export const getAgentPerformance = async (token) => {
   const res = await fetch(`${API_BASE_URL}/agent-performance`, {
@@ -184,7 +185,9 @@ export const getAgentPerformance = async (token) => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Failed to fetch overall agent performance");
+    throw new Error(
+      data.message || "Failed to fetch overall agent performance"
+    );
   }
 
   return data;
@@ -196,7 +199,6 @@ export const getAgentPerformance = async (token) => {
  * @returns {Promise<Object>} The response JSON containing system response times
  */
 export const getResponseTime = async (token) => {
-
   const res = await fetch(`${API_BASE_URL}/response-time`, {
     method: "GET",
     headers: {
@@ -208,7 +210,9 @@ export const getResponseTime = async (token) => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Failed to fetch system response time logs");
+    throw new Error(
+      data.message || "Failed to fetch system response time logs"
+    );
   }
 
   return data;
