@@ -15,7 +15,7 @@ function AuthForm({
 }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-2 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 ">
         <AuthFormContext.Provider
           value={{ handleSubmit, handleChange, validateForm, formData, errors }}
         >
@@ -52,7 +52,7 @@ function GoogleLogin({ onClick }) {
   return (
     <div className="mb-4">
       <button
-        className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-50 transition-colors cursor-pointer"
         onClick={onClick}
       >
         <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -82,8 +82,8 @@ function ContinueButton({ textContent }) {
   const { handleSubmit } = useContext(AuthFormContext);
   return (
     <button
-      onClick={ handleSubmit }
-      className="w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 mt-4"
+      onClick={handleSubmit}
+      className="w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 mt-4"
     >
       {textContent}
     </button>
