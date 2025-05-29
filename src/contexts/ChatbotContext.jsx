@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import { newMessage, getMessageHistory } from "../api/chatbot";
 import { useAuthContext } from "./AuthContext";
 
@@ -16,7 +16,7 @@ function ChatbotProvider({ children }) {
   });
 
   const newBotMessageMutation = useMutation({
-    mutationFn: (messageData) => newMessage(user.token, messageData),
+    mutationFn: (messageData) => newMessage(user.accessToken, messageData),
     onSuccess: () => queryClient.invalidateQueries(["botMessageHistory"]),
     onError: (error) => console.error(`Error: ${error.message}`),
   });
