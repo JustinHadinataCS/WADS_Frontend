@@ -36,7 +36,7 @@ function ProfileSectionContent() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await getUserProfile(user?.token);
+        const data = await getUserProfile(user?.accessToken);
         const normalizedData = {
           firstName: data.firstName || "",
           lastName: data.lastName || "",
@@ -56,7 +56,7 @@ function ProfileSectionContent() {
       }
     };
 
-    if (user?.token) {
+    if (user?.accessToken) {
       fetchProfile();
     } else {
       setLoading(false);
@@ -66,7 +66,7 @@ function ProfileSectionContent() {
   const handleSave = async () => {
     try {
       setSaving(true);
-      await updateUserProfile(user?.token, formData);
+      await updateUserProfile(user?.accessToken, formData);
       setServerData({ ...formData });
       setHasChanges(false);
       alert("Profile updated successfully!");
