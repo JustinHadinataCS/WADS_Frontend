@@ -18,38 +18,38 @@ function AdminDashboardProvider({ children }) {
 
   const globalStatsQuery = useQuery({
     queryKey: ["globalStats"],
-    queryFn: () => getGlobalStats(user.token),
-    enabled: !!user.token,
+    queryFn: () => getGlobalStats(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   const recentActivityQuery = useQuery({
     queryKey: ["recentActivity"],
-    queryFn: () => getRecentActivity(user.token),
-    enabled: !!user.token,
+    queryFn: () => getRecentActivity(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   const recentTicketsGlobalQuery = useQuery({
     queryKey: ["recentTicketsGlobal"],
-    queryFn: () => getRecentTicketsGlobal(user.token),
-    enabled: !!user.token,
+    queryFn: () => getRecentTicketsGlobal(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   const agentPerformanceQuery = useQuery({
     queryKey: ["agentPerformance"],
-    queryFn: () => getAgentPerformance(user.token),
-    enabled: !!user.token,
+    queryFn: () => getAgentPerformance(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   const responseTimeQuery = useQuery({
     queryKey: ["responseTime", "default"],
-    queryFn: () => getResponseTime(user.token),
-    enabled: !!user.token,
+    queryFn: () => getResponseTime(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   const serverUptimeQuery = useQuery({
     queryKey: ["serverUptime"],
-    queryFn: () => getServerUptime(user.token),
-    enabled: !!user.token,
+    queryFn: () => getServerUptime(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   return (
