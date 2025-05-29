@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getUserRecentTickets, getAgentRecentTickets } from "../api/dashboard";
+import { getUserRecentTickets, getAgentRecentTickets, getRecentTicketsGlobal } from "../api/dashboard";
 
 function getUserRecentOptions(token) {
   return queryOptions({
@@ -15,4 +15,11 @@ function getAgentRecentOptions(token) {
   });
 }
 
-export { getUserRecentOptions, getAgentRecentOptions };
+function getAdminRecentOptions(token) {
+  return queryOptions({
+    queryKey: ["global-recent-tickets"],
+    queryFn: () => getRecentTicketsGlobal(token),
+  });
+}
+
+export { getUserRecentOptions, getAgentRecentOptions, getAdminRecentOptions };

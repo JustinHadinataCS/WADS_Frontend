@@ -6,6 +6,9 @@ import RecentActivityCard from "../../features/dashboard/Admin/RecentActivityCar
 import PerformanceMetricsCard from "../../features/dashboard/Admin/PerformanceMetricsCard"
 import AgentPerformanceCard from "../../features/dashboard/Admin/AgentPerformanceCard"
 import { useAdminDashboardContext } from "../../contexts/AdminDashboardContext"
+import { getAdminRecentOptions } from "../../queryoptions/getRecentTicketQuery";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 
 export default function AdminDashboard(){
     const { globalStats, recentActivity, recentTicketsGlobal, agentPerformance, responseTime, serverUptime } = useAdminDashboardContext();
@@ -34,6 +37,15 @@ export default function AdminDashboard(){
     const tempRecentActivity = [
         "..."
     ]
+
+      // Recent ticket data
+    const { user } = useAuthContext();
+    const { data, isLoading } = useQuery(getAdminRecentOptions(user.accessToken));
+
+    console.log(data)
+
+    // Wait for data to finish loading
+    if (isLoading) return <p>Loading...</p>;
       
     return(
         <div className="grid grid-rows-3 gap-6">
@@ -44,7 +56,7 @@ export default function AdminDashboard(){
             </div>
 
             <div className="grid grid-cols-[2fr_1fr] gap-6">
-                <div><DashboardTicketCard role="admin"/></div>
+                <div><DashboardTicketCard data={data}/></div>
                 <div><RecentActivityCard data={recentActivity || tempRecentActivity}/></div>
             </div>
 

@@ -41,7 +41,7 @@ export default function DashboardTicketContent({ data }) {
                 {user.role === "user" && <td>{item.assignedTo.firstName} {item.assignedTo.lastName[0]}.</td>}
                 {user.role === "admin" && (
                   <>
-                    <td>{item.submittedBy}</td>
+                    <td>{item.submittedBy.firstName} {item.submittedBy.lastName[0]}.</td>
                     <td>{item.assignedTo.firstName} {item.assignedTo.lastName[0]}.</td>
                   </>
                 )}
