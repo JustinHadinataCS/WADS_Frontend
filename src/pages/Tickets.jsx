@@ -26,6 +26,7 @@ export default function Tickets() {
       if (filter === "all") return true;
       else return ticket.status === filter;
     });
+    console.log(data.data);
 
     if (keyword) {
       const filteredWithKeyword = filtered.filter((ticket) => {
