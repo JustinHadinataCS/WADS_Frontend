@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getNotifications } from "../api/notification";
+import { getNotifications, getAdminNotifications } from "../api/notification";
 
 function getNotificationsQueryOptions(token) {
   return queryOptions({
@@ -8,4 +8,11 @@ function getNotificationsQueryOptions(token) {
   });
 }
 
-export default getNotificationsQueryOptions;
+function getAdminNotificationsQueryOptions(token) {
+  return queryOptions({
+    queryKey: ["notifications"],
+    queryFn: () => getAdminNotifications(token),
+  });
+}
+
+export { getNotificationsQueryOptions, getAdminNotificationsQueryOptions};

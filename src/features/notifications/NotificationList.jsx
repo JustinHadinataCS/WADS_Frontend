@@ -1,13 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import NotificationAlert from "./NotificationAlert";
-import getNotificationsQueryOptions from "../../queryoptions/getNotificationsQuery";
+import {getNotificationsQueryOptions, getAdminNotificationsQueryOptions} from "../../queryoptions/getNotificationsQuery";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 function NotificationList() {
   const { user } = useAuthContext();
-  const { data: notifications, isLoading } = useQuery(
-    getNotificationsQueryOptions(user.accessToken)
-  );
+
+  let notifications, isLoading;
+
+  if (user.role === "admin") {
+    ({ data: notifications, isLoading } = useQuery(
+      getAdminNotificationsQueryOptions(user.accessToken)
+    ));
+  } else {
+    ({ data: notifications, isLoading } = useQuery(
+      getNotificationsQueryOptions(user.accessToken)
+    ));
+  }
 
   if (isLoading) return <div>Loading</div>;
 
