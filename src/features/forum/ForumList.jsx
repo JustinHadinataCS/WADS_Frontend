@@ -1,24 +1,44 @@
+import { useQuery } from "@tanstack/react-query";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { getUserRoomsQueryOptions } from "../../queryoptions/getForumQuery";
 import ChatHeader from "./ChatHeader";
 import Message from "./Message";
 
 function ForumList() {
-  const chats = [
-    { id: 1, title: "Public Chat", unreadCount: 3, active: false },
-    { id: 2, title: "Agent 2", unreadCount: 0, active: true },
-  ];
+  const { user } = useAuthContext();
+  const {
+    data: rooms,
+    isLoading,
+    error,
+  } = useQuery(getUserRoomsQueryOptions(user.accessToken));
+
+  if (isLoading)
+    return (
+      <div className="w-80 bg-white border border-[#D5D5D5] h-full rounded-md p-4">
+        Loading rooms...
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="w-80 bg-white border border-[#D5D5D5] h-full rounded-md p-4">
+        Error loading rooms: {error.message}
+      </div>
+    );
 
   return (
     <div className="w-80 bg-white border border-[#D5D5D5] h-full rounded-md">
       <ChatHeader />
       <div className="divide-y">
-        {chats.map((chat) => (
-          <Message
-            key={chat.id}
-            active={chat.active}
-            title={chat.title}
-            unreadCount={chat.unreadCount}
-          />
-        ))}
+        {rooms &&
+          rooms.map((room) => (
+            <Message
+              key={room._id}
+              active={room.active}
+              title={room.name || `Chat ${room._id}`}
+              unreadCount={room.unreadCount || 0}
+            />
+          ))}
       </div>
     </div>
   );
