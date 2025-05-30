@@ -40,7 +40,11 @@ export default function DashboardTicketContent({ data }) {
                     {item.submittedBy.firstName} {item.submittedBy.lastName[0]}.
                   </td>
                 )}
-                {user.role === "user" && <td></td>}
+                {user.role === "user" && (
+                  <td>
+                    {item.assignedTo.firstName} {item.assignedTo.lastName[0]}.
+                  </td>
+                )}
                 {user.role === "admin" && (
                   <>
                     <td>
