@@ -23,7 +23,7 @@ const ProfilePicture = ({ user }) => {
 
     try {
       setUploading(true);
-      const response = await uploadPfp(user.token, file);
+      const response = await uploadPfp(user.accessToken, file);
       updatePfp(response.profilePicture);  // ✅ Update PfpContext with new URL
       alert("Profile picture updated!");
     } catch (err) {

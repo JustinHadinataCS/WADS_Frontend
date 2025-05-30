@@ -42,8 +42,6 @@ export default function AdminDashboard(){
     const { user } = useAuthContext();
     const { data, isLoading } = useQuery(getAdminRecentOptions(user.accessToken));
 
-    console.log(data)
-
     // Wait for data to finish loading
     if (isLoading) return <p>Loading...</p>;
       
