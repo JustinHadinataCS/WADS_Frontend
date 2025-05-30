@@ -1,0 +1,18 @@
+const API_BASE_URL = "http://localhost:5000/api/users";
+
+export const getUsers = async (token, currentPage) => {
+  const res = await fetch(`${API_BASE_URL}?page=${currentPage}&limit=10`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed getting tickets");
+  }
+  return data;
+};

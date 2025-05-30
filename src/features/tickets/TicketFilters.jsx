@@ -10,7 +10,7 @@ export default function TicketFilters({
       <div>
         <select
           onChange={(e) => setFilter(e.target.value)}
-          className="h-10 px-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#4A81C0] font-['Poppins']"
+          className="h-10 px-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#4A81C0] font-['Poppins'] hover:cursor-pointer"
         >
           <option value="all">All Tickets</option>
           <option value="pending">Pending</option>
@@ -31,7 +31,7 @@ export default function TicketFilters({
 
       <button
         type="button"
-        className="h-10 px-4 py-2 text-sm text-white bg-[#4A81C0] rounded-md hover:bg-[#3a6da3] focus:outline-none font-['Poppins']"
+        className="h-10 px-4 py-2 text-sm text-white bg-[#4A81C0] rounded-md hover:bg-[#3a6da3] focus:outline-none font-['Poppins'] hover:cursor-pointer"
         onClick={applyFilter}
       >
         Apply Filter

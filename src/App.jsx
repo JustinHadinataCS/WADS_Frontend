@@ -15,6 +15,7 @@ import Chatbot from "./pages/Chatbot";
 import LoginPage from "./pages/LoginPage";
 import Tickets from "./pages/Tickets";
 import TicketDetailsPage from "./pages/TicketDetailsPage";
+import UserManagement from "./pages/UserManagement"
 import Logout from "./features/auth/Logout"
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
       { path: "/forum", element: <ForumPage /> },
       { path: "/signup", element: <SignUpPage /> },
       { path: "/chatbot", element: <Chatbot /> },
+      { path: "/user-management", element: <UserManagement/>},
       { path: "/logout", element: <Logout /> },
     ],
   },
