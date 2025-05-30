@@ -6,12 +6,12 @@ function Logout() {
   const { user, logoutFunc } = useAuthContext();
   const navigate = useNavigate();
 
-  console.log("aa")
-
   useEffect(() => {
-    logoutFunc(user.accessToken);              // Clear user and tokens
-    navigate("/login");      // Redirect to login page
-  }, [logoutFunc, navigate]);
+    const token = user.accessToken;
+
+    logoutFunc(token);              
+    navigate("/login");     
+  }, []);
 
   return <p>Logging out...</p>;
 }

@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-// NavigateOnSuccess.tsx
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../contexts/AuthContext"
 
 const NavigateOnSuccess = ({ mutation }) => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    if (mutation.isSuccess) {
+    if (mutation.isSuccess && user) {
       navigate("/dashboard");
     }
   }, [mutation.isSuccess, navigate]);
