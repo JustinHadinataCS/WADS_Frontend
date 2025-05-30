@@ -9,9 +9,9 @@ export default function PerformanceMetricsCard(){
     const { responseTime, responseTimeLoading, responseTimeError, 
         serverUptime, serverUptimeLoading, serverUptimeError } = useAdminDashboardContext();
 
-    const placeholderOptions = ["Response Time", "System Uptime"]
+    const options = [{label:"Response Time", value:"Response Time"}, {label:"System Uptime", value:"System Uptime"}]
 
-    const [selectedOption, setSelectedOption] = useState(placeholderOptions[0])
+    const [selectedOption, setSelectedOption] = useState(options[0].value)
 
     const handleOptionChange = (newOption) => {
         setSelectedOption(newOption);
@@ -20,7 +20,7 @@ export default function PerformanceMetricsCard(){
     return(
         <div className="bg-white rounded-sm shadow-md border border-neutral-200">
             <CardTitle title="Performance Metrics">
-                <AdminDropdown options={placeholderOptions} onChange={handleOptionChange}/>
+                <AdminDropdown options={options} onChange={handleOptionChange}/>
             </CardTitle>
             {selectedOption === "Response Time" && (
                 <>
