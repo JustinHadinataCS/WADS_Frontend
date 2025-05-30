@@ -48,10 +48,11 @@ export default function DashboardTicketContent({ data }) {
                 {user.role === "admin" && (
                   <>
                     <td>
-                      {item.submittedBy.firstName}{" "}
-                      {item.submittedBy.lastName[0]}.
+                      {item.submittedBy.firstName} {item.submittedBy.lastName[0]}.
                     </td>
-                    <td></td>
+                    <td>
+                      {item.assignedTo.firstName} {item.assignedTo.lastName[0]}.
+                    </td>
                   </>
                 )}
                 <td>{item.category}</td>

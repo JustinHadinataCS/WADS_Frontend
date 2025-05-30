@@ -2,8 +2,6 @@ import DonutChart from "../DonutChart"
 
 export default function AgentPerformanceContent({ data }){
 
-    console.log(data)
-
     const totalTickets = data.resolved + data.in_progress + data.pending;
     const resolvedPercentage = (data.resolved / totalTickets) * 100;
     const inProgressPercentage = (data.in_progress / totalTickets) * 100;
