@@ -32,7 +32,7 @@ function TicketDetailsPage() {
           <div className="bg-white p-5 rounded-md shadow-md mb-5">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold text-gray-800">
-                #12345 - {ticketData.title}
+                #{ticketData._id} - {ticketData.title}
               </h2>
               <span
                 className={`px-4 py-2 font-medium rounded-md ${
