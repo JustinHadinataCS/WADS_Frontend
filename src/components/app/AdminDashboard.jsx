@@ -11,8 +11,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 
 export default function AdminDashboard(){
-    const { globalStats, recentActivity, recentTicketsGlobal, agentPerformance, responseTime, serverUptime } = useAdminDashboardContext();
-
+    const { globalStats, recentActivity } = useAdminDashboardContext();
     const tempStats = {
       ticketStats: {
         "total": "...",
