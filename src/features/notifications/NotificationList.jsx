@@ -27,18 +27,28 @@ function NotificationList() {
     <div className="col-span-1">
       <h2 className="text-2xl text-gray-800 mb-5">Notifications</h2>
       <div className="bg-white rounded shadow-sm">
-        {notifications.map((item, index) => (
-          <>
-            <NotificationAlert
-              key={index}
-              title={item.title}
-              isRead={item.isRead}
-              timestamp={item.timestamp}
-            >
-              {item.content}
-            </NotificationAlert>
-          </>
-        ))}
+        {notifications && notifications.length > 0 ? (
+          notifications.map((item, index) => (
+            <>
+              <NotificationAlert
+                key={index}
+                title={item.title}
+                isRead={item.isRead}
+                timestamp={item.timestamp}
+              >
+                {item.content}
+              </NotificationAlert>
+            </>
+          ))
+        ) : (
+          <div className="p-5 border-b bg-gray-100 border-gray-300 text-center">
+            <div className="flex justify-center items-center py-4">
+              <span className="text-gray-600 text-sm">
+                No notifications to display
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
