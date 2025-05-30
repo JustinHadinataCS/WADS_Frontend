@@ -1,4 +1,14 @@
 /* eslint-disable react/prop-types */
+import { NavLink } from "react-router-dom";
+import { parseISO, format, formatDistanceToNow } from "date-fns";
+import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
+
+const statusColors = {
+  pending: "bg-yellow-100 text-yellow-600",
+  resolved: "bg-green-100 text-green-600",
+  in_progress: "bg-blue-100 text-blue-600",
+};
+
 function Ticket({ ticket }) {
   return (
     <tr>

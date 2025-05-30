@@ -1,20 +1,8 @@
 /* eslint-disable react/prop-types */
 import TableLabel from "./TableLabel";
-import { NavLink } from "react-router-dom";
-import { parseISO, format, formatDistanceToNow } from "date-fns";
 import { Ticket } from "lucide-react";
 
 export default function TicketsTable({ data }) {
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  const statusColors = {
-    pending: "bg-yellow-100 text-yellow-600",
-    resolved: "bg-green-100 text-green-600",
-    in_progress: "bg-blue-100 text-blue-600",
-  };
-
   return (
     <div className="w-full flex-grow rounded-md shadow-sm overflow-auto bg-white border border-gray-300">
       <table className="min-w-full divide-y divide-gray-200">
