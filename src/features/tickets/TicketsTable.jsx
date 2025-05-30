@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
+import EmptyPlaceholder from "./EmptyPlaceholder";
 import TableLabel from "./TableLabel";
-import { Ticket } from "lucide-react";
+import Ticket from "./Ticket";
 
 export default function TicketsTable({ data }) {
   return (
@@ -19,14 +20,7 @@ export default function TicketsTable({ data }) {
           {data.length !== 0 ? (
             data.map((ticket, index) => <Ticket key={index} ticket={ticket} />)
           ) : (
-            <tr>
-              <td
-                colSpan="5"
-                className="w-full h-24 text-lg text-center text-neutral-400"
-              >
-                No results
-              </td>
-            </tr>
+            <EmptyPlaceholder />
           )}
         </tbody>
       </table>
