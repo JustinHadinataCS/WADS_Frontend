@@ -40,7 +40,6 @@ export default function Tickets() {
     }
   }
 
-  // Wait for data to finish loading
   if (isLoading) return <p>Loading...</p>;
 
   return (

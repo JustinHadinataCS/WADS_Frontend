@@ -1,18 +1,16 @@
+/* eslint-disable react/prop-types */
 import { useAuthContext } from "../../contexts/AuthContext";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
+import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
 
 export default function DashboardTicketContent({ data }) {
   const { user } = useAuthContext();
 
   const statusColors = {
-    'pending':'bg-yellow-100 text-yellow-600',
-    'resolved':'bg-green-100 text-green-600',
-    'in_progress':'bg-blue-100 text-blue-600'
-  }
-
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+    pending: "bg-yellow-100 text-yellow-600",
+    resolved: "bg-green-100 text-green-600",
+    in_progress: "bg-blue-100 text-blue-600",
+  };
 
   return (
     <div className="h-72 w-full p-4 overflow-y-auto">
@@ -37,24 +35,36 @@ export default function DashboardTicketContent({ data }) {
           <tbody className="bg-white">
             {data.recentTickets.map((item) => (
               <tr key={item.ID}>
-                {user.role === "agent" && <td>{item.submittedBy.firstName} {item.submittedBy.lastName[0]}.</td>}
-                {user.role === "user" && <td>{item.assignedTo.firstName} {item.assignedTo.lastName[0]}.</td>}
+                {user.role === "agent" && (
+                  <td>
+                    {item.submittedBy.firstName} {item.submittedBy.lastName[0]}.
+                  </td>
+                )}
+                {user.role === "user" && <td></td>}
                 {user.role === "admin" && (
                   <>
-                    <td>{item.submittedBy.firstName} {item.submittedBy.lastName[0]}.</td>
-                    <td>{item.assignedTo.firstName} {item.assignedTo.lastName[0]}.</td>
+                    <td>
+                      {item.submittedBy.firstName}{" "}
+                      {item.submittedBy.lastName[0]}.
+                    </td>
+                    <td></td>
                   </>
                 )}
                 <td>{item.category}</td>
                 <td>
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                  statusColors[item.status.toLowerCase()]
-                  }`}>
-                  {item.status}
+                  <span
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      statusColors[item.status.toLowerCase()]
+                    }`}
+                  >
+                    {item.status}
                   </span>
                 </td>
                 <td>{format(parseISO(item.createdAt), "yyyy-MM-dd")}</td>
-                <td>{capitalizeFirstLetter(formatDistanceToNow(item.updatedAt))} ago</td>
+                <td>
+                  {capitalizeFirstLetter(formatDistanceToNow(item.updatedAt))}{" "}
+                  ago
+                </td>
               </tr>
             ))}
           </tbody>

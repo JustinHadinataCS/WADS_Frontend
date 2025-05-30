@@ -1,4 +1,7 @@
-function TicketDetails({data, capitalize}) {
+/* eslint-disable react/prop-types */
+import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
+
+function TicketDetails({ data }) {
   return (
     <div className="col-span-2 space-y-5">
       <div className="bg-white p-5 rounded-md shadow-md">
@@ -12,16 +15,14 @@ function TicketDetails({data, capitalize}) {
           <p>
             <strong className="text-base">Department:</strong> {data.department}
           </p>
-          <p>
-            <strong className="text-base">Equipment:</strong> {data.equipment.name}
-          </p>
+
           <p className="text-red-600">
-            <strong className="text-base text-black">Priority:</strong> {capitalize(data.priority)}
+            <strong className="text-base text-black">Priority:</strong>{" "}
+            {capitalizeFirstLetter(data.priority)}
           </p>
         </div>
       </div>
 
-      {/* Attachments */}
       <div className="bg-white p-5 rounded-md shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 mb-3">
           Attachments
