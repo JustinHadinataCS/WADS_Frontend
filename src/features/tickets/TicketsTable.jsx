@@ -1,19 +1,9 @@
 /* eslint-disable react/prop-types */
+import EmptyPlaceholder from "./EmptyPlaceholder";
 import TableLabel from "./TableLabel";
-import { NavLink } from "react-router-dom";
-import { parseISO, format, formatDistanceToNow } from "date-fns";
+import Ticket from "./Ticket";
 
 export default function TicketsTable({ data }) {
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  const statusColors = {
-    'pending':'bg-yellow-100 text-yellow-600',
-    'resolved':'bg-green-100 text-green-600',
-    'in_progress':'bg-blue-100 text-blue-600'
-  }
-
   return (
     <div className="w-full flex-grow rounded-md shadow-sm overflow-auto bg-white border border-gray-300">
       <table className="min-w-full divide-y divide-gray-200">
@@ -27,36 +17,11 @@ export default function TicketsTable({ data }) {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data.length !== 0? 
-           data.map((ticket, index) => (
-            <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {ticket.category}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                  statusColors[ticket.status]
-                }`}>
-                  {capitalizeFirstLetter(ticket.status)}
-                </span>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {format(parseISO(ticket.createdAt), "yyyy-MM-dd")}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {capitalizeFirstLetter(formatDistanceToNow(ticket.updatedAt))} ago
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm">
-                <NavLink to={`/tickets/${ticket._id}`} className="bg-[#4A81C0] hover:cursor-pointer text-white px-3 py-1 rounded-md font-medium text-xs">
-                  View
-                </NavLink>
-              </td>
-            </tr>
-          )):
-            <tr> 
-              <td colSpan="5" className="w-full h-24 text-lg text-center text-neutral-400">No results</td>
-            </tr>
-          }
+          {data.length !== 0 ? (
+            data.map((ticket, index) => <Ticket key={index} ticket={ticket} />)
+          ) : (
+            <EmptyPlaceholder />
+          )}
         </tbody>
       </table>
     </div>

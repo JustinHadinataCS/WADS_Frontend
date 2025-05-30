@@ -7,16 +7,13 @@ import getTicketsQueryOptions from "../queryoptions/getTicketsQuery";
 import { useState } from "react";
 
 export default function Tickets() {
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
 
-  // User and ticket data
   const { user } = useAuthContext();
   const { data, isLoading } = useQuery(
     getTicketsQueryOptions(user.accessToken, currentPage)
   );
 
-  // Search Querying and Filtering
   const [filter, setFilter] = useState("all");
   const [keyword, setKeyword] = useState("");
   const [filteredTickets, setFilteredTickets] = useState(null);
@@ -43,7 +40,6 @@ export default function Tickets() {
     }
   }
 
-  // Wait for data to finish loading
   if (isLoading) return <p>Loading...</p>;
 
   return (

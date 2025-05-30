@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import NotificationAlert from "./NotificationAlert";
-import {getNotificationsQueryOptions, getAdminNotificationsQueryOptions} from "../../queryoptions/getNotificationsQuery";
+import {
+  getNotificationsQueryOptions,
+  getAdminNotificationsQueryOptions,
+} from "../../queryoptions/getNotificationsQuery";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 function NotificationList() {
