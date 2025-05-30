@@ -48,7 +48,7 @@ function ProfileSectionContent() {
         };
         setServerData(normalizedData);
         setFormData(normalizedData);
-        updatePfp(normalizedData.profilePicture); // ✅ Sync pfp context
+        updatePfp(normalizedData.profilePicture);
         setLoading(false);
       } catch (err) {
         setError(err.message);
