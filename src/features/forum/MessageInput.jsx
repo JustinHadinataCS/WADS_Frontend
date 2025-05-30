@@ -1,33 +1,38 @@
 import { FaArrowUp } from "react-icons/fa";
 
 /* eslint-disable react/prop-types */
-function MessageInput({ message, setMessage, socket }) {
+function MessageInput({ message, setMessage, socket, roomId, disabled }) {
   function handleSubmit() {
-    socket.emit("forum:send-message", { message });
+    if (!message.trim() || !roomId) return;
+
+    socket.emit("forum:send-message", {
+      message: message.trim(),
+      roomId,
+    });
+
     setMessage("");
   }
+
   return (
-    <div className="p-4 border-t flex items-center space-x-4 bg-white border border-[#D5D5D5] rounded-b-md">
-      <div className="flex w-full">
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type your message here..."
-            className="flex-grow rounded-l-lg text-sm border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-gray-400"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleSubmit();
-              }
-            }}
-          />
-          <button 
-            onClick={handleSubmit}
-            className="bg-[#1D3B5C] rounded-r-lg p-2 aspect-square w-10 text-white hover:cursor-pointer"
-          >
-            <FaArrowUp size={15} className="m-auto" />
-          </button>
-        </div>
+    <div className="p-4 border-t border-[#D5D5D5] bg-white">
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder={disabled ? "Select a room to chat" : "Type a message..."}
+          disabled={disabled}
+          className="flex-1 p-2 border border-[#D5D5D5] rounded-md"
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+        />
+        <button
+          onClick={handleSubmit}
+          disabled={disabled || !message.trim()}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-gray-300"
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 }
