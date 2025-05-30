@@ -1,37 +1,31 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import { parseISO, format } from "date-fns";
-import TicketDetails from "../features/tickets/TicketDetails";
-import ReplyBox from "../features/tickets/ReplyBox";
-import getIndividualTicketsQueryOptions from "../queryoptions/getIndividualTicketsQuery"
+import TicketDetails from "./TicketDetails";
+import getIndividualTicketsQueryOptions from "../../queryoptions/getIndividualTicketsQuery";
 
 function TicketDetailsPage() {
-
-  // Ticket data retrieval
-  const ticketID = useParams()
+  const ticketID = useParams();
   const { user } = useAuthContext();
   const { data, isLoading } = useQuery(
     getIndividualTicketsQueryOptions(user.token, ticketID.id)
-  )
+  );
 
-  // Ticket status
   const statusColors = {
-    'pending':'bg-yellow-100 text-yellow-600',
-    'resolved':'bg-green-100 text-green-600',
-    'in_progress':'bg-blue-100 text-blue-600'
-  }
+    pending: "bg-yellow-100 text-yellow-600",
+    resolved: "bg-green-100 text-green-600",
+    in_progress: "bg-blue-100 text-blue-600",
+  };
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  // Loading page
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <p>Loading...</p>;
 
-  const ticketData = data.data
+  const ticketData = data.data;
 
   return (
     <>
@@ -42,18 +36,27 @@ function TicketDetailsPage() {
               <h2 className="text-xl font-semibold text-gray-800">
                 #12345 - {ticketData.title}
               </h2>
-              <span className={`px-4 py-2 font-medium rounded-md ${statusColors[ticketData.status]}`}>
+              <span
+                className={`px-4 py-2 font-medium rounded-md ${
+                  statusColors[ticketData.status]
+                }`}
+              >
                 {capitalizeFirstLetter(ticketData.status)}
               </span>
             </div>
             <div className="mt-3 text-gray-600">
-              Created: {format(parseISO(ticketData.createdAt), "yyyy-MM-dd")} | 
-              Last Updated: {capitalizeFirstLetter(formatDistanceToNow(ticketData.updatedAt))} ago
+              Created: {format(parseISO(ticketData.createdAt), "yyyy-MM-dd")} |
+              Last Updated:{" "}
+              {capitalizeFirstLetter(formatDistanceToNow(ticketData.updatedAt))}{" "}
+              ago
             </div>
           </div>
 
           <div className="grid grid-cols-7 gap-5">
-            <TicketDetails data={ticketData} capitalize={capitalizeFirstLetter}/>
+            <TicketDetails
+              data={ticketData}
+              capitalize={capitalizeFirstLetter}
+            />
           </div>
         </div>
       </div>
