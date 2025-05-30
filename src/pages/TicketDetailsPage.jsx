@@ -6,6 +6,7 @@ import TicketDetails from "../features/tickets/TicketDetails";
 import getIndividualTicketsQueryOptions from "../queryoptions/getIndividualTicketsQuery";
 import { useAuthContext } from "../contexts/AuthContext";
 import capitalizeFirstLetter from "../utils/capitalizeFirstLetter";
+import CommunicationLog from "../features/tickets/CommunicationLog";
 
 function TicketDetailsPage() {
   const ticketID = useParams();
@@ -50,6 +51,7 @@ function TicketDetailsPage() {
           </div>
 
           <div className="grid grid-cols-7 gap-5">
+            <CommunicationLog />
             <TicketDetails data={ticketData} />
           </div>
         </div>
