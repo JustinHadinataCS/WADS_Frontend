@@ -78,7 +78,7 @@ export const getAgentTicketStatus = async (token) => {
  * @returns {Promise<Object>} The response JSON containing recent tickets assigned to an agent
  */
 export const getAgentRecentTickets = async (token) => {
-  const res = await fetch(`${API_BASE_URL}/recent-agent-tickets`, {
+  const res = await fetch(`${API_BASE_URL}/recent-agent-ticket`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

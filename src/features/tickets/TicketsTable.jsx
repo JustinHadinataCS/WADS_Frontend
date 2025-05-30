@@ -54,7 +54,7 @@ export default function TicketsTable({ data }) {
             </tr>
           )):
             <tr> 
-              <td colspan="5" className="w-full h-24 text-lg text-center text-neutral-400">No results</td>
+              <td colSpan="5" className="w-full h-24 text-lg text-center text-neutral-400">No results</td>
             </tr>
           }
         </tbody>

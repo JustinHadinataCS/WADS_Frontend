@@ -12,7 +12,7 @@ function ChatbotProvider({ children }) {
   const botMessageHistoryQuery = useQuery({
     queryKey: ["botMessageHistory"],
     queryFn: () => getMessageHistory(user.accessToken),
-    enabled: !!user.token,
+    enabled: !!user.accessToken,
   });
 
   const newBotMessageMutation = useMutation({

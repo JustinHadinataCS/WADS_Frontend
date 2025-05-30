@@ -10,20 +10,20 @@ function AgentDashboardProvider({ children }) {
 
   const agentStatsQuery = useQuery({
     queryKey: ["agentStats"],
-    queryFn: () => getAgentStats(user.token),
-    enabled: !!user.token,
+    queryFn: () => getAgentStats(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   const agentTicketStatusQuery = useQuery({
     queryKey: ["agentTicketStatus"],
-    queryFn: () => getAgentTicketStatus(user.token),
-    enabled: !!user.token,
+    queryFn: () => getAgentTicketStatus(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   const agentRecentTicketsQuery = useQuery({
     queryKey: ["agentRecentTickets"],
-    queryFn: () => getAgentRecentTickets(user.token),
-    enabled: !!user.token,
+    queryFn: () => getAgentRecentTickets(user.accessToken),
+    enabled: !!user.accessToken,
   });
 
   return (

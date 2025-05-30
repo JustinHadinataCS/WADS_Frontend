@@ -15,7 +15,7 @@ function Dashboard() {
           <AdminDashboard />
         </AdminDashboardProvider>
       )}
-      {/* {user.role === "agent" && <AgentDashboardProvider><AgentDashboard /></AgentDashboardProvider>} */}
+      {user.role === "agent" && <AgentDashboardProvider><AgentDashboard /></AgentDashboardProvider>}
       {user.role === "user" && <UserDashboard />}
     </>
   );

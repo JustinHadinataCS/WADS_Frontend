@@ -1,6 +1,6 @@
 import DashboardTicketCard from "../../features/dashboard/DashboardTicketCard";
 import DashboardUserCard from "../../features/dashboard/User/DashboardUserCard";
-import getUserRecentOptions from "../../queryoptions/getUserRecentTicketQuery";
+import { getUserRecentOptions } from "../../queryoptions/getRecentTicketQuery";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { CiCirclePlus } from "react-icons/ci";
@@ -26,7 +26,7 @@ function UserDashboard() {
     <div className="grid grid-rows-2 gap-12">
       <div>
         <DashboardTicketCard data={data} />
-      </div>
+      </div> 
       <div className="columns-3 gap-12">
         <DashboardUserCard
           buttontext="Create Ticket"
