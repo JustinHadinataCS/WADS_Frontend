@@ -1,20 +1,33 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from "@tanstack/react-query";
-import { createContext, useContext, useState } from "react";
-import { login, register } from "../api/auth";
+import { createContext, useContext, useState, useEffect } from "react";
+import { login, register, logout, getAccessTokenFromRefresh } from "../api/auth";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState("");
 
+  // AUTO LOGIN
+  useEffect(() => {
+  const tryRefreshToken = async () => {
+    try {
+      const userData = await getAccessTokenFromRefresh();
+
+      setUser(userData); // Store in your app state
+    } catch (err) {
+      console.log("User not logged in");
+    }
+  };
+
+    tryRefreshToken();
+  }, []);
+
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
       setUser(data);
       console.log(`The data -> ${data}`);
-      console.log(data);
-      console.log(user);
     },
     onError: (error) => console.error(`Error: ${error.message}`),
   });
@@ -28,9 +41,14 @@ function AuthProvider({ children }) {
     onError: (error) => console.error(`Error: ${error.message}`),
   });
 
-  const logout = () => {
-    setUser("");
-  };
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: (data) => {
+      setUser("");
+      console.log(data);
+    },
+    onError: (error) => console.error(`Error: ${error.message}`),
+  });
 
   return (
     <AuthContext.Provider
@@ -46,7 +64,10 @@ function AuthProvider({ children }) {
         registerError: registerMutation.error,
         registerMutation,
 
-        logout,
+        logoutFunc: logoutMutation.mutate,
+        logoutLoading: logoutMutation.isLoading,
+        logoutError: logoutMutation.error,
+        logoutMutation
       }}
     >
       {children}

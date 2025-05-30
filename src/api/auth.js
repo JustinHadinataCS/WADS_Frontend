@@ -31,6 +31,7 @@ export const login = async (credentials) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials),
+    credentials: "include",
   });
 
   const data = await res.json();
@@ -42,4 +43,36 @@ export const login = async (credentials) => {
   return data;
 };
 
+export const getAccessTokenFromRefresh = async () => {
+  const res = await fetch(`http://localhost:5000/api/auth/refresh`, {
+    method: "POST",
+    credentials: "include", // include cookie with refresh token
+  });
 
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Unable to refresh session");
+  }
+
+  return data;
+};
+
+export const logout = async (token) => {
+  const res = await fetch(`http://localhost:5000/api/auth/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: "include", // include cookie with refresh token
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Unable to logout session");
+  }
+
+  return data;
+}

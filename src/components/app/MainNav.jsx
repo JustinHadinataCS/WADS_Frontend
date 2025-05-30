@@ -51,7 +51,7 @@ function MainNav() {
         </StyledLink>
       </div>
 
-      <StyledLink location="/notifications" icon={IoIosLogOut}>
+      <StyledLink location="/logout" icon={IoIosLogOut}>
         Logout
       </StyledLink>
     </nav>
