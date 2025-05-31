@@ -51,6 +51,24 @@ export async function updateUserByID(token, ID, data) {
   return await response.json();
 }
 
+export async function getUserActivity(token, ID) {
+  const res = await fetch(`${API_BASE_URL}/activity/${ID}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error("Failed to retrieve user activity");
+  }
+
+  return data;
+}
+
 export async function deleteUserByID(token, ID) {
   const response = await fetch(`${API_BASE_URL}/${ID}`, {
     method: "DELETE",
