@@ -1,12 +1,9 @@
-const TicketPopup = () => {
+const TicketPopup = ({handleCancel}) => {
   return (
-    <div className="fixed inset-0 shadow-md bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xs shadow-xl w-full max-w-2xl mx-4 h-[90vh] flex flex-col">
+    <div className="fixed inset-0 flex items-center justify-center z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+      <div className="bg-white rounded-sm shadow-xl w-full max-w-2xl mx-4 flex flex-col">
         <div className="bg-white text-black  px-4 py-3 rounded-t-lg flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Submit New Ticket</h2>
-          <button className="text-white hover:bg-blue-700 rounded-full p-1">
-            ✕
-          </button>
+          <h2 className="text-xl font-semibold">Submit New Ticket</h2>
         </div>
 
         <form className="p-4 space-y-3 flex-grow flex flex-col overflow-hidden gap-y-2">
@@ -21,7 +18,7 @@ const TicketPopup = () => {
               type="text"
               id="subject"
               placeholder="Brief description of the issue"
-              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1D3B5C]"
             />
           </div>
 
@@ -34,7 +31,7 @@ const TicketPopup = () => {
             </label>
             <select
               id="category"
-              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1D3B5C]"
             >
               <option>Inquiry</option>
               <option>Technical Support</option>
@@ -52,7 +49,7 @@ const TicketPopup = () => {
             </label>
             <select
               id="priority"
-              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1D3B5C]"
             >
               <option>Low</option>
               <option>Medium</option>
@@ -72,7 +69,7 @@ const TicketPopup = () => {
               id="description"
               rows="3"
               placeholder="Detailed description of your issue"
-              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1D3B5C]"
             ></textarea>
           </div>
 
@@ -83,13 +80,13 @@ const TicketPopup = () => {
             >
               Attachments
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-2 text-center">
-              <p className="text-xs text-gray-600 mb-1">
+            <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
+              <p className="text-xs text-gray-600 mb-2">
                 Drag and drop files here or
               </p>
               <button
                 type="button"
-                className="bg-[#1D3B5C] text-white px-3 py-2 text-xs rounded-md hover:bg-[#151b20] focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="bg-[#1D3B5C] text-white px-3 py-2 text-xs rounded-md hover:cursor-pointer"
               >
                 Browse Files
               </button>
@@ -99,13 +96,14 @@ const TicketPopup = () => {
           <div className="flex justify-end space-x-2 pt-2">
             <button
               type="button"
-              className="px-3 py-1 text-xs text-gray-600 hover:bg-gray-100 rounded-md"
+              className="px-3 py-1 text-md text-gray-600 border border-gray-300 hover:bg-gray-100 rounded-md hover:cursor-pointer"
+              onClick={handleCancel}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-3 py-2 text-xs bg-[#1D3B5C] text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="px-3 py-2 text-md bg-[#1D3B5C] text-white rounded-md focus:outline-none hover:cursor-pointer"
             >
               Submit Ticket
             </button>

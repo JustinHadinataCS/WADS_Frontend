@@ -7,8 +7,11 @@ import { CiCirclePlus } from "react-icons/ci";
 import { PiBookOpenText } from "react-icons/pi";
 import { MdOutlinePhoneEnabled } from "react-icons/md";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function UserDashboard() {
+
+  const navigate = useNavigate()
   // Ticket Popup
   const [showPopup, setShowPopup] = useState(false);
   function handlePopup() {
@@ -37,17 +40,20 @@ function UserDashboard() {
           handleClick={handlePopup}
         />
         <DashboardUserCard
-          buttontext="View Resources"
-          title="Support Resources"
-          description="Access manuals, guides, and troubleshooting docs"
-          icon={PiBookOpenText}
+          buttontext="Go To Chat"
+          title="Support Chat"
+          description="Ask our chatbot questions"
+          icon={MdOutlinePhoneEnabled}
+          handleClick={() => navigate("/chatbot")}
         />
         <DashboardUserCard
-          buttontext="Create Ticket"
-          title="Create Ticket"
-          description="Report a new equipment issue or support request"
-          icon={MdOutlinePhoneEnabled}
+          buttontext="View"
+          title="Ticket History"
+          description="View your ticket history"
+          icon={PiBookOpenText}
+          handleClick={() => navigate("/tickets")}
         />
+
       </div>
     </div>
   );
