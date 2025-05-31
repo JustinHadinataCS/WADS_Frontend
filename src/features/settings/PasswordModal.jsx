@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { updateUserProfile } from '../../api/setting'; // Import your existing API function
+import { updateUserProfile } from '../../api/setting';
+import { calculatePasswordStrength } from './PasswordStrength';
 
 export const PasswordModal = ({ isOpen, onClose, userId, token }) => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -20,42 +21,6 @@ export const PasswordModal = ({ isOpen, onClose, userId, token }) => {
   }, [isOpen]);
 
   if (!isOpen) return null;
-
-  // Calculate password strength
-  const calculatePasswordStrength = (password) => {
-    if (!password) return { score: 0, label: 'weak', width: '0%' };
-    
-    // Simple password strength algorithm
-    let score = 0;
-    
-    // Length check
-    if (password.length >= 8) score += 1;
-    if (password.length >= 12) score += 1;
-    
-    // Complexity checks
-    if (/[A-Z]/.test(password)) score += 1; // Has uppercase
-    if (/[a-z]/.test(password)) score += 1; // Has lowercase
-    if (/[0-9]/.test(password)) score += 1; // Has number
-    if (/[^A-Za-z0-9]/.test(password)) score += 1; // Has special char
-    
-    // Calculate final score (0-5)
-    const normalizedScore = Math.min(5, score);
-    
-    // Map score to label and width
-    const strengthMap = {
-      0: { label: 'weak', color: 'bg-red-500', width: '20%' },
-      1: { label: 'weak', color: 'bg-red-400', width: '20%' },
-      2: { label: 'medium', color: 'bg-yellow-500', width: '40%' }, // Match enum values from schema
-      3: { label: 'medium', color: 'bg-yellow-400', width: '60%' },
-      4: { label: 'strong', color: 'bg-green-400', width: '80%' },
-      5: { label: 'strong', color: 'bg-green-500', width: '100%' }
-    };
-    
-    return { 
-      score: normalizedScore, 
-      ...strengthMap[normalizedScore]
-    };
-  };
 
   // Update password strength when password changes
   const handlePasswordChange = (e) => {
@@ -87,15 +52,14 @@ export const PasswordModal = ({ isOpen, onClose, userId, token }) => {
     setIsSubmitting(true);
     
     try {
-      // Structure matches the backend expectations - password at root level
-      // and strength as part of securitySettings
+
       await updateUserProfile(token, {
-  currentPassword: currentPassword,
-  password: newPassword,
-  securitySettings: {
-    passwordStrength: passwordStrength.label
-  }
-});
+        currentPassword: currentPassword,
+        password: newPassword,
+        securitySettings: {
+          passwordStrength: passwordStrength.label
+        }
+      });
 
       alert("Password updated successfully.");
       onClose();
