@@ -32,6 +32,25 @@ export const getTicketsByID = async (token, ID) => {
     throw new Error(data.message || "Failed getting individual ticket");
   }
 
-  console.log("data", data)
+  console.log("data", data);
+  return data;
+};
+
+export const createTicket = async (token, ticketData) => {
+  const res = await fetch(`${API_BASE_URL}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(ticketData),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to create ticket");
+  }
+
   return data;
 };
