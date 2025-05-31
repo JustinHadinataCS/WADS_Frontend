@@ -43,6 +43,16 @@ export const login = async (credentials) => {
   return data;
 };
 
+/**
+ * Initiate Google OAuth2 login flow
+ * @returns {void}
+ */
+export const googleLogin = () => {
+  // Include frontend callback URL in state parameter
+  const frontendCallbackUrl = 'http://localhost:5173/auth/google/callback';
+  window.location.href = `${API_BASE_URL}/auth/google?state=${encodeURIComponent(frontendCallbackUrl)}`;
+};
+
 export const getAccessTokenFromRefresh = async () => {
   const res = await fetch(`http://localhost:5000/api/auth/refresh`, {
     method: "POST",

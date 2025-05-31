@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import {
   login,
   register,
+  googleLogin,
   logout,
   getAccessTokenFromRefresh,
 } from "../api/auth";
@@ -29,21 +30,23 @@ function AuthProvider({ children }) {
   const registerMutation = useMutation({
     mutationFn: register,
     onSuccess: (data) => {
-      console.log("Registration successful, setting user data:", {
-        userId: data._id,
-        role: data.role,
-        hasToken: !!data.accessToken,
-      });
       setUser(data);
     },
     onError: (error) => console.error(`Registration error: ${error.message}`),
+  });
+
+  const googleLoginMutation = useMutation({
+    mutationFn: () => {
+      googleLogin();
+      return Promise.resolve(); // Return a resolved promise since we're redirecting
+    },
+    onError: (error) => console.error(`Google Login error: ${error.message}`),
   });
 
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: (data) => {
       setUser("");
-      console.log(data);
     },
     onError: (error) => console.error(`Error: ${error.message}`),
   });
@@ -71,6 +74,7 @@ function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         login: loginMutation.mutate,
         loginLoading: loginMutation.isLoading,
         loginError: loginMutation.error,
@@ -85,6 +89,11 @@ function AuthProvider({ children }) {
         logoutLoading: logoutMutation.isLoading,
         logoutError: logoutMutation.error,
         logoutMutation,
+
+        googleLogin: googleLoginMutation.mutate,
+        googleLoginLoading: googleLoginMutation.isLoading,
+        googleLoginError: googleLoginMutation.error,
+        googleLoginMutation,
       }}
     >
       {children}

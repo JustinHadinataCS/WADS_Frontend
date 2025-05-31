@@ -10,7 +10,9 @@ function LoginPage() {
   });
 
   const [errors, setErrors] = useState({});
-  const { login, loginMutation, loginLoading, loginError } = useAuthContext();
+  const { login, loginMutation, loginLoading, loginError,
+        googleLogin, googleLoginLoading, googleLoginError, googleLoginMutation
+        } = useAuthContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,7 +58,7 @@ function LoginPage() {
     }
   };
   const handleGoogleLogin = () => {
-    console.log("Google login clicked");
+    googleLoginMutation.mutate();
   };
 
   return (
