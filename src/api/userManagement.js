@@ -83,3 +83,22 @@ export async function deleteUserByID(token, ID) {
 
   return true;
 }
+
+export async function createUsers(token, data) {
+  const response = await fetch(`${API_BASE_URL}/admin-create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error("Failed to create user");
+  }
+
+  return result;
+}
