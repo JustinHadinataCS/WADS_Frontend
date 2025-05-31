@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { createTicket } from "../../api/ticket";
 import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const TicketPopup = ({ handleCancel }) => {
   const { user } = useAuthContext();
@@ -59,15 +60,34 @@ const TicketPopup = ({ handleCancel }) => {
       });
 
       const response = await createTicket(user.accessToken, formDataToSend);
-      console.log("Response in handleSubmit:", response); // Debug log
+      console.log("Response in handleSubmit:", response);
+
+      // Show success toast
+      toast.success("Ticket created successfully!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#4CAF50",
+          color: "#fff",
+        },
+      });
 
       // Invalidate and refetch tickets
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
       queryClient.invalidateQueries({ queryKey: ["user-recent-tickets"] });
       handleCancel();
     } catch (error) {
-      console.error("Error in handleSubmit:", error); // Debug log
-      alert(error.message || "Failed to create ticket");
+      console.error("Error in handleSubmit:", error);
+
+      // Show error toast
+      toast.error(error.message || "Failed to create ticket", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
