@@ -72,9 +72,7 @@ function ForumMessages({ selectedRoomId }) {
     <>
       <div className="flex-1 flex flex-col">
         <MessageHeader
-          agentName={
-            selectedRoomId ? `Room: ${selectedRoomId}` : "Select a room"
-          }
+          agentName={selectedRoomId ? "Public Forum" : "Select a room"}
         />
         <MessageArea messageReceived={messages} />
         <MessageInput
