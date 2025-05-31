@@ -1,26 +1,48 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useState } from "react";
-import getUsersQueryOptions from "../queryoptions/getUsersQuery";
+import { getUsersQueryOptions, useCreateUsers } from "../queryoptions/usersQuery";
 import UserFilter from "../features/userManagement/UserFilter"
 import UserTable from "../features/userManagement/UserTable";
 import TicketPagination from "../features/tickets/TicketPagination";
 import CreateUserPopup from "../features/userManagement/CreateUserPopup";
+import getTimezone from "../utils/getTimezone";
 
 export default function UserManagement(){
+    // Pagination
     const [currentPage, setCurrentPage] = useState(1);
 
+    // Admin user and users data
     const { user } = useAuthContext();
     const { data, isLoading } = useQuery(
         getUsersQueryOptions(user.accessToken, currentPage)
     );
 
+    // Filters
     const [filterRoles, setFilterRoles] = useState("all");
     const [keyword, setKeyword] = useState("");
     const [filteredUsers, setFilteredUsers] = useState(null);
 
+    // Popup
     const [showPopup, setShowPopup] = useState(false)
 
+    // Create user
+    const { mutate: createUser, isLoading: updating } = useCreateUsers(user.accessToken);
+
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("")
+    const [phoneNum, setNumber] = useState("")
+    const [department, setDepartment] = useState("")
+    const [role, setRole] = useState("user")
+
+    const timezone = getTimezone()
+
+    // Errors
+    const [errors, setErrorMsg] = useState("")
+
+    // Onclick Functions
     function handleApplyFilter() {
         const filtered = data.data.filter((user) => {
         if (filterRoles === "all") return true;
@@ -47,11 +69,59 @@ export default function UserManagement(){
         setShowPopup(!showPopup)
     }
 
+    function handleCreateUser(){
+        createUser(
+        {
+        firstName,
+        lastName,
+        email,
+        phoneNumber: phoneNum,
+        password,
+        department,
+        role,
+        timezone,
+        },
+        {
+        onSuccess: () => {
+            setFirstName("");
+            setLastName("");
+            setPassword("");
+            setEmail("");
+            setNumber("");
+            setDepartment("");
+            setRole("user");
+            setErrorMsg(""); // Clear any previous error
+            handlePopup();
+        },
+        onError: (error) => {
+            const message =
+            error?.response?.data?.message ||
+            error?.message ||
+            "Failed to create user";
+            setErrorMsg(message);
+        },
+        }
+    );
+    }
+
     if (isLoading) return <p>Loading...</p>;
 
     return(
         <div className="flex flex-col gap-6 w-full h-full">
-            {showPopup && <CreateUserPopup handlePopup={handlePopup}/>}
+            {showPopup && 
+            <CreateUserPopup
+                handlePopup={handlePopup}
+                handleCreate={handleCreateUser}
+                setFname={setFirstName}
+                setLname={setLastName}
+                setEmail={setEmail}
+                setPass={setPassword}
+                setPhoneNum={setNumber}
+                setDept={setDepartment}
+                setRole={setRole}
+                errorMsg={errors}
+            />
+            }
             <UserFilter
                 setFilter={setFilterRoles}
                 applyFilter={handleApplyFilter}
