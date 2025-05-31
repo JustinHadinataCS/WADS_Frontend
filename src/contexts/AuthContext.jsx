@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from "@tanstack/react-query";
 import { createContext, useContext, useState, useEffect } from "react";
-import { login, register, logout, getAccessTokenFromRefresh } from "../api/auth";
+import {
+  login,
+  register,
+  logout,
+  getAccessTokenFromRefresh,
+} from "../api/auth";
 
 const AuthContext = createContext();
 
@@ -10,15 +15,15 @@ function AuthProvider({ children }) {
 
   // AUTO LOGIN
   useEffect(() => {
-  const tryRefreshToken = async () => {
-    try {
-      const userData = await getAccessTokenFromRefresh();
+    const tryRefreshToken = async () => {
+      try {
+        const userData = await getAccessTokenFromRefresh();
 
-      setUser(userData); // Store in your app state
-    } catch (err) {
-      console.log("User not logged in");
-    }
-  };
+        setUser(userData); // Store in your app state
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
 
     tryRefreshToken();
   }, []);
@@ -27,7 +32,7 @@ function AuthProvider({ children }) {
     mutationFn: login,
     onSuccess: (data) => {
       setUser(data);
-      console.log(`The data -> ${data}`);
+      console.log(data);
     },
     onError: (error) => console.error(`Error: ${error.message}`),
   });
@@ -67,7 +72,7 @@ function AuthProvider({ children }) {
         logoutFunc: logoutMutation.mutate,
         logoutLoading: logoutMutation.isLoading,
         logoutError: logoutMutation.error,
-        logoutMutation
+        logoutMutation,
       }}
     >
       {children}

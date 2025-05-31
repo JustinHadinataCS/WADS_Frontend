@@ -4,7 +4,7 @@ import { getUserRoomsQueryOptions } from "../../queryoptions/getForumQuery";
 import ChatHeader from "./ChatHeader";
 import Message from "./Message";
 
-function ForumList() {
+function ForumList({ onRoomSelect, selectedRoomId }) {
   const { user } = useAuthContext();
   const {
     data: rooms,
@@ -34,9 +34,10 @@ function ForumList() {
           rooms.map((room) => (
             <Message
               key={room._id}
-              active={room.active}
+              active={room._id === selectedRoomId}
               title={room.name || `Chat ${room._id}`}
               unreadCount={room.unreadCount || 0}
+              onClick={() => onRoomSelect(room._id)}
             />
           ))}
       </div>
