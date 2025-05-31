@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-function Message({ active, unreadCount, title }) {
+function Message({ active, unreadCount, title, onClick }) {
   return (
     <div
-      className={`p-4 flex items-center cursor-pointer border-b  border-[#D5D5D5] ${
+      onClick={onClick}
+      className={`p-4 flex items-center cursor-pointer border-b border-[#D5D5D5] ${
         active ? "bg-gray-100" : "hover:bg-gray-50"
       }`}
     >
