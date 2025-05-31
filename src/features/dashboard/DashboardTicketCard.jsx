@@ -2,6 +2,7 @@
 import { NavLink } from "react-router-dom";
 import CardTitle from "./CardTitle";
 import DashboardTicketContent from "./DashboardTicketContent";
+import EmptyPlaceholder from "../tickets/EmptyPlaceholder";
 
 function DashboardTicketCard({ data }) {
   return (
@@ -11,7 +12,12 @@ function DashboardTicketCard({ data }) {
           View All
         </NavLink>
       </CardTitle>
-      <DashboardTicketContent data={data} />
+      {data.length > 0 ? 
+      <DashboardTicketContent data={data} /> : 
+      <div className="w-full flex justify-center mt-4">
+        <EmptyPlaceholder />
+      </div>
+      }
     </div>
   );
 }

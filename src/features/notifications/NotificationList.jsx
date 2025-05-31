@@ -41,9 +41,9 @@ function NotificationList() {
             </>
           ))
         ) : (
-          <div className="p-5 border-b bg-gray-100 border-gray-300 text-center">
+          <div className="p-5 bg-white border-gray-300 rounded-md shadow-sm text-center">
             <div className="flex justify-center items-center py-4">
-              <span className="text-gray-600 text-sm">
+              <span className="text-gray-600 text-md">
                 No notifications to display
               </span>
             </div>
