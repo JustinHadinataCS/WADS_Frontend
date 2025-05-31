@@ -8,9 +8,11 @@ const TicketPopup = ({ handleCancel }) => {
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     title: "",
-    category: "Inquiry",
-    priority: "Low",
+    category: "General Inquiry",
+    priority: "medium",
+    department: "Other",
     description: "",
+    attachments: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,17 +24,49 @@ const TicketPopup = ({ handleCancel }) => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData((prev) => ({
+      ...prev,
+      attachments: [...prev.attachments, ...files],
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      await createTicket(user.accessToken, formData);
+      const formDataToSend = new FormData();
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("category", formData.category);
+      formDataToSend.append("priority", formData.priority);
+      formDataToSend.append("department", formData.department);
+      formDataToSend.append("description", formData.description);
+
+      // Only append files if there are any
+      formData.attachments.forEach((file) => {
+        formDataToSend.append("attachments", file);
+      });
+
+      console.log("Sending form data:", {
+        title: formData.title,
+        category: formData.category,
+        priority: formData.priority,
+        department: formData.department,
+        description: formData.description,
+        attachments: formData.attachments.length,
+      });
+
+      const response = await createTicket(user.accessToken, formDataToSend);
+      console.log("Response in handleSubmit:", response); // Debug log
+
       // Invalidate and refetch tickets
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
       queryClient.invalidateQueries({ queryKey: ["user-recent-tickets"] });
       handleCancel();
     } catch (error) {
+      console.error("Error in handleSubmit:", error); // Debug log
       alert(error.message || "Failed to create ticket");
     } finally {
       setIsSubmitting(false);
@@ -73,6 +107,29 @@ const TicketPopup = ({ handleCancel }) => {
 
           <div>
             <label
+              htmlFor="department"
+              className="block text-base font-medium text-gray-700 mb-1"
+            >
+              Department
+            </label>
+            <select
+              id="department"
+              value={formData.department}
+              onChange={handleChange}
+              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1D3B5C]"
+              required
+            >
+              <option>Radiology</option>
+              <option>Cardiology</option>
+              <option>Emergency</option>
+              <option>Laboratory</option>
+              <option>Pharmacy</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label
               htmlFor="category"
               className="block text-base font-medium text-gray-700 mb-1"
             >
@@ -85,9 +142,14 @@ const TicketPopup = ({ handleCancel }) => {
               className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1D3B5C]"
               required
             >
-              <option>Inquiry</option>
-              <option>Technical Support</option>
-              <option>Billing</option>
+              <option>Equipment Issue</option>
+              <option>MRI Machine Calibration</option>
+              <option>Software Problem</option>
+              <option>Network Issue</option>
+              <option>Access Request</option>
+              <option>General Inquiry</option>
+              <option>Maintenance Request</option>
+              <option>Training Request</option>
               <option>Other</option>
             </select>
           </div>
@@ -106,10 +168,9 @@ const TicketPopup = ({ handleCancel }) => {
               className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1D3B5C]"
               required
             >
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
-              <option>Critical</option>
+              <option>low</option>
+              <option>medium</option>
+              <option>high</option>
             </select>
           </div>
 
@@ -136,18 +197,35 @@ const TicketPopup = ({ handleCancel }) => {
               htmlFor="attachments"
               className="block text-base font-medium text-gray-700 mb-1"
             >
-              Attachments
+              Attachments (Optional)
             </label>
             <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
               <p className="text-xs text-gray-600 mb-2">
                 Drag and drop files here or
               </p>
-              <button
-                type="button"
-                className="bg-[#1D3B5C] text-white px-3 py-2 text-xs rounded-md hover:cursor-pointer"
+              <input
+                type="file"
+                id="attachments"
+                multiple
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <label
+                htmlFor="attachments"
+                className="bg-[#1D3B5C] text-white px-3 py-2 text-xs rounded-md hover:cursor-pointer inline-block"
               >
                 Browse Files
-              </button>
+              </label>
+              {formData.attachments.length > 0 && (
+                <div className="mt-2">
+                  <p className="text-xs text-gray-600">Selected files:</p>
+                  <ul className="text-xs text-gray-600">
+                    {formData.attachments.map((file, index) => (
+                      <li key={index}>{file.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
 
