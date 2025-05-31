@@ -3,6 +3,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useSocket } from "../../contexts/SocketContext";
 import { format } from "date-fns";
 import PropTypes from "prop-types";
+import toast from "react-hot-toast";
 
 function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
   const { user } = useAuthContext();
@@ -10,7 +11,6 @@ function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
   const [messages, setMessages] = useState(initialMessages);
   const [reply, setReply] = useState("");
   const [error, setError] = useState(null);
-  const [connectionAttempts, setConnectionAttempts] = useState(0);
   const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
@@ -41,6 +41,16 @@ function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
     // Join the ticket room
     socket.emit("ticket:join", ticketId, (response) => {
       console.log("Ticket join response:", response);
+      if (response?.error) {
+        toast.error("Failed to join ticket room", {
+          duration: 4000,
+          position: "top-right",
+          style: {
+            background: "#F44336",
+            color: "#fff",
+          },
+        });
+      }
     });
 
     // Listen for existing messages
@@ -54,12 +64,32 @@ function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
     socket.on("ticket-message", (message) => {
       console.log("Received new message:", message);
       setMessages((prev) => [...prev, message]);
+
+      // Show toast for new message if it's not from the current user
+      if (message.sender.userId !== user._id) {
+        toast.success(`New message from ${message.sender.firstName}`, {
+          duration: 4000,
+          position: "top-right",
+          style: {
+            background: "#4CAF50",
+            color: "#fff",
+          },
+        });
+      }
     });
 
     // Listen for errors
     socket.on("error", (error) => {
       console.error("Socket error received:", error);
       setError(error.message);
+      toast.error(error.message, {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
     });
 
     // Cleanup function
@@ -77,11 +107,27 @@ function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
 
     if (!isConnected) {
       setError("Not connected to server. Please wait...");
+      toast.error("Not connected to server. Please wait...", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
       return;
     }
 
     if (!socket.connected) {
       setError("Socket not connected. Please wait...");
+      toast.error("Socket not connected. Please wait...", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
       return;
     }
 
@@ -99,8 +145,24 @@ function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
         setIsSending(false);
         if (response?.error) {
           setError(response.error);
+          toast.error(response.error, {
+            duration: 4000,
+            position: "top-right",
+            style: {
+              background: "#F44336",
+              color: "#fff",
+            },
+          });
         } else {
           setReply("");
+          toast.success("Message sent successfully!", {
+            duration: 4000,
+            position: "top-right",
+            style: {
+              background: "#4CAF50",
+              color: "#fff",
+            },
+          });
         }
       }
     );
@@ -120,9 +182,7 @@ function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
 
       {!isConnected && (
         <div className="mb-4 p-3 bg-yellow-100 text-yellow-700 rounded-md">
-          {connectionAttempts > 0
-            ? `Connection attempt ${connectionAttempts} failed. Retrying...`
-            : "Connecting to server..."}
+          Connecting to server...
         </div>
       )}
 
