@@ -1,78 +1,25 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
-import Error from "./components/app/Error";
-import AppLayout from "./components/app/AppLayout";
-import Homepage from "./pages/Homepage";
-import Dashboard from "./pages/Dashboard";
-import NotificationsPage from "./pages/NotificationsPage";
-import Setting from "./pages/Setting";
-import ForumPage from "./pages/ForumPage";
-import SignUpPage from "./pages/SignUpPage";
-import Chatbot from "./pages/Chatbot";
-import LoginPage from "./pages/LoginPage";
-import Tickets from "./pages/Tickets";
-import TicketDetailsPage from "./pages/TicketDetailsPage";
-import UserManagement from "./pages/UserManagement"
-import UserDetailsPage from "./pages/UserDetailsPage";
-import Logout from "./features/auth/Logout"
-import ProtectedRoute from "./features/auth/ProtectedRoute";
+import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./contexts/AuthContext";
+import { SocketProvider } from "./contexts/SocketContext";
+import AppRoutes from "./routes";
+import { Toaster } from "react-hot-toast";
 
-const router = createBrowserRouter([
-  { path: "/", element: <Navigate to="/home" /> },
-  {
-    element: (
-      <ProtectedRoute reverse={true}>
-        <Homepage />
-      </ProtectedRoute>
-    ),
-
-    path: "/home",
-  },
-  {
-    element: (
-      <ProtectedRoute reverse={true}>
-        <SignUpPage />
-      </ProtectedRoute>
-    ),
-
-    path: "/signup",
-  },
-  {
-    element: (
-      <ProtectedRoute reverse={true}>
-        <LoginPage />
-      </ProtectedRoute>
-    ),
-    path: "/login",
-  },
-  {
-    element: (
-      <ProtectedRoute>
-        <AppLayout />
-      </ProtectedRoute>
-    ),
-    errorElement: <Error />,
-    children: [
-      { path: "/dashboard", element: <Dashboard /> },
-      { path: "/tickets", element: <Tickets /> },
-      { path: "tickets/:id", element: <TicketDetailsPage /> },
-      { path: "/notifications", element: <NotificationsPage /> },
-      { path: "/settings", element: <Setting /> },
-      { path: "/forum", element: <ForumPage /> },
-      { path: "/signup", element: <SignUpPage /> },
-      { path: "/chatbot", element: <Chatbot /> },
-      { path: "/users", element: <UserManagement/>},
-      { path: "/users/:id", element: <UserDetailsPage/>},
-      { path: "/logout", element: <Logout /> },
-    ],
-  },
-]);
+const queryClient = new QueryClient();
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <SocketProvider>
+          <Router>
+            <AppRoutes />
+            <Toaster position="top-right" />
+          </Router>
+        </SocketProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
 
 export default App;

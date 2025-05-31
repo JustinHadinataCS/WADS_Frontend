@@ -13,37 +13,30 @@ const AuthContext = createContext();
 function AuthProvider({ children }) {
   const [user, setUser] = useState("");
 
-  // AUTO LOGIN
-  useEffect(() => {
-    const tryRefreshToken = async () => {
-      try {
-        const userData = await getAccessTokenFromRefresh();
-
-        setUser(userData); // Store in your app state
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-
-    tryRefreshToken();
-  }, []);
-
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
+      console.log("Login successful, setting user data:", {
+        userId: data._id,
+        role: data.role,
+        hasToken: !!data.accessToken,
+      });
       setUser(data);
-      console.log(data);
     },
-    onError: (error) => console.error(`Error: ${error.message}`),
+    onError: (error) => console.error(`Login error: ${error.message}`),
   });
 
   const registerMutation = useMutation({
     mutationFn: register,
     onSuccess: (data) => {
+      console.log("Registration successful, setting user data:", {
+        userId: data._id,
+        role: data.role,
+        hasToken: !!data.accessToken,
+      });
       setUser(data);
-      console.log(data);
     },
-    onError: (error) => console.error(`Error: ${error.message}`),
+    onError: (error) => console.error(`Registration error: ${error.message}`),
   });
 
   const logoutMutation = useMutation({
@@ -54,6 +47,25 @@ function AuthProvider({ children }) {
     },
     onError: (error) => console.error(`Error: ${error.message}`),
   });
+
+  // AUTO LOGIN
+  useEffect(() => {
+    const tryRefreshToken = async () => {
+      try {
+        const userData = await getAccessTokenFromRefresh();
+        console.log("Auto login successful, setting user data:", {
+          userId: userData._id,
+          role: userData.role,
+          hasToken: !!userData.accessToken,
+        });
+        setUser(userData);
+      } catch (err) {
+        console.error("Auto login failed:", err.message);
+      }
+    };
+
+    tryRefreshToken();
+  }, []);
 
   return (
     <AuthContext.Provider

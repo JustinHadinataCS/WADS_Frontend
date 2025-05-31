@@ -1,20 +1,62 @@
-import { FaArrowUp } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 /* eslint-disable react/prop-types */
 function MessageInput({ message, setMessage, socket, roomId, disabled }) {
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleError = (error) => {
+      console.error("Socket error in MessageInput:", error);
+      setError(error.message);
+    };
+
+    socket.on("error", handleError);
+
+    return () => {
+      socket.off("error", handleError);
+    };
+  }, [socket]);
+
   function handleSubmit() {
-    if (!message.trim() || !roomId) return;
+    if (!message.trim() || !roomId || !socket) {
+      console.log("Cannot send message:", { message, roomId, socket });
+      return;
+    }
 
-    socket.emit("forum:send-message", {
-      message: message.trim(),
-      roomId,
-    });
+    console.log("Sending message:", { message: message.trim(), roomId });
 
-    setMessage("");
+    try {
+      socket.emit(
+        "forum:send-message",
+        {
+          message: message.trim(),
+          roomId,
+        },
+        (response) => {
+          if (response?.error) {
+            console.error("Error sending message:", response.error);
+            setError(response.error);
+          } else {
+            console.log("Message sent successfully");
+            setMessage("");
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Error emitting message:", error);
+      setError("Failed to send message");
+    }
   }
 
   return (
     <div className="p-4 border-t border-[#D5D5D5] bg-white">
+      {error && (
+        <div className="mb-2 p-2 bg-red-100 text-red-700 rounded-md text-sm">
+          {error}
+        </div>
+      )}
       <div className="flex items-center gap-2">
         <input
           type="text"

@@ -29,18 +29,26 @@ function MessageArea({ messageReceived }) {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white border-x border-[#D5D5D5]">
-      {sortedMessages.map((msg, index) => (
-        <Text
-          key={index}
-          sender={{
-            firstName: msg.user.firstName,
-            lastName: msg.user.lastName,
-            isCurrentUser: msg.user.userId === user._id,
-          }}
-          text={msg.content}
-          time={formatTime(msg.createdAt)}
-        />
-      ))}
+      {sortedMessages.map((msg, index) => {
+        // Skip messages without proper user data
+        if (!msg?.user?.userId) {
+          console.warn("Message missing user data:", msg);
+          return null;
+        }
+
+        return (
+          <Text
+            key={msg._id || index}
+            sender={{
+              firstName: msg.user.firstName,
+              lastName: msg.user.lastName,
+              isCurrentUser: msg.user.userId === user._id,
+            }}
+            text={msg.content}
+            time={formatTime(msg.createdAt)}
+          />
+        );
+      })}
       <div ref={messagesEndRef} />
     </div>
   );

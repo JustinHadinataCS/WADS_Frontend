@@ -11,7 +11,7 @@ import CommunicationLog from "../features/tickets/CommunicationLog";
 function TicketDetailsPage() {
   const ticketID = useParams();
   const { user } = useAuthContext();
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, error } = useQuery(
     getIndividualTicketsQueryOptions(user.accessToken, ticketID.id)
   );
 
@@ -21,7 +21,31 @@ function TicketDetailsPage() {
     in_progress: "bg-blue-100 text-blue-600",
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg text-gray-600">Loading ticket details...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg text-red-600">
+          Error loading ticket: {error.message}
+        </p>
+      </div>
+    );
+  }
+
+  if (!data?.data) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg text-red-600">No ticket data found</p>
+      </div>
+    );
+  }
 
   const ticketData = data.data;
 
@@ -51,7 +75,10 @@ function TicketDetailsPage() {
           </div>
 
           <div className="grid grid-cols-7 gap-5">
-            <CommunicationLog />
+            <CommunicationLog
+              ticketId={ticketData._id}
+              messages={ticketData.messages || []}
+            />
             <TicketDetails data={ticketData} />
           </div>
         </div>
