@@ -24,7 +24,7 @@ const SecuritySection = () => {
   useEffect(() => {
     const fetchSecurity = async () => {
       try {
-        const data = await getUserProfile(user?.token);
+        const data = await getUserProfile(user?.accessToken);
         setPasswordLastChanged(data.securitySettings?.lastPasswordChange);
 
         const serverData = {
@@ -44,7 +44,7 @@ const SecuritySection = () => {
       }
     };
 
-    if (user?.token) fetchSecurity();
+    if (user?.accessToken) fetchSecurity();
     else setLoading(false);
   }, [user]);
 

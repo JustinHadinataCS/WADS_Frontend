@@ -42,7 +42,7 @@ const PasswordStrength = ({ lastChanged }) => {
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         userId={user._id}
-        token={user.token}
+        token={user.accessToken}
       />
     </div>
   );

@@ -8,6 +8,7 @@ import { parseISO, format} from "date-fns";
 export default function UserDetails({ user, updateUser, deleteUser }){
 
     const [showPopup, setPopupStatus] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const [confirmEmail, setConfirmEmail] = useState("")
 
     const roles = ["admin", "agent", "user"]
@@ -25,19 +26,18 @@ export default function UserDetails({ user, updateUser, deleteUser }){
 
     function handlePopup(){
         setPopupStatus(!showPopup)
+        setErrorMessage("")
     }
 
     function handleDelete(){
-        if(!confirmEmail){
-            alert("Please enter a valid email")
-        }
 
         if(confirmEmail === user.email){
             deleteUser()
             setPopupStatus(!showPopup)
+            setErrorMessage("")
         }
         else{
-            alert("Emails do not match")
+            setErrorMessage("Emails do not match!")
         }
     }
 
@@ -49,6 +49,7 @@ export default function UserDetails({ user, updateUser, deleteUser }){
                 handlePopup={handlePopup} 
                 onChange={setConfirmEmail}
                 email={user.email}
+                errorMsg={errorMessage}
                 />
             }
             <div className="w-full p-8 border-b border-gray-300 flex items-center justify-center">

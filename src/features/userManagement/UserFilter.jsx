@@ -5,6 +5,7 @@ export default function TicketFilters({
   keyword,
   setKeyword,
   applyFilter,
+  handlePopup
 }) {
   return (
     <div className="flex w-full gap-4 bg-white p-5 rounded-md shadow-md border border-gray-300">
@@ -45,6 +46,13 @@ export default function TicketFilters({
         onClick={applyFilter}
       >
         Apply Filter
+      </button>
+      <button
+        type="button"
+        className="h-10 w-32 px-4 py-2 text-sm text-white bg-[#4AC180] rounded-md hover:bg-[#3AA46A] focus:outline-none font-['Poppins'] hover:cursor-pointer"
+        onClick={handlePopup}
+      >
+        Create User
       </button>
     </div>
   );
