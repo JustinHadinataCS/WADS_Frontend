@@ -122,9 +122,19 @@ function TicketDetails({ data }) {
             <strong className="text-base">Equipment:</strong>{" "}
             {data.equipment?.name || "N/A"}
           </p>
-          <p className="text-red-600">
-            <strong className="text-base text-black">Priority:</strong>{" "}
-            {capitalizeFirstLetter(data.priority)}
+          <p>
+            <strong className="text-base">Priority:</strong>{" "}
+            <span
+              className={`font-medium ${
+                data.priority === "high"
+                  ? "text-red-600"
+                  : data.priority === "medium"
+                  ? "text-yellow-600"
+                  : "text-green-600"
+              }`}
+            >
+              {capitalizeFirstLetter(data.priority)}
+            </span>
           </p>
           <p>
             <strong className="text-base">Description:</strong>{" "}
