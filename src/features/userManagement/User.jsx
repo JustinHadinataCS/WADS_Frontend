@@ -38,7 +38,7 @@ function User({ user }) {
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm">
         <NavLink
-          
+          to={`/users/${user._id}`}
           className="bg-[#4A81C0] hover:cursor-pointer text-white px-3 py-1 rounded-md font-medium text-xs"
         >
           Details

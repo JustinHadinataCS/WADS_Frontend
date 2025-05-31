@@ -22,7 +22,7 @@ function MainNav() {
             <StyledLink location="/analytics" icon={IoAnalytics}>
               Analytics
             </StyledLink>
-            <StyledLink location="/user-management" icon={FiUsers}>
+            <StyledLink location="/users" icon={FiUsers}>
               User Management
             </StyledLink>
           </>

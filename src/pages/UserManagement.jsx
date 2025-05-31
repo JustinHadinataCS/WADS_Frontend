@@ -24,8 +24,6 @@ export default function UserManagement(){
         else return user.role === filterRoles;
         });
 
-        console.log(filtered)
-
         if (keyword) {
         const filteredWithKeyword = filtered.filter((user) => {
             return (
