@@ -37,30 +37,6 @@ function NotificationSettings() {
             </label>
           </div>
         </div>
-        {/* In-App Notifications */}
-        <div className="mt-5">
-          <h4 className="text-lg text-gray-800 mb-2 font-semibold">
-            In-App Notifications
-          </h4>
-          <div className="space-y-2 text-sm">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                className="form-checkbox text-blue-700 mr-2"
-                defaultChecked
-              />
-              <span>All Updates</span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                className="form-checkbox text-blue-700 mr-2"
-                defaultChecked
-              />
-              <span>System Notifications</span>
-            </label>
-          </div>
-        </div>
         {/* Save Button */}
         <button className="w-full bg-blue-800 text-white py-2 px-4 rounded mt-5 border-none">
           Save Settings

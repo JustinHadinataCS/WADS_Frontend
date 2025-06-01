@@ -159,36 +159,6 @@ const NotificationSection = () => {
             checked={preferences.notificationSettings.email.newAgentResponses}
             onChange={() => handleToggle("email", "newAgentResponses")}
           />
-          <ContentToggle
-            text="Ticket Resolution"
-            desc="Receive confirmation when tickets are resolved"
-            checked={preferences.notificationSettings.email.ticketResolution}
-            onChange={() => handleToggle("email", "ticketResolution")}
-          />
-          <ContentToggle
-            text="Marketing Updates"
-            desc="Receive newsletters and promotional content"
-            checked={preferences.notificationSettings.email.marketingUpdates}
-            onChange={() => handleToggle("email", "marketingUpdates")}
-          />
-        </div>
-      </div>
-
-      <div className="mb-8">
-        <NotificationSubtitle text="In-App Notifications" />
-        <div className="space-y-4 mt-4">
-          <ContentToggle
-            text="Desktop Notifications"
-            desc="Show notifications on your desktop"
-            checked={preferences.notificationSettings.inApp.desktopNotifications}
-            onChange={() => handleToggle("inApp", "desktopNotifications")}
-          />
-          <ContentToggle
-            text="Sound Notifications"
-            desc="Play a sound for new notifications"
-            checked={preferences.notificationSettings.inApp.soundNotifications}
-            onChange={() => handleToggle("inApp", "soundNotifications")}
-          />
         </div>
       </div>
 
