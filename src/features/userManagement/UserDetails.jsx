@@ -1,11 +1,15 @@
 import UserDetail from "./UserDetail"
 import UserDetailSections from "./UserDetailSections"
 import EditableUserDetail from "./EditableUserDetail"
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import DeletePopup from "./DeletePopup";
 import { useState } from "react";
 import { parseISO, format} from "date-fns";
 
 export default function UserDetails({ user, updateUser, deleteUser }){
+
+    const navigate = useNavigate()
 
     const [showPopup, setPopupStatus] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
@@ -32,9 +36,29 @@ export default function UserDetails({ user, updateUser, deleteUser }){
     function handleDelete(){
 
         if(confirmEmail === user.email){
-            deleteUser()
-            setPopupStatus(!showPopup)
-            setErrorMessage("")
+            deleteUser({
+                onSuccess: () => {
+                    toast.success("Successfully deleted a user!", {
+                        duration: 4000,
+                        position: "top-right",
+                        style: {
+                          background: "#4CAF50",
+                          color: "#fff",
+                        },
+                      });
+                    setErrorMessage("")
+                    handlePopup();
+                    navigate('/users')
+                },
+                onError: (error) => {
+                    const message =
+                    error?.response?.data?.message ||
+                    error?.message ||
+                    "Failed to delete user";
+                    setErrorMessage(message);
+                },
+                })
+
         }
         else{
             setErrorMessage("Emails do not match!")

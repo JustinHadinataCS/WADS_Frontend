@@ -7,6 +7,7 @@ import UserTable from "../features/userManagement/UserTable";
 import TicketPagination from "../features/tickets/TicketPagination";
 import CreateUserPopup from "../features/userManagement/CreateUserPopup";
 import getTimezone from "../utils/getTimezone";
+import toast from "react-hot-toast";
 
 export default function UserManagement(){
     // Pagination
@@ -83,6 +84,14 @@ export default function UserManagement(){
         },
         {
         onSuccess: () => {
+            toast.success("Successfully created a user!", {
+                duration: 4000,
+                position: "top-right",
+                style: {
+                  background: "#4CAF50",
+                  color: "#fff",
+                },
+              });
             setFirstName("");
             setLastName("");
             setPassword("");
