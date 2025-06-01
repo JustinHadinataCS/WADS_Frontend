@@ -85,8 +85,26 @@ function AuthProvider({ children }) {
     mutationFn: logout,
     onSuccess: (data) => {
       setUser("");
+      toast.success("Logout successful!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#4CAF50",
+          color: "#fff",
+        },
+      });
     },
-    onError: (error) => console.error(`Error: ${error.message}`),
+    onError: (error) => {
+      toast.error("Logout failed!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
+      console.error(`Error: ${error.message}`);
+    },
   });
 
   // AUTO LOGIN
