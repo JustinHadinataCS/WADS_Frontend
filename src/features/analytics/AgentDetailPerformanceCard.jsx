@@ -38,6 +38,7 @@ export default function AgentDetailPerformanceCard({ stats }) {
           <MiniStat title="Tickets Resolved" value={stats.ticketStats.resolved} />
           <MiniStat title="Tickets In Progress" value={stats.ticketStats.inProgress} />
           <MiniStat title="Tickets Pending" value={stats.ticketStats.pending} />
+          <MiniStat title="Avg Resolution Time" value={stats.ticketStats.avgResolutionTime || "—"} />
         </div>
 
         {/* Right column */}
