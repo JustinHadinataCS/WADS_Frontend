@@ -26,6 +26,7 @@ const TicketPopup = ({ handleCancel }) => {
   };
 
   const handleFileChange = (e) => {
+    console.log("File changed:", e.target.files[0].name);
     const files = Array.from(e.target.files);
     setFormData((prev) => ({
       ...prev,
@@ -44,6 +45,7 @@ const TicketPopup = ({ handleCancel }) => {
       formDataToSend.append("priority", formData.priority);
       formDataToSend.append("department", formData.department);
       formDataToSend.append("description", formData.description);
+      formDataToSend.append("attachments", formData.attachments);
 
       // Only append files if there are any
       formData.attachments.forEach((file) => {
@@ -56,7 +58,7 @@ const TicketPopup = ({ handleCancel }) => {
         priority: formData.priority,
         department: formData.department,
         description: formData.description,
-        attachments: formData.attachments.length,
+        attachments: formData.attachments,
       });
 
       const response = await createTicket(user.accessToken, formDataToSend);

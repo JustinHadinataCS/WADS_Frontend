@@ -37,6 +37,27 @@ export const getTicketsByID = async (token, ID) => {
 };
 
 export const createTicket = async (token, ticketData) => {
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // Remove the "data:...;base64," prefix
+        const base64String = reader.result.split(',')[1];
+        resolve(base64String);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const attachments = await Promise.all(
+    ticketData.getAll("attachments").slice(1).map(async (file) => ({
+      fileName: file.name,
+      fileUrl: await fileToBase64(file), // Base64 string
+    }))
+  );
+
   // Convert FormData to a regular object with all required fields
   const ticketObject = {
     title: ticketData.get("title"),
@@ -45,6 +66,7 @@ export const createTicket = async (token, ticketData) => {
     description: ticketData.get("description"),
     status: "pending",
     department: ticketData.get("department"),
+    attachments,
     equipment: {
       name: "General",
       type: "Other",
@@ -52,8 +74,6 @@ export const createTicket = async (token, ticketData) => {
     submittedBy: null, // This will be set by the backend using the token
     assignedTo: null, // This will be set by the backend
   };
-
-  console.log("Sending ticket object:", ticketObject); // Debug log
 
   const res = await fetch(`${API_BASE_URL}`, {
     method: "POST",
