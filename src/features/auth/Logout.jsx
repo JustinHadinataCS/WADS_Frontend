@@ -9,11 +9,11 @@ function Logout() {
   useEffect(() => {
     // Clear user state immediately to prevent redirect to dashboard
     setUser("");
-    
+
     // Perform logout in the background
     const token = user.accessToken;
     logoutFunc(token);
-    
+
     // Navigate to login page
     navigate("/login");
   }, []);
@@ -25,7 +25,9 @@ function Logout() {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
         </div>
         <h1 className="text-2xl font-bold mb-2">Logging Out...</h1>
-        <p className="text-gray-600">Please wait while we complete your logout.</p>
+        <p className="text-gray-600">
+          Please wait while we complete your logout.
+        </p>
       </div>
     </div>
   );

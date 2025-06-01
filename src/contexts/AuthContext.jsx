@@ -8,6 +8,7 @@ import {
   logout,
   getAccessTokenFromRefresh,
 } from "../api/auth";
+import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -24,8 +25,26 @@ function AuthProvider({ children }) {
         hasToken: !!data.accessToken,
       });
       setUser(data);
+      toast.success("Login successful!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#4CAF50",
+          color: "#fff",
+        },
+      });
     },
-    onError: (error) => console.error(`Login error: ${error.message}`),
+    onError: (error) => {
+      toast.error("Login failed!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
+      console.error(`Login error: ${error.message}`);
+    },
   });
 
   const registerMutation = useMutation({
