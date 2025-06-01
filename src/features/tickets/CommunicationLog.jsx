@@ -405,7 +405,6 @@ function CommunicationLog({
         </form>
       )}
 
-      <button onClick={() => console.log(currentStatus)}>Test</button>
       <TicketFeedback ticketId={ticketId} currentStatus={currentStatus} />
     </div>
   );
