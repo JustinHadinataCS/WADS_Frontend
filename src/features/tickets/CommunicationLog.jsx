@@ -93,6 +93,10 @@ function CommunicationLog({
   };
 
   useEffect(() => {
+    if (user.role === "admin") {
+      return;
+    }
+
     if (!socket) {
       console.log("Socket not initialized");
       setError("Socket connection not available");
@@ -380,6 +384,7 @@ function CommunicationLog({
       </div>
 
       {/* Reply Box */}
+      {user.role !== "admin" && (
       <form onSubmit={handleSendMessage} className="flex gap-2">
         <input
           type="text"
@@ -396,7 +401,8 @@ function CommunicationLog({
         >
           {isSending ? "Sending..." : "Send"}
         </button>
-      </form>
+        </form>
+      )}
     </div>
   );
 }

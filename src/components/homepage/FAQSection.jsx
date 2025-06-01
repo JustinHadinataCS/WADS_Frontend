@@ -30,18 +30,6 @@ function FAQSection() {
     <section className="py-10 px-4 max-w-3xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
 
-      <div className="flex mb-4 justify-between gap-x-4">
-        {faqCategories.map((category, index) => (
-          <CategoryTab
-            onActiveCategory={setActiveCategory}
-            key={index}
-            index={index}
-            activeCategory={activeCategory}
-            title={category}
-          />
-        ))}
-      </div>
-
       <div className="space-y-4">
         {faqs.map((faq, index) => (
           <FAQItem
@@ -53,7 +41,6 @@ function FAQSection() {
           />
         ))}
       </div>
-      <SearchHelp />
     </section>
   );
 }
