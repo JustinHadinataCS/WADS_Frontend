@@ -8,13 +8,14 @@ import Setting from "../pages/Setting";
 import ForumPage from "../pages/ForumPage";
 import SignUpPage from "../pages/SignUpPage";
 import Chatbot from "../pages/Chatbot";
-import LoginPage from "../pages/LoginPage";
+import LoginPage from "../pages/LogInPage";
 import Tickets from "../pages/Tickets";
 import TicketDetailsPage from "../pages/TicketDetailsPage";
 import UserManagement from "../pages/UserManagement";
 import UserDetailsPage from "../pages/UserDetailsPage";
 import Logout from "../features/auth/Logout";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
+import GoogleCallback from "../features/auth/GoogleCallback";
 
 function AppRoutes() {
   return (
@@ -46,6 +47,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route path="/auth/google/callback" element={<GoogleCallback />} />
 
       {/* Protected Routes */}
       <Route
