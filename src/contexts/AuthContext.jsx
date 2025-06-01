@@ -15,20 +15,36 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState("");
-  const [tempUid, setTempUid] = useState("")
+  const [tempUid, setTempUid] = useState("");
+  const [requires2FA, setRequires2FA] = useState(false);
 
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      setUser(data);
-      toast.success("Login successful!", {
-        duration: 4000,
-        position: "top-right",
-        style: {
-          background: "#4CAF50",
-          color: "#fff",
-        },
-      });
+      // Check if the response indicates 2FA is required (only has _id)
+      if (data._id && !data.accessToken) {
+        setTempUid(data._id);
+        setRequires2FA(true);
+        toast.success("2FA verification required", {
+          duration: 4000,
+          position: "top-right",
+          style: {
+            background: "#2196F3",
+            color: "#fff",
+          },
+        });
+      } else {
+        setUser(data);
+        setRequires2FA(false);
+        toast.success("Login successful!", {
+          duration: 4000,
+          position: "top-right",
+          style: {
+            background: "#4CAF50",
+            color: "#fff",
+          },
+        });
+      }
     },
     onError: (error) => {
       toast.error("Login failed!", {
@@ -152,8 +168,10 @@ function AuthProvider({ children }) {
       value={{
         user,
         setUser,
-        tempUid, 
+        tempUid,
         setTempUid,
+        requires2FA,
+        setRequires2FA,
 
         login: loginMutation.mutate,
         loginLoading: loginMutation.isLoading,
