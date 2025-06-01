@@ -2,7 +2,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { useState } from "react";
 import { useChatbotContext } from "../../contexts/ChatbotContext";
 
-export default function MessageInput() {
+export default function MessageInput({ setTempMessage }) {
     const [message, setMessage] = useState("");
     const { newBotMessage } = useChatbotContext();
 
@@ -12,6 +12,7 @@ export default function MessageInput() {
       if(message !== "") newBotMessage({message: message})
 
       setMessage("");
+      setTempMessage(message);
     };
     return (
       <div className="bg-white border border-neutral-100 shadow-sm p-6 rounded-md">

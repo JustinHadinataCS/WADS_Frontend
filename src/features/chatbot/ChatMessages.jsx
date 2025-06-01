@@ -5,7 +5,7 @@ import BotButtonGroup from "./BotButtonGroup";
 import { useChatbotContext } from "../../contexts/ChatbotContext";
 import { useEffect, useRef } from "react";
 
-export default function ChatMessages() {
+export default function ChatMessages({ tempMessage, setTempMessage }) {
   const {
     botMessageHistory,
     botMessageHistoryLoading,
@@ -13,11 +13,23 @@ export default function ChatMessages() {
     newBotMessagePending
   } = useChatbotContext();
 
-  // Smooth scrolling to the latest chat msg
+  if(!newBotMessagePending && tempMessage !== "") {
+    setTempMessage("");
+  }
+
   const bottomRef = useRef(null);
+
+  // Instantly scroll to latest chats during initial load
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [botMessageHistory]);
+    bottomRef.current?.scrollIntoView({ behavior: "auto" });
+  }, []);
+
+  // Smooth scrolling when you send a new message
+  useEffect(() => {
+    if (newBotMessagePending) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [newBotMessagePending]);
 
   return (
     <div className="flex-grow overflow-y-auto p-4">
@@ -50,13 +62,16 @@ export default function ChatMessages() {
 
           
           {newBotMessagePending &&
-          <BotMessage>
-            <div className="w-full flex gap-2">
-              <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-              <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-              <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce"></div>
-            </div> 
-          </BotMessage>
+          <>
+            <UserMessage content={tempMessage} />
+            <BotMessage>
+              <div className="w-full flex gap-2">
+                <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                <div className="h-2 w-2 bg-neutral-400 rounded-full animate-bounce"></div>
+              </div> 
+            </BotMessage>
+          </>
           }
           
 
