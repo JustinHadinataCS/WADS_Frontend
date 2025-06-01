@@ -7,12 +7,24 @@ export default function DashboardTicketContent({ data }) {
   const { user } = useAuthContext();
 
   const statusColors = {
-    pending: "bg-yellow-100 text-yellow-600",
-    resolved: "bg-green-100 text-green-600",
-    in_progress: "bg-blue-100 text-blue-600",
+    pending: "bg-yellow-100 text-yellow-800",
+    resolved: "bg-green-100 text-green-800",
+    in_progress: "bg-blue-100 text-blue-800",
   };
 
-  // For mobile view
+  const formatStatus = (status) => {
+    switch (status) {
+      case "pending":
+        return "Pending";
+      case "in_progress":
+        return "In Progress";
+      case "resolved":
+        return "Resolved";
+      default:
+        return status;
+    }
+  };
+
   const renderMobileTickets = () => {
     return data.recentTickets.map((item) => (
       <div key={item._id} className="mb-4 p-3 border-b border-gray-200">
@@ -35,7 +47,7 @@ export default function DashboardTicketContent({ data }) {
               statusColors[item.status.toLowerCase()]
             }`}
           >
-            {capitalizeFirstLetter(item.status)}
+            {formatStatus(item.status.toLowerCase())}
           </span>
         </div>
         <div className="flex justify-between mb-2">
@@ -56,7 +68,6 @@ export default function DashboardTicketContent({ data }) {
 
   return (
     <div className="h-72 w-full p-4 overflow-y-auto">
-      {/* Desktop view */}
       <div className="hidden md:block w-full flex-grow overflow-auto bg-white">
         <table className="min-w-full">
           <thead className="bg-white border-b border-gray-200">
@@ -92,10 +103,8 @@ export default function DashboardTicketContent({ data }) {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {/* Table rows remain the same */}
             {data.recentTickets.map((item) => (
               <tr key={item._id} className="border-b border-gray-200">
-                {/* Same content as before */}
                 {user.role === "agent" && (
                   <td className="px-4 py-3 text-sm text-gray-700">
                     {item.submittedBy.firstName} {item.submittedBy.lastName[0]}.
@@ -126,7 +135,7 @@ export default function DashboardTicketContent({ data }) {
                       statusColors[item.status.toLowerCase()]
                     }`}
                   >
-                    {capitalizeFirstLetter(item.status)}
+                    {formatStatus(item.status.toLowerCase())}
                   </span>
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-700">
