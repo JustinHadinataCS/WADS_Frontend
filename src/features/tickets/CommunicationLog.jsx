@@ -5,7 +5,6 @@ import { format } from "date-fns";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import useUpdateTicketStatus from "../../queryoptions/updateTicketStatusQuery";
-import TicketFeedback from "./TicketFeedback";
 
 function CommunicationLog({
   ticketId,
@@ -391,8 +390,6 @@ function CommunicationLog({
           </button>
         </form>
       )}
-
-      <TicketFeedback ticketId={ticketId} currentStatus={currentStatus} />
     </div>
   );
 }
