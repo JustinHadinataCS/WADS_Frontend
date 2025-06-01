@@ -24,6 +24,25 @@ export default function UserDetails({ user, updateUser, deleteUser }){
             updateUser({
                 role: userRole,
                 department: userDept
+            },{
+            onSuccess: () => {
+                toast.error("Update failed!", {
+                    duration: 4000,
+                    position: "top-right",
+                    style: {
+                    background: "#F44336",
+                    color: "#fff",
+                    },
+                });
+                
+            },
+            onError: (error) => {
+                const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Failed to delete user";
+                setErrorMessage(message);
+            },
             })
         }
     }
@@ -36,7 +55,7 @@ export default function UserDetails({ user, updateUser, deleteUser }){
     function handleDelete(){
 
         if(confirmEmail === user.email){
-            deleteUser({
+            deleteUser({},{
                 onSuccess: () => {
                     toast.success("Successfully deleted a user!", {
                         duration: 4000,
