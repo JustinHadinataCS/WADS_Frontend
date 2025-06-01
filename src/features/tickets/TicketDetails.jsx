@@ -1,5 +1,6 @@
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
 import PropTypes from "prop-types";
+import { FaDownload } from "react-icons/fa6";
 
 function TicketDetails({ data }) {
   return (
@@ -54,10 +55,19 @@ function TicketDetails({ data }) {
             {data.attachments.map((attachment, index) => (
               <div
                 key={index}
-                className="flex items-center border border-[#DDDDDD] rounded-md p-2"
+                className="flex items-center justify-between border border-[#DDDDDD] rounded-md p-2"
               >
-                <span className="mr-3">📎</span>
-                <span className="text-sm">{attachment.fileName}</span>
+                <div className="flex items-center">
+                  <span className="mr-3">📎</span>
+                  <span className="text-sm">{attachment.fileName}</span>
+                </div>
+                <a
+                  href={`data:application/octet-stream;base64,${attachment.fileUrl}`}
+                  download={attachment.fileName}
+                  className="text-sm font-medium"
+                >
+                  <FaDownload />
+                </a>
               </div>
             ))}
           </div>
