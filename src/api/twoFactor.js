@@ -71,3 +71,25 @@ export const disable2fa = async (token) => {
 
   return data;
 };
+
+/**
+ * Validate a user with 2FA
+ * @param {Object} credentials - The login credentials (2FA 6digit code)
+ * @returns {Promise<Object>} The response JSON containing token and user info
+ */
+export const validate2fa = async (credentials) => {
+  const res = await fetch(`${API_BASE_URL}/validate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+    credentials: "include",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Validation failed");
+  }
+
+  return data;
+};

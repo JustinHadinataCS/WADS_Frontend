@@ -7,6 +7,7 @@ import NotificationsPage from "../pages/NotificationsPage";
 import Setting from "../pages/Setting";
 import ForumPage from "../pages/ForumPage";
 import SignUpPage from "../pages/SignUpPage";
+import ValidationPage from "../pages/ValidationPage";
 import Chatbot from "../pages/Chatbot";
 import LoginPage from "../pages/LogInPage";
 import Analytics from "../pages/Analytics";
@@ -44,6 +45,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute reverse={true}>
             <LoginPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/validate"
+        element={
+          <ProtectedRoute reverse={true}>
+            <ValidationPage />
           </ProtectedRoute>
         }
       />

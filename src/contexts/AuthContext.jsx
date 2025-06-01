@@ -8,22 +8,18 @@ import {
   logout,
   getAccessTokenFromRefresh,
 } from "../api/auth";
+import { validate2fa } from "../api/twoFactor";
 import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState("");
+  const [tempUid, setTempUid] = useState("")
 
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      console.log("Login successful, setting user data:", {
-        userId: data._id,
-        role: data.role,
-        token: data.accessToken,
-        hasToken: !!data.accessToken,
-      });
       setUser(data);
       toast.success("Login successful!", {
         duration: 4000,
@@ -44,6 +40,31 @@ function AuthProvider({ children }) {
         },
       });
       console.error(`Login error: ${error.message}`);
+    },
+  });
+
+  const validateMutation = useMutation({
+    mutationFn: validate2fa,
+    onSuccess: (data) => {
+      setUser(data);
+      toast.success("Login successful!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#4CAF50",
+          color: "#fff",
+        },
+      });
+    },
+    onError: (error) => {
+      toast.error("Login failed!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
     },
   });
 
@@ -131,6 +152,9 @@ function AuthProvider({ children }) {
       value={{
         user,
         setUser,
+        tempUid, 
+        setTempUid,
+
         login: loginMutation.mutate,
         loginLoading: loginMutation.isLoading,
         loginError: loginMutation.error,
@@ -140,6 +164,11 @@ function AuthProvider({ children }) {
         registerLoading: registerMutation.isLoading,
         registerError: registerMutation.error,
         registerMutation,
+
+        validate: validateMutation.mutate,
+        validateLoading: validateMutation.isLoading,
+        validateError: validateMutation.error,
+        validateMutation,
 
         logoutFunc: logoutMutation.mutate,
         logoutLoading: logoutMutation.isLoading,
