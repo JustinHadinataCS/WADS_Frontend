@@ -28,7 +28,7 @@ function MessageArea({ messageReceived }) {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white border-x border-[#D5D5D5]">
+    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white border-t border-b border-[#D5D5D5]">
       {sortedMessages.map((msg, index) => {
         // Skip messages without proper user data
         if (!msg?.user?.userId) {

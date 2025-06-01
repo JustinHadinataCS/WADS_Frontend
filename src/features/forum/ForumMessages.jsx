@@ -8,7 +8,7 @@ import MessageArea from "./MessageArea";
 import MessageHeader from "./MessageHeader";
 import PropTypes from "prop-types";
 
-function ForumMessages({ selectedRoomId }) {
+function ForumMessages({ selectedRoomId, onBackClick }) {
   const { user } = useAuthContext();
   const { socket } = useSocket();
   const [message, setMessage] = useState("");
@@ -70,36 +70,42 @@ function ForumMessages({ selectedRoomId }) {
   }, [selectedRoomId, socket]);
 
   if (isLoading)
-    return <div className="flex-1 flex flex-col">Loading messages...</div>;
+    return (
+      <div className="flex-1 flex flex-col h-full bg-white border border-[#D5D5D5] rounded-md">
+        <div className="p-4 text-center">Loading messages...</div>
+      </div>
+    );
 
   if (queryError || error)
     return (
-      <div className="flex-1 flex flex-col">
-        Error loading messages: {queryError?.message || error}
+      <div className="flex-1 flex flex-col h-full bg-white border border-[#D5D5D5] rounded-md">
+        <div className="p-4 text-red-500 text-center">
+          Error loading messages: {queryError?.message || error}
+        </div>
       </div>
     );
 
   return (
-    <>
-      <div className="flex-1 flex flex-col">
-        <MessageHeader
-          agentName={selectedRoomId ? "Public Forum" : "Select a room"}
-        />
-        <MessageArea messageReceived={messages} />
-        <MessageInput
-          message={message}
-          setMessage={setMessage}
-          socket={socket}
-          roomId={selectedRoomId}
-          disabled={!selectedRoomId || !socket}
-        />
-      </div>
-    </>
+    <div className="flex-1 flex flex-col h-full bg-white border border-[#D5D5D5] rounded-md">
+      <MessageHeader
+        agentName={selectedRoomId ? "Public Forum" : "Select a room"}
+        onBackClick={onBackClick}
+      />
+      <MessageArea messageReceived={messages} />
+      <MessageInput
+        message={message}
+        setMessage={setMessage}
+        socket={socket}
+        roomId={selectedRoomId}
+        disabled={!selectedRoomId || !socket}
+      />
+    </div>
   );
 }
 
 ForumMessages.propTypes = {
   selectedRoomId: PropTypes.string,
+  onBackClick: PropTypes.func,
 };
 
 export default ForumMessages;
