@@ -91,6 +91,7 @@ function TicketDetailsPage() {
             <CommunicationLog
               ticketId={ticketData._id}
               messages={ticketData.messages || []}
+              currentStatus={ticketData.status}
             />
             <TicketDetails data={ticketData} />
           </div>

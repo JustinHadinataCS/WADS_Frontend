@@ -6,11 +6,10 @@ import { submitFeedback } from "../../api/feedback";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 
-function TicketFeedback({ ticketId, ticketStatus }) {
+function TicketFeedback({ ticketId, currentStatus }) {
   const { user } = useAuthContext();
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 
-  // Get existing feedback for the ticket
   const { data: existingFeedback } = useQuery(
     getTicketFeedbackQueryOptions(user.accessToken, ticketId)
   );
@@ -47,11 +46,10 @@ function TicketFeedback({ ticketId, ticketStatus }) {
     submitFeedbackMutation({ rating });
   };
 
-  if (user.role !== "user" || ticketStatus === "Resolved") {
+  if (user.role !== "user" || currentStatus !== "resolved") {
     return null;
   }
 
-  // Show existing feedback if already submitted
   if (existingFeedback) {
     return (
       <div className="mt-4 p-4 bg-gray-50 rounded-md">
@@ -76,7 +74,6 @@ function TicketFeedback({ ticketId, ticketStatus }) {
     );
   }
 
-  // Show feedback form if not submitted yet
   if (showFeedbackForm) {
     return (
       <div className="mt-4 p-4 bg-gray-50 rounded-md">
@@ -110,7 +107,6 @@ function TicketFeedback({ ticketId, ticketStatus }) {
     );
   }
 
-  // Show initial feedback prompt
   return (
     <div className="mt-4 p-4 bg-gray-50 rounded-md">
       <h4 className="text-sm font-medium text-gray-700 mb-2">
@@ -128,7 +124,7 @@ function TicketFeedback({ ticketId, ticketStatus }) {
 
 TicketFeedback.propTypes = {
   ticketId: PropTypes.string.isRequired,
-  ticketStatus: PropTypes.string.isRequired,
+  currentStatus: PropTypes.string.isRequired,
 };
 
 export default TicketFeedback;
