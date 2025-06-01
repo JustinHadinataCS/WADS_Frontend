@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import useUpdateTicketStatus from "../../queryoptions/updateTicketStatusQuery";
+import TicketFeedback from "./TicketFeedback";
 
 function CommunicationLog({
   ticketId,
@@ -308,7 +309,7 @@ function CommunicationLog({
             </button>
 
             {isStatusDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg   bg-white transition-all z-10">
+              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white transition-all z-10">
                 <div className="py-1" role="menu" aria-orientation="vertical">
                   {statusOptions.map((status) => (
                     <button
@@ -385,24 +386,27 @@ function CommunicationLog({
 
       {/* Reply Box */}
       {user.role !== "admin" && (
-      <form onSubmit={handleSendMessage} className="flex gap-2">
-        <input
-          type="text"
-          value={reply}
-          onChange={(e) => setReply(e.target.value)}
-          placeholder="Type your message..."
-          className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-          disabled={!isConnected || isSending}
-        />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={!isConnected || isSending}
-        >
-          {isSending ? "Sending..." : "Send"}
-        </button>
+        <form onSubmit={handleSendMessage} className="flex gap-2">
+          <input
+            type="text"
+            value={reply}
+            onChange={(e) => setReply(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            disabled={!isConnected || isSending}
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!isConnected || isSending}
+          >
+            {isSending ? "Sending..." : "Send"}
+          </button>
         </form>
       )}
+
+      {/* Feedback Component */}
+      <TicketFeedback ticketId={ticketId} ticketStatus={currentStatus} />
     </div>
   );
 }
