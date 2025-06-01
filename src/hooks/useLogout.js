@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 
 function useLogout() {
-  const { user, logoutFunc } = useAuthContext();
+  const { user, logoutFunc, setUser } = useAuthContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -16,8 +16,7 @@ function useLogout() {
         // Call logout mutation without awaiting it
         logoutFunc(user.accessToken);
       }
-
-      // Use replace instead of push for navigation
+      setUser("");
       navigate("/home", { replace: true });
     } catch (error) {
       console.error("Logout error:", error);
