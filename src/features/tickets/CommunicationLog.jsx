@@ -4,14 +4,67 @@ import { useSocket } from "../../contexts/SocketContext";
 import { format } from "date-fns";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
+import useUpdateTicketStatus from "../../queryoptions/updateTicketStatusQuery";
 
-function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
+function CommunicationLog({
+  ticketId,
+  messages: initialMessages = [],
+  currentStatus,
+}) {
   const { user } = useAuthContext();
   const { socket, isConnected } = useSocket();
   const [messages, setMessages] = useState(initialMessages);
   const [reply, setReply] = useState("");
   const [error, setError] = useState(null);
   const [isSending, setIsSending] = useState(false);
+  const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+
+  const { mutate: updateStatus, isLoading: isUpdatingStatus } =
+    useUpdateTicketStatus(ticketId);
+
+  const statusOptions = [
+    {
+      value: "pending",
+      label: "Pending",
+      color: "bg-yellow-100 text-yellow-800",
+    },
+    {
+      value: "in_progress",
+      label: "In Progress",
+      color: "bg-blue-100 text-blue-800",
+    },
+    {
+      value: "resolved",
+      label: "Resolved",
+      color: "bg-green-100 text-green-800",
+    },
+  ];
+
+  const handleStatusChange = (newStatus) => {
+    updateStatus(newStatus, {
+      onSuccess: () => {
+        toast.success("Ticket status updated successfully!", {
+          duration: 4000,
+          position: "top-right",
+          style: {
+            background: "#4CAF50",
+            color: "#fff",
+          },
+        });
+        setIsStatusDropdownOpen(false);
+      },
+      onError: (error) => {
+        toast.error(error.message || "Failed to update ticket status", {
+          duration: 4000,
+          position: "top-right",
+          style: {
+            background: "#F44336",
+            color: "#fff",
+          },
+        });
+      },
+    });
+  };
 
   useEffect(() => {
     if (!socket) {
@@ -170,9 +223,90 @@ function CommunicationLog({ ticketId, messages: initialMessages = [] }) {
 
   return (
     <div className="col-span-5 bg-white p-5 rounded-md shadow-md">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">
-        Communication Log
-      </h3>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-gray-800">
+          Communication Log
+        </h3>
+
+        {user.role === "agent" && (
+          <div className="relative">
+            <button
+              onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+              className={`px-4 py-2 rounded-md font-medium flex items-center gap-2 ${
+                statusOptions.find((s) => s.value === currentStatus)?.color ||
+                "bg-gray-100 text-gray-800"
+              }`}
+              disabled={isUpdatingStatus}
+            >
+              {isUpdatingStatus ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Updating...
+                </span>
+              ) : (
+                <>
+                  {statusOptions.find((s) => s.value === currentStatus)
+                    ?.label || "Update Status"}
+                  <svg
+                    className={`w-4 h-4 transition-transform ${
+                      isStatusDropdownOpen ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </>
+              )}
+            </button>
+
+            {isStatusDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                <div className="py-1" role="menu" aria-orientation="vertical">
+                  {statusOptions.map((status) => (
+                    <button
+                      key={status.value}
+                      onClick={() => handleStatusChange(status.value)}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        currentStatus === status.value ? "bg-gray-50" : ""
+                      }`}
+                      role="menuitem"
+                    >
+                      <span
+                        className={`inline-block w-2 h-2 rounded-full mr-2 ${
+                          status.color.split(" ")[0]
+                        }`}
+                      ></span>
+                      {status.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
@@ -258,6 +392,7 @@ CommunicationLog.propTypes = {
       createdAt: PropTypes.string.isRequired,
     })
   ),
+  currentStatus: PropTypes.string.isRequired,
 };
 
 export default CommunicationLog;
