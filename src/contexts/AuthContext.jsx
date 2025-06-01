@@ -51,8 +51,26 @@ function AuthProvider({ children }) {
     mutationFn: register,
     onSuccess: (data) => {
       setUser(data);
+      toast.success("Registration successful!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#4CAF50",
+          color: "#fff",
+        },
+      });
     },
-    onError: (error) => console.error(`Registration error: ${error.message}`),
+    onError: (error) => {
+      toast.error("Registration failed!", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#F44336",
+          color: "#fff",
+        },
+      });
+      console.error(`Registration error: ${error.message}`);
+    },
   });
 
   const googleLoginMutation = useMutation({
