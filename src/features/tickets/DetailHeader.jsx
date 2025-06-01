@@ -2,7 +2,26 @@
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
 
-function DetailHeader({ ticketData, formatStatus, statusColors }) {
+function DetailHeader({ ticketData }) {
+  const statusColors = {
+    pending: "bg-yellow-100 text-yellow-600",
+    resolved: "bg-green-100 text-green-600",
+    in_progress: "bg-blue-100 text-blue-600",
+  };
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case "pending":
+        return "Pending";
+      case "in_progress":
+        return "In Progress";
+      case "resolved":
+        return "Resolved";
+      default:
+        return status;
+    }
+  };
+
   return (
     <div className="bg-white p-5 rounded-md shadow-md mb-5">
       <div className="flex justify-between items-center">

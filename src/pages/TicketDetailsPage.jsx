@@ -46,11 +46,7 @@ function TicketDetailsPage() {
     <>
       <div className="flex flex-grow">
         <div className="flex-grow ">
-          <DetailHeader
-            ticketData={ticketData}
-            formatStatus={formatStatus}
-            statusColors={statusColors}
-          />
+          <DetailHeader ticketData={ticketData} />
 
           <div className="grid grid-cols-7 gap-5">
             <CommunicationLog
