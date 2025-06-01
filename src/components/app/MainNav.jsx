@@ -6,10 +6,12 @@ import { FiUsers } from "react-icons/fi";
 import { IoAnalytics } from "react-icons/io5";
 import { IoIosNotifications, IoIosSettings, IoIosLogOut } from "react-icons/io";
 import { useAuthContext } from "../../contexts/AuthContext";
+import useLogout from "../../hooks/useLogout";
 
 function MainNav() {
-
   const { user } = useAuthContext();
+  const logout = useLogout();
+
   return (
     <nav className="flex flex-col justify-between h-screen">
       <div className="flex flex-col gap-y-4 ">
@@ -51,9 +53,13 @@ function MainNav() {
         </StyledLink>
       </div>
 
-      <StyledLink location="/logout" icon={IoIosLogOut}>
-        Logout
-      </StyledLink>
+      <button
+        onClick={logout}
+        className="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-[#2A517B] transition text-white cursor-pointer"
+      >
+        <IoIosLogOut size={20} />
+        <span>Logout</span>
+      </button>
     </nav>
   );
 }

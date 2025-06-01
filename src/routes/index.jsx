@@ -13,7 +13,6 @@ import Tickets from "../pages/Tickets";
 import TicketDetailsPage from "../pages/TicketDetailsPage";
 import UserManagement from "../pages/UserManagement";
 import UserDetailsPage from "../pages/UserDetailsPage";
-import Logout from "../features/auth/Logout";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 import GoogleCallback from "../features/auth/GoogleCallback";
 
@@ -67,7 +66,6 @@ function AppRoutes() {
         <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/users" element={<UserManagement />} />
         <Route path="/users/:id" element={<UserDetailsPage />} />
-        <Route path="/logout" element={<Logout />} />
       </Route>
     </Routes>
   );
