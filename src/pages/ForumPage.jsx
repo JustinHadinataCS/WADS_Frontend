@@ -7,7 +7,7 @@ function ForumPage() {
   const [showMobileList, setShowMobileList] = useState(true);
 
   return (
-    <div className="flex flex-col md:flex-row h-full gap-4">
+    <div className="flex flex-col md:flex-row h-full space-x-0 md:space-x-4">
       <div className="md:hidden flex justify-center mb-4">
         <div className="inline-flex rounded-md shadow-sm" role="group">
           <button
@@ -36,7 +36,7 @@ function ForumPage() {
       <div
         className={`${
           showMobileList ? "block" : "hidden"
-        } md:block md:w-1/3 lg:w-1/4`}
+        } md:block mb-4 md:mb-0`}
       >
         <ForumList
           onRoomSelect={(roomId) => {
@@ -48,9 +48,7 @@ function ForumPage() {
       </div>
 
       <div
-        className={`${
-          !showMobileList ? "block" : "hidden"
-        } md:block flex-1 md:w-2/3 lg:w-3/4`}
+        className={`${!showMobileList ? "block" : "hidden"} md:block flex-1`}
       >
         <ForumMessages
           selectedRoomId={selectedRoomId}
