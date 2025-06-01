@@ -258,9 +258,7 @@ function CommunicationLog({
           <div className="relative">
             <button
               onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
-              className={`px-4 py-2 rounded-md font-medium flex items-center gap-2 ${getStatusColor(
-                currentStatus
-              )}`}
+              className={`px-4 py-2 rounded-md font-medium flex items-center gap-2 cursor-pointer transition-colors duration-200 hover:bg-opacity-80 hover:bg-gray-100 `}
               disabled={isUpdatingStatus}
             >
               {isUpdatingStatus ? (
@@ -306,13 +304,13 @@ function CommunicationLog({
             </button>
 
             {isStatusDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg   bg-white transition-all z-10">
                 <div className="py-1" role="menu" aria-orientation="vertical">
                   {statusOptions.map((status) => (
                     <button
                       key={status.value}
                       onClick={() => handleStatusChange(status.value)}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                      className={`w-full text-left cursor-pointer px-4 py-2 text-sm hover:bg-gray-100 ${
                         currentStatus === status.value ? "bg-gray-50" : ""
                       }`}
                       role="menuitem"
