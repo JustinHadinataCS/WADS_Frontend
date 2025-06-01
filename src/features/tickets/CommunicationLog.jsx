@@ -40,6 +40,32 @@ function CommunicationLog({
     },
   ];
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "in_progress":
+        return "bg-blue-100 text-blue-800";
+      case "resolved":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case "pending":
+        return "Pending";
+      case "in_progress":
+        return "In Progress";
+      case "resolved":
+        return "Resolved";
+      default:
+        return status;
+    }
+  };
+
   const handleStatusChange = (newStatus) => {
     updateStatus(newStatus, {
       onSuccess: () => {
@@ -232,10 +258,9 @@ function CommunicationLog({
           <div className="relative">
             <button
               onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
-              className={`px-4 py-2 rounded-md font-medium flex items-center gap-2 ${
-                statusOptions.find((s) => s.value === currentStatus)?.color ||
-                "bg-gray-100 text-gray-800"
-              }`}
+              className={`px-4 py-2 rounded-md font-medium flex items-center gap-2 ${getStatusColor(
+                currentStatus
+              )}`}
               disabled={isUpdatingStatus}
             >
               {isUpdatingStatus ? (
@@ -260,8 +285,7 @@ function CommunicationLog({
                 </span>
               ) : (
                 <>
-                  {statusOptions.find((s) => s.value === currentStatus)
-                    ?.label || "Update Status"}
+                  {formatStatus(currentStatus)}
                   <svg
                     className={`w-4 h-4 transition-transform ${
                       isStatusDropdownOpen ? "rotate-180" : ""

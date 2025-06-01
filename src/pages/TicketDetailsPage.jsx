@@ -21,6 +21,19 @@ function TicketDetailsPage() {
     in_progress: "bg-blue-100 text-blue-600",
   };
 
+  const formatStatus = (status) => {
+    switch (status) {
+      case "pending":
+        return "Pending";
+      case "in_progress":
+        return "In Progress";
+      case "resolved":
+        return "Resolved";
+      default:
+        return status;
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -63,7 +76,7 @@ function TicketDetailsPage() {
                   statusColors[ticketData.status]
                 }`}
               >
-                {capitalizeFirstLetter(ticketData.status)}
+                {formatStatus(ticketData.status)}
               </span>
             </div>
             <div className="mt-3 text-gray-600">
