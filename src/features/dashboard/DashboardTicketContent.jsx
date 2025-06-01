@@ -12,9 +12,52 @@ export default function DashboardTicketContent({ data }) {
     in_progress: "bg-blue-100 text-blue-600",
   };
 
+  // For mobile view
+  const renderMobileTickets = () => {
+    return data.recentTickets.map((item) => (
+      <div key={item._id} className="mb-4 p-3 border-b border-gray-200">
+        {user.role === "user" && (
+          <div className="flex justify-between mb-2">
+            <span className="font-medium text-gray-700">Assigned To:</span>
+            <span className="text-gray-700">
+              {item.assignedTo.firstName} {item.assignedTo.lastName[0]}.
+            </span>
+          </div>
+        )}
+        <div className="flex justify-between mb-2">
+          <span className="font-medium text-gray-700">Category:</span>
+          <span className="text-gray-700">{item.category}</span>
+        </div>
+        <div className="flex justify-between mb-2">
+          <span className="font-medium text-gray-700">Status:</span>
+          <span
+            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+              statusColors[item.status.toLowerCase()]
+            }`}
+          >
+            {capitalizeFirstLetter(item.status)}
+          </span>
+        </div>
+        <div className="flex justify-between mb-2">
+          <span className="font-medium text-gray-700">Date:</span>
+          <span className="text-gray-700">
+            {format(parseISO(item.createdAt), "yyyy-MM-dd")}
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span className="font-medium text-gray-700">Updated:</span>
+          <span className="text-gray-700">
+            {capitalizeFirstLetter(formatDistanceToNow(item.updatedAt))} ago
+          </span>
+        </div>
+      </div>
+    ));
+  };
+
   return (
     <div className="h-72 w-full p-4 overflow-y-auto">
-      <div className="w-full flex-grow overflow-auto bg-white">
+      {/* Desktop view */}
+      <div className="hidden md:block w-full flex-grow overflow-auto bg-white">
         <table className="min-w-full">
           <thead className="bg-white border-b border-gray-200">
             <tr className="text-left">
@@ -49,8 +92,10 @@ export default function DashboardTicketContent({ data }) {
             </tr>
           </thead>
           <tbody className="bg-white">
+            {/* Table rows remain the same */}
             {data.recentTickets.map((item) => (
               <tr key={item._id} className="border-b border-gray-200">
+                {/* Same content as before */}
                 {user.role === "agent" && (
                   <td className="px-4 py-3 text-sm text-gray-700">
                     {item.submittedBy.firstName} {item.submittedBy.lastName[0]}.
@@ -96,6 +141,9 @@ export default function DashboardTicketContent({ data }) {
           </tbody>
         </table>
       </div>
+
+      {/* Mobile view */}
+      <div className="md:hidden w-full">{renderMobileTickets()}</div>
     </div>
   );
 }

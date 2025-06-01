@@ -10,8 +10,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function UserDashboard() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Ticket Popup
   const [showPopup, setShowPopup] = useState(false);
   function handlePopup() {
@@ -26,11 +25,11 @@ function UserDashboard() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="grid grid-rows-2 gap-12">
-      <div>
+    <div className="flex flex-col gap-8 md:gap-12">
+      <div className="w-full">
         <DashboardTicketCard data={data} />
-      </div> 
-      <div className="columns-3 gap-12">
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         <DashboardUserCard
           buttontext="Create Ticket"
           title="Create New Ticket"
@@ -53,7 +52,6 @@ function UserDashboard() {
           icon={PiBookOpenText}
           handleClick={() => navigate("/tickets")}
         />
-
       </div>
     </div>
   );
