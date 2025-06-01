@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-import { NavLink } from "react-router-dom";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
 import PropTypes from "prop-types";
