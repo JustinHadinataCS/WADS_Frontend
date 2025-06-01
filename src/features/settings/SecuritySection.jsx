@@ -28,10 +28,10 @@ const SecuritySection = () => {
         setPasswordLastChanged(data.securitySettings?.lastPasswordChange);
 
         const serverData = {
-  loginAlerts: Boolean(data.securitySettings?.loginAlerts),
-  deviceTracking: Boolean(data.securitySettings?.deviceTracking),
-  lastPasswordChange: data.securitySettings?.lastPasswordChange,
-};
+          loginAlerts: Boolean(data.securitySettings?.loginAlerts),
+          deviceTracking: Boolean(data.securitySettings?.deviceTracking),
+          lastPasswordChange: data.securitySettings?.lastPasswordChange,
+        };
 
 
         setSecuritySettings(serverData);

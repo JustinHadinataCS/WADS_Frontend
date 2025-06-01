@@ -26,6 +26,16 @@ export default function UserDetails({ user, updateUser, deleteUser }){
                 department: userDept
             },{
             onSuccess: () => {
+                toast.success("Successfully updated a user!", {
+                duration: 4000,
+                position: "top-right",
+                style: {
+                  background: "#4CAF50",
+                  color: "#fff",
+                },
+              });
+            },
+            onError: (error) => {
                 toast.error("Update failed!", {
                     duration: 4000,
                     position: "top-right",
@@ -34,14 +44,6 @@ export default function UserDetails({ user, updateUser, deleteUser }){
                     color: "#fff",
                     },
                 });
-                
-            },
-            onError: (error) => {
-                const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Failed to delete user";
-                setErrorMessage(message);
             },
             })
         }

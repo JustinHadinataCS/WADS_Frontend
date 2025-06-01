@@ -1,31 +1,40 @@
 // TwoFA.jsx
 import ContentToggle from "./ContentToggle";
 import Button from "../../components/app/Button";
+import VerificationPopup from "./VerificationPopup";
+import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { getUserProfile, updateUserProfile } from "../../api/setting";
+import { useEnable2FA, useVerify2FA, useDisable2FA } from "../../queryoptions/twoFAQuery"
 
 const TwoFA = () => {
   const { user } = useAuthContext();
 
   // Initialize with default values
-  const [securitySettings, setSecuritySettings] = useState({
-    twoFactorAuth: {
-      enabled: false,
-      method: "authenticator" // Default to app authenticator
-    }
-  });
-
+  const [securitySettings, setSecuritySettings] = useState({twoFactorAuth: {enabled: false,method: "authenticator" }});
   const [serverSettings, setServerSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [hasChanges, setHasChanges] = useState(false);
 
+  // 2FA useStates
+  const [verifyShow, setVerifyShow] = useState(false)
+  const [secret, setSecret] = useState("")
+  const [verificationCode, setVerificationCode] = useState("")
+
+  // 2FA UseMutation
+  const { mutate: enable2FA, isLoading: updatingEnable } = useEnable2FA(user.accessToken);
+  const { mutate: disable2FA, isLoading: updatingDisable } = useDisable2FA(user.accessToken);
+  const { mutate: verify2FA, isLoading: updatingVerify } = useVerify2FA(user.accessToken);
+
+
+  // Fetching security settings
   useEffect(() => {
     const fetchSecuritySettings = async () => {
       try {
-        const data = await getUserProfile(user?.token);
+        const data = await getUserProfile(user?.accessToken);
         console.log("Raw security settings response:", data);
 
         if (data.securitySettings?.twoFactorEnabled !== undefined) {
@@ -52,7 +61,7 @@ const TwoFA = () => {
       }
     };
 
-    if (user?.token) {
+    if (user?.accessToken) {
       fetchSecuritySettings();
     } else {
       setLoading(false);
@@ -79,54 +88,151 @@ const TwoFA = () => {
     });
   };
 
-  const handleMethodChange = (method) => {
-    console.log(`Changing 2FA method to:`, method);
-    
-    setSecuritySettings((prev) => {
-      // Create a deep copy to avoid reference issues
-      const updated = JSON.parse(JSON.stringify(prev));
-      
-      // Update the method
-      updated.twoFactorAuth.method = method;
-      
-      console.log("Updated security settings after method change:", updated);
-      
-      // Check for changes
-      const hasChanges = JSON.stringify(updated) !== JSON.stringify(serverSettings);
-      setHasChanges(hasChanges);
-      
-      return updated;
-    });
-  };
-
   const handleSave = async () => {
     try {
       setSaving(true);
       console.log("Sending security settings to server:", securitySettings);
 
       // Make sure we're sending the method value even when 2FA is disabled
-      // This ensures the method is always updated in the database
-      const data = await updateUserProfile(user?.token, {
-        securitySettings: {
-          twoFactorEnabled: securitySettings.twoFactorAuth.enabled,
-          twoFactorMethod: securitySettings.twoFactorAuth.enabled 
-            ? securitySettings.twoFactorAuth.method 
-            : null, // Set to null if 2FA is disabled as per schema enum
-        },
-      });
+      // This ensures the method is always updated in the database  
 
-      console.log("2FA settings saved, server response:", data);
-
-      setServerSettings(JSON.parse(JSON.stringify(securitySettings)));
+      if(securitySettings.twoFactorAuth.enabled){
+        enable2FA({},
+            {
+              onSuccess: (data) => {
+                setSecret(data.secret)
+                toast.success("2FA is Enabled!", {
+                    duration: 4000,
+                    position: "top-right",
+                    style: {
+                      background: "#4CAF50",
+                      color: "#fff",
+                    },
+                });
+            },
+            onError: (error) => {
+                toast.error(error || "Failed to Enable 2FA!", {
+                    duration: 4000,
+                    position: "top-right",
+                    style: {
+                    background: "#F44336",
+                    color: "#fff",
+                    },
+                });
+            },
+          }
+        )
+        setVerifyShow(true)
+      }
+      else{
+        disable2FA({},
+          {
+              onSuccess: () => {
+                setServerSettings(JSON.parse(JSON.stringify(securitySettings)));
+                setSecret("")
+                setVerifyShow(false)
+                toast.success("Successfully Disabled 2FA!", {
+                    duration: 4000,
+                    position: "top-right",
+                    style: {
+                      background: "#4CAF50",
+                      color: "#fff",
+                    },
+                });
+            },
+            onError: (error) => {
+                toast.error("Failed to Cancel Operation!", {
+                    duration: 4000,
+                    position: "top-right",
+                    style: {
+                    background: "#F44336",
+                    color: "#fff",
+                    },
+                });
+            },
+          }
+        )
+      }
       setHasChanges(false);
-      alert("Two-factor authentication settings saved successfully!");
+
+      // toast here
+
     } catch (err) {
       console.error("Save error:", err);
-      alert(`Failed to save 2FA settings: ${err.message}`);
+      // toast here
     } finally {
       setSaving(false);
     }
   };
+
+  function handleVerify(){
+    verify2FA(
+        {
+          "token":verificationCode
+        },
+        {
+          onSuccess: (data) => {
+            setSecret("")
+            setVerificationCode("")
+            setServerSettings(JSON.parse(JSON.stringify(securitySettings)));
+            setVerifyShow(false)
+            toast.success("2FA is Verified!", {
+                duration: 4000,
+                position: "top-right",
+                style: {
+                  background: "#4CAF50",
+                  color: "#fff",
+                },
+            });
+        },
+        onError: (error) => {
+            const message =
+            error?.response?.data?.message ||
+            error?.message ||
+            "Failed to verify 2FA";
+
+            toast.error(message, {
+                duration: 4000,
+                position: "top-right",
+                style: {
+                background: "#F44336",
+                color: "#fff",
+                },
+            });
+        },
+      })
+  }
+
+  function handleCancelPopup(){
+    disable2FA({},
+          {
+            onSuccess: () => {
+              setSecret("")
+              setVerificationCode("")
+              securitySettings.twoFactorAuth.enabled = false
+              setVerifyShow(false)
+              toast.success("Successfully Cancelled Operation!", {
+                  duration: 4000,
+                  position: "top-right",
+                  style: {
+                    background: "#4CAF50",
+                    color: "#fff",
+                  },
+              });
+          },
+          onError: (error) => {
+              toast.error("Failed to Cancel Operation!", {
+                  duration: 4000,
+                  position: "top-right",
+                  style: {
+                  background: "#F44336",
+                  color: "#fff",
+                  },
+              });
+          },
+        }
+      )
+  }
 
   const handleCancel = () => {
     console.log("Cancelling changes, reverting to server settings");
@@ -139,57 +245,45 @@ const TwoFA = () => {
   if (error) return <div className="p-6 text-red-600">Error: {error}</div>;
 
   return (
-    <div>
-      <ContentToggle
-        text="Two-Factor Authentication"
-        desc="Add an extra layer of security to your account"
-        checked={securitySettings.twoFactorAuth.enabled}
-        onChange={handleToggle}
-      />
-      
-      {securitySettings.twoFactorAuth.enabled && (
-        <div className="mt-4 ml-6">
-          <div className="flex gap-4">
-            <div onClick={() => handleMethodChange("authenticator")}>
-              <Button 
-                type={securitySettings.twoFactorAuth.method === "authenticator" ? "blue" : "clear"} 
-                size="sm"
-              >
-                Authenticator App
-              </Button>
+    <>
+      {verifyShow && 
+      <VerificationPopup 
+      secretKey={secret} 
+      handleCancel={handleCancelPopup} 
+      handleVerify={handleVerify}
+      verificationCode={verificationCode}
+      setVerificationCode={setVerificationCode}
+      />}
+      <div>
+        <ContentToggle
+          text="Two-Factor Authentication"
+          desc="Add an extra layer of security to your account"
+          checked={securitySettings.twoFactorAuth.enabled}
+          onChange={handleToggle}
+        />
+        
+        {securitySettings.twoFactorAuth.enabled && (
+          <></>
+        )}
+
+        {hasChanges && (
+          <div className="flex justify-end space-x-4 mt-6">
+            <div
+              onClick={!saving ? handleCancel : undefined}
+              className={`${saving ? "pointer-events-none opacity-50" : ""}`}
+            >
+              <Button type="clear">Cancel</Button>
             </div>
-
-           <div onClick={() => handleMethodChange("sms")}>
-  <Button 
-    type={securitySettings.twoFactorAuth.method === "sms" ? "blue" : "clear"} 
-    size="sm"
-  >
-    SMS verification
-  </Button>
-</div>
-
+            <div
+              onClick={!saving ? handleSave : undefined}
+              className={`${saving ? "pointer-events-none opacity-50" : ""}`}
+            >
+              <Button type="blue">{saving ? "Saving..." : "Save Changes"}</Button>
+            </div>
           </div>
-      
-        </div>
-      )}
-
-      {hasChanges && (
-        <div className="flex justify-end space-x-4 mt-6">
-          <div
-            onClick={!saving ? handleCancel : undefined}
-            className={`${saving ? "pointer-events-none opacity-50" : ""}`}
-          >
-            <Button type="clear">Cancel</Button>
-          </div>
-          <div
-            onClick={!saving ? handleSave : undefined}
-            className={`${saving ? "pointer-events-none opacity-50" : ""}`}
-          >
-            <Button type="blue">{saving ? "Saving..." : "Save Changes"}</Button>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

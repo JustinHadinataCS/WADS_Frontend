@@ -68,6 +68,7 @@ export default function UserManagement(){
 
     function handlePopup(){
         setShowPopup(!showPopup)
+        setErrorMsg("")
     }
 
     function handleCreateUser(){
