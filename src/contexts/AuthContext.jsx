@@ -20,6 +20,7 @@ function AuthProvider({ children }) {
       console.log("Login successful, setting user data:", {
         userId: data._id,
         role: data.role,
+        token: data.accessToken,
         hasToken: !!data.accessToken,
       });
       setUser(data);

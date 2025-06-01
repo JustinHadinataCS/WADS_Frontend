@@ -1,59 +1,56 @@
-import axios from "axios";
-import { API_URL } from "../config";
+const API_BASE_URL = "http://localhost:5000/api/feedback";
 
-// Get feedback summary for an agent
-export const getAgentFeedbackSummary = async (agentId) => {
-  try {
-    const response = await axios.get(
-      `${API_URL}/api/feedback/agents/${agentId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    throw (
-      error.response?.data || {
-        error: "Failed to fetch agent feedback summary",
-      }
-    );
+export const getAgentFeedbackSummary = async (token, agentId) => {
+  const res = await fetch(`${API_BASE_URL}/agents/${agentId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to fetch agent feedback summary");
   }
+
+  return data;
 };
 
-// Get feedback for a specific ticket
-export const getFeedbackForTicket = async (ticketId) => {
-  try {
-    const response = await axios.get(
-      `${API_URL}/api/feedback/tickets/${ticketId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || { error: "Failed to fetch ticket feedback" };
+export const getFeedbackForTicket = async (token, ticketId) => {
+  const res = await fetch(`${API_BASE_URL}/tickets/${ticketId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to fetch ticket feedback");
   }
+
+  return data;
 };
 
-// Submit feedback for a ticket
-export const submitFeedback = async (ticketId, rating) => {
-  try {
-    const response = await axios.post(
-      `${API_URL}/api/feedback/tickets/${ticketId}`,
-      { rating },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || { error: "Failed to submit feedback" };
+export const submitFeedback = async (token, ticketId, rating) => {
+  const res = await fetch(`${API_BASE_URL}/tickets/${ticketId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ rating }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to submit feedback");
   }
+
+  return data;
 };
