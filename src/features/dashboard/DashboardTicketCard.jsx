@@ -12,12 +12,13 @@ function DashboardTicketCard({ data }) {
           View All
         </NavLink>
       </CardTitle>
-      {data.recentTickets.length > 0 ? 
-      <DashboardTicketContent data={data} /> : 
-      <div className="w-full flex justify-center mt-4">
-        <EmptyPlaceholder />
-      </div>
-      }
+      {data.recentTickets.length > 0 ? (
+        <DashboardTicketContent data={data} />
+      ) : (
+        <div className="w-full flex justify-center mt-4">
+          <EmptyPlaceholder />
+        </div>
+      )}
     </div>
   );
 }

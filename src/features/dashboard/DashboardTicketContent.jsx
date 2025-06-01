@@ -14,59 +14,80 @@ export default function DashboardTicketContent({ data }) {
 
   return (
     <div className="h-72 w-full p-4 overflow-y-auto">
-      <div className="w-full h-full flex-grow overflow-auto bg-white">
-        <table className="min-w-full h-full">
-          <thead className="bg-white">
+      <div className="w-full flex-grow overflow-auto bg-white">
+        <table className="min-w-full">
+          <thead className="bg-white border-b border-gray-200">
             <tr className="text-left">
-              {user.role === "agent" && <th>Submitted By</th>}
-              {user.role === "user" && <th>Assigned To</th>}
+              {user.role === "agent" && (
+                <th className="px-4 py-2 font-medium text-gray-700">
+                  Submitted By
+                </th>
+              )}
+              {user.role === "user" && (
+                <th className="px-4 py-2 font-medium text-gray-700">
+                  Assigned To
+                </th>
+              )}
               {user.role === "admin" && (
                 <>
-                  <th>Submitted By</th>
-                  <th>Assigned To</th>
+                  <th className="px-4 py-2 font-medium text-gray-700">
+                    Submitted By
+                  </th>
+                  <th className="px-4 py-2 font-medium text-gray-700">
+                    Assigned To
+                  </th>
                 </>
               )}
-              <th>Category</th>
-              <th>Status</th>
-              <th>Date Created</th>
-              <th>Last Updated</th>
+              <th className="px-4 py-2 font-medium text-gray-700">Category</th>
+              <th className="px-4 py-2 font-medium text-gray-700">Status</th>
+              <th className="px-4 py-2 font-medium text-gray-700">
+                Date Created
+              </th>
+              <th className="px-4 py-2 font-medium text-gray-700">
+                Last Updated
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white">
             {data.recentTickets.map((item) => (
-              <tr key={item.ID}>
+              <tr key={item._id} className="border-b border-gray-200">
                 {user.role === "agent" && (
-                  <td>
+                  <td className="px-4 py-3 text-sm text-gray-700">
                     {item.submittedBy.firstName} {item.submittedBy.lastName[0]}.
                   </td>
                 )}
                 {user.role === "user" && (
-                  <td>
+                  <td className="px-4 py-3 text-sm text-gray-700">
                     {item.assignedTo.firstName} {item.assignedTo.lastName[0]}.
                   </td>
                 )}
                 {user.role === "admin" && (
                   <>
-                    <td>
-                      {item.submittedBy.firstName} {item.submittedBy.lastName[0]}.
+                    <td className="px-4 py-3 text-sm text-gray-700">
+                      {item.submittedBy.firstName}{" "}
+                      {item.submittedBy.lastName[0]}.
                     </td>
-                    <td>
+                    <td className="px-4 py-3 text-sm text-gray-700">
                       {item.assignedTo.firstName} {item.assignedTo.lastName[0]}.
                     </td>
                   </>
                 )}
-                <td>{item.category}</td>
-                <td>
+                <td className="px-4 py-3 text-sm text-gray-700">
+                  {item.category}
+                </td>
+                <td className="px-4 py-3 text-sm">
                   <span
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       statusColors[item.status.toLowerCase()]
                     }`}
                   >
-                    {item.status}
+                    {capitalizeFirstLetter(item.status)}
                   </span>
                 </td>
-                <td>{format(parseISO(item.createdAt), "yyyy-MM-dd")}</td>
-                <td>
+                <td className="px-4 py-3 text-sm text-gray-700">
+                  {format(parseISO(item.createdAt), "yyyy-MM-dd")}
+                </td>
+                <td className="px-4 py-3 text-sm text-gray-700">
                   {capitalizeFirstLetter(formatDistanceToNow(item.updatedAt))}{" "}
                   ago
                 </td>
