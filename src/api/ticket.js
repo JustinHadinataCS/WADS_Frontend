@@ -73,3 +73,22 @@ export const createTicket = async (token, ticketData) => {
 
   return data;
 };
+
+export const updateTicketStatus = async (token, ticketId, newStatus) => {
+  const res = await fetch(`${API_BASE_URL}/${ticketId}/status`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status: newStatus }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to update ticket status");
+  }
+
+  return data;
+};
