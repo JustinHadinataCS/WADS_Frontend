@@ -2,6 +2,10 @@
 
 A comprehensive helpdesk and ticketing system built for Semesta Medika, a leading medical equipment company. This system streamlines customer support, equipment maintenance requests, and service management.
 
+## 🚀 This website is hosted on Vercel
+
+https://wads-frontend-git-main-adrians-projects-9c713575.vercel.app/
+
 ## 🚀 Features
 
 - **Ticket Management**
