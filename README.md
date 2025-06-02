@@ -42,14 +42,14 @@ A comprehensive helpdesk and ticketing system built for Semesta Medika, a leadin
 ```
 src/
 ├── api/          # API integration and endpoints
-├── assets/       # Static assets (images, fonts, etc.)
+├── assets/       # Static assets (images, icons, etc.)
 ├── components/   # Reusable UI components
 ├── contexts/     # React context providers
 ├── features/     # Feature-specific modules
 │   ├── tickets/  # Ticket management
-│   ├── equipment/# Equipment tracking
+│   ├── auth/     # User authentication 
 │   ├── users/    # User management
-│   └── reports/  # Analytics and reporting
+│   └── analytics/# Analytics and reporting
 ├── hooks/        # Custom React hooks
 ├── pages/        # Page components
 ├── queryoptions/ # React Query configurations
