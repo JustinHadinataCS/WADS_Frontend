@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CardTitle from "../dashboard/CardTitle";
 import AdminDropdown from "../dashboard/Admin/AdminDropdown";
-import { useAdminDashboardContext } from "../../contexts/AdminDashboardContext";
+import { useAdminDashboardContext } from '../../contexts/AdminDashboardContext';
 
 // Mock user feedback data - you can remove this when integrating with real data
 const defaultUserFeedbackData = [
@@ -36,29 +36,31 @@ const UserFeedbackCard = ({ feedbackData = defaultUserFeedbackData, onExport, on
     }
   };
 
-  const { agentPerformance, agentPerformanceLoading } = useAdminDashboardContext();
-  let options
-  if(!agentPerformanceLoading) options = agentPerformance.performance.map((agent, index) => {
+  const { agentMetrics, agentMetricsLoading } = useAdminDashboardContext();
+  let options;
+  if (!agentMetricsLoading && agentMetrics?.performance) {
+    options = agentMetrics.performance.map((agent, index) => {
       const { firstName, lastName, userId } = agent.assignedTo;
       const shortId = userId.slice(-4);
       return {
-          label: `${firstName} ${lastName} (#${shortId})`,
-          value: index
+        label: `${firstName} ${lastName} (#${shortId})`,
+        value: index
       };
-  });
-
-  const [selectedOption, setSelectedOption] = useState(0)
-
-  const handleOptionChange = (newOption) => {
-      setSelectedOption(newOption);
+    });
   }
 
-  if(agentPerformanceLoading) return <>Loading...</>
+  const [selectedOption, setSelectedOption] = useState(0);
+
+  const handleOptionChange = (newOption) => {
+    setSelectedOption(newOption);
+  };
+
+  if (agentMetricsLoading) return <>Loading...</>;
 
   return (
     <div className="bg-white rounded-sm shadow-md border border-neutral-200">
       <CardTitle title="User Feedback">
-      <AdminDropdown options={options} onChange={handleOptionChange}/>
+        <AdminDropdown options={options || []} onChange={handleOptionChange} />
         <button 
           onClick={handleExport}
           className="bg-[#1D3B5C] text-white px-4 py-2 rounded text-sm font-medium hover:bg-[#2a4d6e] transition-colors"
