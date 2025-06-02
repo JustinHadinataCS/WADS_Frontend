@@ -11,7 +11,6 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import PerformanceCard from "../../features/analytics/PerformanceCard"
 import AgentDetailPerformanceCard from "../../features/analytics/AgentDetailPerformanceCard"
-import TotalAgentsCard from "../../features/analytics/TotalAgentsCard"
 import UserFeedbackCard from "../../features/analytics/UserFeedbackCard"
 
 export default function AnalyticsDashboard(){
@@ -59,7 +58,6 @@ export default function AnalyticsDashboard(){
     <div className="grid grid-cols-3 gap-6">
       {/* Left side (2 stacked cards) */}
       <div className="flex flex-col gap-6">
-        <TotalAgentsCard />
         <CustomerSatisfactionCard stats={globalStats || tempStats} />
         <RecentActivityCard data={recentActivity || tempRecentActivity} />
       </div>
