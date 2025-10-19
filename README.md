@@ -1,9 +1,8 @@
 # Semesta Medika Helpdesk System
 
 A comprehensive helpdesk and ticketing system built for Semesta Medika, a leading medical equipment company. This system streamlines customer support, equipment maintenance requests, and service management.
-The deployed github repo:
 
-## 🚀 The deployed github repo
+## The deployed github repo
 https://github.com/AdrianBasukii/wads_frontend
 
 
